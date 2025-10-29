@@ -13,7 +13,7 @@ public class AutoArrowSkill : Skill
         if (arrowPrefab == null) return;
 
         // 화살 생성
-        GameObject arrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
+        GameObject arrow = Instantiate(arrowPrefab, transform.position, transform.rotation);
 
         // 화살에 속도 부여
         Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
