@@ -13,13 +13,32 @@ public class StageManager : MonoBehaviour
     private enum stageType { Combat, Rest, Boss };  //일단 만들어둔 스테이지 enum들
     private stageType currentStageType; // 현재 스테이지 타입
 
-    private void StartStage()
+    public void StartStage()
     { 
         //플레이어의 위치를 맵의 특정 좌표에 transform. 사용해서 고정
     }
 
-    private void StageClear()
+    public void GameClear()
     {
         SceneManager.LoadScene("LobbyScene");
+    }
+
+    public void GameOver()
+    { 
+
+    }
+
+    public void SetMonster()
+    { 
+        //stageNum을 확인하고 currentStageType 값을 결정하게하고
+        //currentStageType 을 확인하고
+        //currentStageType 이 Combat 이거나 Boss일경우
+        //isClear를 false로 두고
+        //clearRequre
+    }
+
+    public void GameClearMenu()
+    { 
+        //
     }
 }
