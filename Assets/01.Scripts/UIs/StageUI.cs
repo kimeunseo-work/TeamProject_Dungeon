@@ -44,7 +44,7 @@ public class StageUI : MonoBehaviour
 
     private void UpdateExp()
     {
-        expSlider.value = (float)playerStatus.BaseExp / (float)playerStatus.RequiredBaseExp;
+        expSlider.value = (float)playerStatus.DungeonExp / (float)playerStatus.RequiredDungeonExp;
     }
     #endregion
 
