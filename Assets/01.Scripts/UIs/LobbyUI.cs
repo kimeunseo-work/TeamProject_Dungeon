@@ -37,7 +37,10 @@ public class LobbyUI : MonoBehaviour
     private void OnDestroy()
     {
         if (PlayerLobbyStatus.Instance != null)
+        {
             PlayerLobbyStatus.Instance.OnPointChanged -= UpdateGoldUI;
+            PlayerLobbyStatus.Instance.OnBaseExpChanged -= UpdateExpUI;
+        }
     }
 
     private void UpdateGoldUI()
@@ -47,9 +50,7 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateExpUI()
     {
-        Debug.Log("playerExp" + PlayerLobbyStatus.Instance.BaseExp);
-        float percentage = (float)(PlayerLobbyStatus.Instance.BaseExp) / 100;
-        Debug.Log("percentage"+percentage);
+        float percentage = (float)(PlayerLobbyStatus.Instance.BaseExp) / PlayerLobbyStatus.Instance.RequiredBaseExp;
         expFill.localScale = new Vector3(percentage, 1.0f, 1.0f);
         expPercentageText.text = $"{(int)(percentage * 100)}%";
     }
