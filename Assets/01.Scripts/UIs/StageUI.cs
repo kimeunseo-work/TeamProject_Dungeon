@@ -16,11 +16,17 @@ public class StageUI : MonoBehaviour
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject levelUpPanel;
 
+
+    private PlayerStatus playerStatus;
+
     private void Start()
     {
         settingsButton.onClick.AddListener(OpenSettingsPanel);
+        playerStatus.OnDungeonExpChanged += UpdateExp;
+        playerStatus.OnDungeonLevelChanged += UpdateLevel;
     }
 
+    #region Game UI
     private void UpdateHUD()
     {
         // 레벨, 골드, 경험치 세팅 이런식으로?
@@ -29,13 +35,31 @@ public class StageUI : MonoBehaviour
         //expSlider.value = StatusManager.Instance.Exp / StatusManager.Instance.nextExp
     }
 
-    private void OpenSettingsPanel()
+    private void UpdateLevel()
     {
-        UIManager.Instance.PushUI(settingsPanel);
+        levelText.text = playerStatus.DungeonLevel.ToString();
+        UpdateExp();
+        OpenLevelUpPanel();
     }
 
+    private void UpdateExp()
+    {
+        expSlider.value = (float)playerStatus.BaseExp / (float)playerStatus.RequiredBaseExp;
+    }
+    #endregion
+
+    #region Settings
+    private void OpenSettingsPanel()
+    {
+        Time.timeScale = 0f;
+        UIManager.Instance.PushUI(settingsPanel);
+    }
+    #endregion
+
+    #region Level Up
     private void OpenLevelUpPanel()
     {
         UIManager.Instance.PushUI(levelUpPanel);
     }
+    #endregion
 }

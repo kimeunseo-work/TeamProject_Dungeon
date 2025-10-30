@@ -22,8 +22,8 @@ public class UIManager : MonoBehaviour
 
     public void PushUI(GameObject ui)
     {
-        if (uiStack.Count > 0)
-            uiStack.Peek().SetActive(false);
+        //if (uiStack.Count > 0)
+        //    uiStack.Peek().SetActive(false);
 
         ui.SetActive(true);
         uiStack.Push(ui);

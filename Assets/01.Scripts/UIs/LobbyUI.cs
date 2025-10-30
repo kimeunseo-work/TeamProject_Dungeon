@@ -10,6 +10,8 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Button playButton;
 
+    private PlayerStatus playerStatus;
+
     private void Awake()
     {
         playButton.onClick.AddListener(OnClickPlay);
@@ -36,7 +38,7 @@ public class LobbyUI : MonoBehaviour
     private void OnClickPlay()
     {
         UIManager.Instance.PopUI();
-        //SceneManager.LoadScene(nameof(GameManger.GameState.DungeonScene));
-        SceneManager.LoadScene(nameof(GameManger.GameState.LobbyScene));
+        SceneManager.LoadScene(nameof(GameManger.GameState.DungeonScene));
+        //SceneManager.LoadScene(nameof(GameManger.GameState.LobbyScene));
     }
 }
