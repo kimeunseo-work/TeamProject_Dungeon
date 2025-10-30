@@ -12,12 +12,12 @@ public class LobbyUI : MonoBehaviour
 
     private void Awake()
     {
-        UIManager.Instance.PushUI(gameObject);
         playButton.onClick.AddListener(OnClickPlay);
     }
 
     private void Start()
     {
+        UIManager.Instance.PushUI(gameObject);
         UpdateGoldUI();
         // StatusManager.Instance.OnGoldChanged += UpdateGoldUI;
     }
@@ -36,6 +36,7 @@ public class LobbyUI : MonoBehaviour
     private void OnClickPlay()
     {
         UIManager.Instance.PopUI();
-        SceneManager.LoadScene(nameof(GameManger.GameState.DungeonScene));
+        //SceneManager.LoadScene(nameof(GameManger.GameState.DungeonScene));
+        SceneManager.LoadScene(nameof(GameManger.GameState.LobbyScene));
     }
 }
