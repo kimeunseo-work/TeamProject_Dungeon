@@ -57,6 +57,8 @@ public class PlayerLobbyStatus : MonoBehaviour
 
         playerData = Resources.Load<PlayerData>("PlayerData");
         baseExpData = Resources.Load<ExpData>("BaseLevelData");
+
+        InitAccount();
     }
 
     /*초기화 전용*/
