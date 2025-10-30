@@ -1,7 +1,11 @@
+using System;
+
 public class MonsterStatus : BaseStatus
 {
     /*필드 & 프로퍼티*/
     //=======================================//
+
+    public event Action OnInitDungeonMonsterFinished;
 
     /*초기화 전용*/
     //=======================================//
@@ -20,6 +24,8 @@ public class MonsterStatus : BaseStatus
         SetStatus();
 
         IsDead = false;
+
+        OnInitDungeonMonsterFinished?.Invoke();
     }
 
     /*내부 로직*/
