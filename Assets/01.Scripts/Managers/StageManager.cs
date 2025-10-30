@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static StageData;
 
 public class StageManager : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Transform player;      
     [SerializeField] private Transform startPoint;
 
-    [SerializeField] private List<GameObject> enemyprefabs;
 
     [SerializeField] List<Rect> spawnAreas;
 
@@ -17,6 +17,8 @@ public class StageManager : MonoBehaviour
 
     private bool enemySpawnComplite;
 
+    [SerializeField] private List<StageData> stageDatas;
+    private StageData currentStageData;
 
 
     private byte clearRequireNum = 0; //스테이지 클리어가 되려면 몬스터가 0이어야함
@@ -24,17 +26,39 @@ public class StageManager : MonoBehaviour
 
     private bool isClear;       //클리어 확인여부의 불리언
     private bool isStageProcessing;     //로딩중일때 입력키방지용
-    private enum stageType { Combat, Rest, Boss };  //일단 만들어둔 스테이지 enum들
-    private stageType currentStageType; // 현재 스테이지 타입
+
+    private void Start()
+    {
+        stageNum = 1;
+        StartStage();
+    }
 
     public void StartStage()
-    { 
+    {
         PlacePlayerToStageStart();
+
+        currentStageData = stageDatas.Find(x => x.stageNum == stageNum);
+
+        if (currentStageData == null)
+        {
+            Debug.LogError($"StageData 없음! StageNum: {stageNum}");
+            return;
+        }
+
+        if (currentStageData.stageType == StageType.Combat)
+        {
+            SpawnFromStageData();
+        }
+        if (currentStageData.stageType == StageType.Boss)
+        { 
+            
+        }
     }
 
     public void GameClear()
     {
         SceneManager.LoadScene("LobbyScene");
+        stageNum++;
     }
 
     public void GameOver()
@@ -42,27 +66,27 @@ public class StageManager : MonoBehaviour
 
     }
 
-    private void SpawnRandomEnemy()
+    private void SpawnFromStageData()
     {
-        if (enemyprefabs.Count == 0 || spawnAreas.Count == 0)
+        if (currentStageData == null)
         {
-            Debug.LogWarning("Enemy Prefabs 또는 Spawn Areas가 설정되지 않았습니다.");
+            Debug.LogError("StageData가 설정되지 않았습니다!");
             return;
         }
 
-        GameObject randomPrefab = enemyprefabs[Random.Range(0, enemyprefabs.Count)];
+        if (currentStageData.monsterPrefabs.Count == 0)
+        {
+            Debug.LogWarning("몬스터 프리팹이 StageData에 없습니다!");
+            return;
+        }
 
-
-        Rect randomArea = spawnAreas[Random.Range(0, spawnAreas.Count)];
-
-
-        Vector2 randomPosition = new Vector2(
-            Random.Range(randomArea.xMin, randomArea.xMax),
-            Random.Range(randomArea.yMin, randomArea.yMax)
+        int count = Random.Range(
+            currentStageData.minMonsterCount,
+            currentStageData.maxMonsterCount + 1
         );
 
-
-        Instantiate(randomPrefab, randomPosition, Quaternion.identity);
+        for (int i = 0; i < count; i++)
+            SpawnRandomEnemyFromData();
     }
 
     private void OnDrawGizmosSelected()
@@ -82,7 +106,7 @@ public class StageManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnRandomEnemy();
+            SpawnRandomEnemyFromData();
         }
     }
 
@@ -102,6 +126,21 @@ public class StageManager : MonoBehaviour
         // 위치 리셋
         player.position = startPoint.position;
         Debug.Log("플레이어를 시작 위치에 배치했습니다!");
+    }
+
+    private void SpawnRandomEnemyFromData()
+    {
+        GameObject prefab = currentStageData.monsterPrefabs[
+            Random.Range(0, currentStageData.monsterPrefabs.Count)
+        ];
+
+        Rect area = spawnAreas[Random.Range(0, spawnAreas.Count)];
+        Vector2 pos = new Vector2(
+            Random.Range(area.xMin, area.xMax),
+            Random.Range(area.yMin, area.yMax)
+        );
+
+        Instantiate(prefab, pos, Quaternion.identity);
     }
 }
 
