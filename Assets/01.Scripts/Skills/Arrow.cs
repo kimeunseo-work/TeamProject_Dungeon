@@ -4,23 +4,35 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    public float speed = 10f;
     public float lifetime = 2f;
+    public int pierceCount = 0; // 관통 수
 
     void Start()
     {
         Destroy(gameObject, lifetime);
     }
 
-    void Update()
-    {
-        transform.Translate(Vector2.up * speed * Time.deltaTime, Space.Self);
-    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 나중에 데미지 적용 담당자가 여기서 처리
-        // 예시: if (collision.CompareTag("Enemy")) Destroy(gameObject);
-        Destroy(gameObject);
+        // if (collision.CompareTag("Enemy")) Destroy(gameObject);
+        //관통 처리
+        if (collision.CompareTag("Enemy"))
+        {
+            if (pierceCount > 0)
+            {
+                pierceCount--;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+        else if (collision.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
