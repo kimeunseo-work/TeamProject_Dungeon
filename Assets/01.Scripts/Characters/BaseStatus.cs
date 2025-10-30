@@ -1,33 +1,19 @@
 using System;
 using UnityEngine;
 
+public struct Status
+{
+    public int Hp;
+    public int Atk;
+}
+
 public class BaseStatus : MonoBehaviour
 {
-    /*내부 구조체 & 클래스*/
-    //=======================================//
-    public struct Status
-    {
-        public int Hp;
-        public int Atk;
-    }
+    ///*내부 구조체 & 클래스*/
+    ////=======================================//
 
     /*필드 & 프로퍼티*/
     //=======================================//
-
-    public string Name { get; protected set; }
-
-    /*Base*/
-    protected Status baseStatus;
-    public int BaseHP
-    {
-        get => baseStatus.Hp;
-        set => baseStatus.Hp = value;
-    }
-    public int BaseATK
-    {
-        get => baseStatus.Atk;
-        set => baseStatus.Atk = value;
-    }
 
     /*Dungeon*/
     protected Status dungeonStatus;
@@ -60,7 +46,6 @@ public class BaseStatus : MonoBehaviour
     public bool IsDead { get; protected set; }
 
     /*Events*/
-    public event Action OnInitDungeonFinished;
 
     public event Action OnDead;
     public event Action OnDamaged;
@@ -83,14 +68,10 @@ public class BaseStatus : MonoBehaviour
         if (IsDead)
         {
             OnDead?.Invoke();
-            Debug.Log($"{Name} IsDead = {IsDead}.");
-            Debug.Log($"{Name} currentDungeonHp = {DungeonHp}");
         }
         else
         {
             OnDamaged?.Invoke();
-            Debug.Log($"{Name} take damage = {amount}");
-            Debug.Log($"{Name} currentDungeonHp = {DungeonHp}");
         }
     }
 
