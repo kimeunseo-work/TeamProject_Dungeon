@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    public float lifetime = 2f;
-    public int pierceCount = 0; // 관통 수
+    public float lifetime = 5f;
+    public bool destroyOnHit = true;
+    public int pierceCount = 0;
 
     void Start()
     {
@@ -19,18 +20,9 @@ public class Arrow : MonoBehaviour
         // 나중에 데미지 적용 담당자가 여기서 처리
         // if (collision.CompareTag("Enemy")) Destroy(gameObject);
         //관통 처리
-        if (collision.CompareTag("Enemy"))
-        {
-            if (pierceCount > 0)
-            {
-                pierceCount--;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
-        else if (collision.CompareTag("Wall"))
+        if (!destroyOnHit) return;
+
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Wall"))
         {
             Destroy(gameObject);
         }

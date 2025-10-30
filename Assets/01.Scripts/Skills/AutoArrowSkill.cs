@@ -10,6 +10,8 @@ public class AutoArrowSkill : Skill
 
     public int arrowCount = 1; // 발사할 화살 개수
     public int extraPierce = 0; // 추가 관통 수
+
+
     public override void Activate()
     {
         if (arrowPrefab == null) return;
