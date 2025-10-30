@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class BaseController : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer CharRenderer;
+
     protected Rigidbody _rigidbody;
 
     protected Vector2 movementDirection = Vector2.zero;
@@ -12,6 +15,7 @@ public class BaseController : MonoBehaviour
     protected virtual void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        CharRenderer = GetComponent<SpriteRenderer>();
     }
 
     protected virtual void Start()
@@ -22,7 +26,7 @@ public class BaseController : MonoBehaviour
     protected virtual void Update()
     {
         HandleAction();
-        Rotate();
+        Rotate(movementDirection);
     }
 
     protected virtual void FixedUpdate()
@@ -45,6 +49,9 @@ public class BaseController : MonoBehaviour
     protected virtual void Rotate(Vector2 direction)
     {
         float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        bool isLeft = Mathf.Abs(rotZ) > 90;
+
+        CharRenderer.flipX = isLeft;
     }
 
 }
