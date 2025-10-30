@@ -5,7 +5,7 @@ using UnityEngine.TextCore.Text;
 
 public class BaseController : MonoBehaviour
 {
-    public Transform target;
+    
 
     [SerializeField] private SpriteRenderer CharRenderer;
     [SerializeField] private Transform WeaponPivot;
@@ -17,6 +17,9 @@ public class BaseController : MonoBehaviour
 
     protected Vector2 knockback = Vector2.zero;
     protected float  knockbackDuration = 0f;
+
+    protected Vector2 lookDirection = Vector2.zero;
+    public Vector2 LookDirection { get { return lookDirection; } }
 
     protected AnimationHandler animationHandler;
 

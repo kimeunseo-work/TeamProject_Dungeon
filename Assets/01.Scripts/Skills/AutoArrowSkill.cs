@@ -32,6 +32,7 @@ public class AutoArrowSkill : Skill
             Quaternion rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + angle);
 
             // 화살 생성
+            Vector3 spawnOffset = transform.up * 1.0f;
             GameObject arrow = Instantiate(arrowPrefab, transform.position, rotation);
 
             // 화살에 속도 부여
