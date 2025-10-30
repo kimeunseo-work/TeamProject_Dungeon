@@ -29,7 +29,7 @@ public class StageUI : MonoBehaviour
     #region Game UI
     private void UpdateHUD()
     {
-        // ·¹º§, °ñµå, °æÇèÄ¡ ¼¼ÆÃ ÀÌ·±½ÄÀ¸·Î?
+        // ë ˆë²¨, ê³¨ë“œ, ê²½í—˜ì¹˜ ì„¸íŒ… ì´ëŸ°ì‹ìœ¼ë¡œ?
         //levelText.text = StatusManager.Instance.level.ToString();
         //goldText.text = StatusManager.Instance.gold.ToString();
         //expSlider.value = StatusManager.Instance.Exp / StatusManager.Instance.nextExp
@@ -44,7 +44,7 @@ public class StageUI : MonoBehaviour
 
     private void UpdateExp()
     {
-        expSlider.value = (float)playerStatus.BaseExp / (float)playerStatus.RequiredBaseExp;
+        //expSlider.value = (float)playerStatus.BaseExp / (float)playerStatus.RequiredBaseExp;
     }
     #endregion
 

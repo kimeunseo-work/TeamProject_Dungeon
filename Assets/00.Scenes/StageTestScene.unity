@@ -1793,6 +1793,8 @@ MonoBehaviour:
   cooldown: 2
   arrowPrefab: {fileID: 707792727986895017, guid: 89e7c145867c98d41bfb06a5b692b0d9, type: 3}
   arrowSpeed: 30
+  arrowCount: 1
+  extraPierce: 0
 --- !u!212 &1661529141
 SpriteRenderer:
   m_ObjectHideFlags: 0
