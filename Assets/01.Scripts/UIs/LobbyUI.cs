@@ -47,8 +47,9 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateExpUI()
     {
+        Debug.Log("playerExp" + PlayerLobbyStatus.Instance.BaseExp);
         float percentage = (float)(PlayerLobbyStatus.Instance.BaseExp) / 100;
-
+        Debug.Log("percentage"+percentage);
         expFill.localScale = new Vector3(percentage, 1.0f, 1.0f);
         expPercentageText.text = $"{(int)(percentage * 100)}%";
     }
@@ -61,6 +62,6 @@ public class LobbyUI : MonoBehaviour
     private void OnClickPlay()
     {
         UIManager.Instance.PopUI();
-        SceneManager.LoadScene(nameof(GameManger.GameState.DungeonScene));
+        GameManger.Instance.ChangeGameState(GameManger.GameState.DungeonScene);
     }
 }
