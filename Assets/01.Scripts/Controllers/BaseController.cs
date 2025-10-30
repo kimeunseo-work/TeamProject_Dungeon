@@ -7,15 +7,15 @@ public class BaseController : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer CharRenderer;
 
-    protected Rigidbody _rigidbody;
+    protected Rigidbody2D _rigidbody;
 
     protected Vector2 movementDirection = Vector2.zero;
     public Vector2 MovementDirection { get { return movementDirection; } }
 
     protected virtual void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        CharRenderer = GetComponent<SpriteRenderer>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+        CharRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     protected virtual void Start()
