@@ -15,4 +15,9 @@ public class PlayerController : BaseController
         float vertical = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector2(horizental, vertical).normalized;
     }
+
+    protected override void Dead()
+    {
+        Time.timeScale = 0f;
+    }
 }
