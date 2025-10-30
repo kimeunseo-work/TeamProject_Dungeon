@@ -20,6 +20,19 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PlayerLobbyStatus.Instance.IncreasePoint();
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            PlayerLobbyStatus.Instance.IncreaseBaseExp(10);
+        }
+    }
+
     public void PushUI(GameObject ui)
     {
         //if (uiStack.Count > 0)

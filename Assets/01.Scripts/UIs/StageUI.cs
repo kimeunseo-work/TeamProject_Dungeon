@@ -22,8 +22,8 @@ public class StageUI : MonoBehaviour
     private void Start()
     {
         settingsButton.onClick.AddListener(OpenSettingsPanel);
-        playerStatus.OnDungeonExpChanged += UpdateExp;
-        playerStatus.OnDungeonLevelChanged += UpdateLevel;
+        //playerStatus.OnDungeonExpChanged += UpdateExp;
+        //playerStatus.OnDungeonLevelChanged += UpdateLevel;
     }
 
     #region Game UI
@@ -44,7 +44,7 @@ public class StageUI : MonoBehaviour
 
     private void UpdateExp()
     {
-        expSlider.value = (float)playerStatus.BaseExp / (float)playerStatus.RequiredBaseExp;
+        expSlider.value = (float)playerStatus.DungeonExp / (float)playerStatus.RequiredDungeonExp;
     }
     #endregion
 

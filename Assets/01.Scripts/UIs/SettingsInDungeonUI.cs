@@ -45,7 +45,7 @@ public class SettingsInDungeonUI : MonoBehaviour
     private void OnClickLoadLobby()
     {
         Time.timeScale = 1f;
-        //UIManager.Instance.PopUI();
+        UIManager.Instance.PopUI();
         SceneManager.LoadScene(nameof(GameManger.GameState.LobbyScene));
     }
     #endregion

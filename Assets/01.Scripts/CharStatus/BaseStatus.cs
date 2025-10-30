@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[System.Serializable]
 public struct Status
 {
     public int Hp;
@@ -9,9 +10,6 @@ public struct Status
 
 public class BaseStatus : MonoBehaviour
 {
-    ///*내부 구조체 & 클래스*/
-    ////=======================================//
-
     /*필드 & 프로퍼티*/
     //=======================================//
 
@@ -63,11 +61,15 @@ public class BaseStatus : MonoBehaviour
     private void DecreaseDungeonHp(int amount)
     {
         DungeonHp -= amount;
+
+        Debug.Log($"공격 {amount}, Hp {DungeonHp}");
+
         CheckDead();
 
         if (IsDead)
         {
             OnDead?.Invoke();
+            Debug.Log("사망");
         }
         else
         {
