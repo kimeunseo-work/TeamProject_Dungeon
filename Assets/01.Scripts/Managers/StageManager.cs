@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
-    private Coroutine waveRoutine;
+
+    [SerializeField] private Transform player;      
+    [SerializeField] private Transform startPoint;
 
     [SerializeField] private List<GameObject> enemyprefabs;
 
@@ -27,7 +29,7 @@ public class StageManager : MonoBehaviour
 
     public void StartStage()
     { 
-        //플레이어의 위치를 맵의 특정 좌표에 transform. 사용해서 고정
+        PlacePlayerToStageStart();
     }
 
     public void GameClear()
@@ -76,9 +78,30 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SpawnRandomEnemy();
+        }
+    }
+
     public void GameClearMenu()
     {
         //이건테스트 서버 주석
+    }
+
+    private void PlacePlayerToStageStart()
+    {
+        if (player == null || startPoint == null)
+        {
+            Debug.LogError("Player 또는 StartPoint가 지정되지 않았습니다!");
+            return;
+        }
+
+        // 위치 리셋
+        player.position = startPoint.position;
+        Debug.Log("플레이어를 시작 위치에 배치했습니다!");
     }
 }
 
