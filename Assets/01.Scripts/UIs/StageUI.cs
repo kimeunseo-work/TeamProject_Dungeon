@@ -22,8 +22,8 @@ public class StageUI : MonoBehaviour
     private void Start()
     {
         settingsButton.onClick.AddListener(OpenSettingsPanel);
-        playerStatus.OnDungeonExpChanged += UpdateExp;
-        playerStatus.OnDungeonLevelChanged += UpdateLevel;
+        //playerStatus.OnDungeonExpChanged += UpdateExp;
+        //playerStatus.OnDungeonLevelChanged += UpdateLevel;
     }
 
     #region Game UI
