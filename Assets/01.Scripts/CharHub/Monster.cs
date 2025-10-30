@@ -30,6 +30,8 @@ public class Monster : Character
 
         // 스탯 초기화 - 나중에 데이터로
         status.InitDungeon(baseStatus, level);
+        controller.Init(targetTransform);
+        CanAttack = false;
     }
 
     private void OnEnable()
@@ -39,6 +41,13 @@ public class Monster : Character
     private void OnDisable()
     {
         status.OnDead -= Status_OnDead;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        controller.HandleAction();
     }
 
     /*외부 호출*/
@@ -90,7 +99,7 @@ public class Monster : Character
     protected override void Status_OnDead()
     {
         // 사망 액션
-        //controller.Dead(amount);
+        controller.Dead();
         // 경험치 오브젝트 뿌리기
 
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)

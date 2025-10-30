@@ -1,22 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : BaseController
 {
+    /*생명 주기*/
+    //=======================================//
+
     protected override void Start()
     {
         base.Start();
     }
 
-    protected override void HandleAction()
+    /*외부 호출*/
+    //=======================================//
+
+    public override void HandleAction()
     {
         float horizental = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector2(horizental, vertical).normalized;
     }
 
-    protected override void Dead()
+    public override void Dead()
     {
         Time.timeScale = 0f;
     }

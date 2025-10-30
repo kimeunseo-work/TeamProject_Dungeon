@@ -1,34 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterController : BaseController
 {
-    [SerializeField] private Transform target;
+    /*필드 & 프로퍼티*/
+    //=======================================//
 
-    [SerializeField] private float followRange = 15f;
+    private Transform target;
+    private float followRange = 15f;
 
-    //public void Init(Transform target)
-    //{
-    //    this.target = target;
-    //}
+    /*초기화*/
+    //=======================================//
 
-    protected float DistanceToTarget() // Target(Player)과 현재 위치 사이 거리
+    public void Init(Transform target)
     {
-        return Vector3.Distance(transform.position, target.position);
-        // 두 포지션 사이 거리
+        this.target = target;
     }
 
-    protected Vector2 DirectionToTarget() // Target(Player)에게 다가가는 속도
-    {
-        return (target.position - transform.position).normalized;
-    }
+    /*외부 호출*/
+    //=======================================//
 
-    protected override void HandleAction() // Monster 이동
+    public override void HandleAction() // Monster 이동
     {
         base.HandleAction();
 
-        if(target == null)
+        if (target == null)
         {
             if (!movementDirection.Equals(Vector2.zero)) movementDirection = Vector2.zero;
             return;
@@ -44,8 +39,21 @@ public class MonsterController : BaseController
         }
     }
 
-    protected override void Dead()
+    public override void Dead()
     {
-        // Destroy(GameObject.Monster);
+    }
+
+    /*내부 로직*/
+    //=======================================//
+
+    protected float DistanceToTarget() // Target(Player)과 현재 위치 사이 거리
+    {
+        return Vector3.Distance(transform.position, target.position);
+        // 두 포지션 사이 거리
+    }
+
+    protected Vector2 DirectionToTarget() // Target(Player)에게 다가가는 속도
+    {
+        return (target.position - transform.position).normalized;
     }
 }

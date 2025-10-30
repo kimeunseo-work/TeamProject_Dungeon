@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : Character
@@ -30,6 +31,13 @@ public class Player : Character
     private void OnDisable()
     {
         status.OnDead -= Status_OnDead;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        controller.HandleAction();
     }
 
     /*외부 호출*/
