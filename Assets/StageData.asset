@@ -15,6 +15,6 @@ MonoBehaviour:
   stageNum: 1
   stageType: 0
   monsterPrefabs:
-  - {fileID: 8821665370212544476, guid: 8d63ac55dff888443aa395b099990df7, type: 3}
+  - {fileID: 1095429283834799408, guid: 9d4aaee8e693d984982ad62e92430d7e, type: 3}
   minMonsterCount: 1
   maxMonsterCount: 3
