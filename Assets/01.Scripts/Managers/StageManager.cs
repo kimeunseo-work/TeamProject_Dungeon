@@ -39,6 +39,6 @@ public class StageManager : MonoBehaviour
 
     public void GameClearMenu()
     { 
-        //
+        //이건테스트 서버 주석
     }
 }
