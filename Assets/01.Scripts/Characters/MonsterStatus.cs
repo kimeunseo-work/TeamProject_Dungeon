@@ -10,33 +10,17 @@ public class MonsterStatus : BaseStatus
     /*초기화 전용*/
     //=======================================//
 
-    public void InitDungeon(string name, Status baseStatus, int dungeonLevel)
+    public void InitDungeon(Status baseStatus, int dungeonLevel)
     {
-        Name = name;
-        this.baseStatus = baseStatus;
-        BaseHP = this.baseStatus.Hp;
-        BaseATK = this.baseStatus.Atk;
-
         DungeonLevel = dungeonLevel;
-        dungeonStatus = this.baseStatus;
+        dungeonStatus = baseStatus;
         DungeonMaxHp = dungeonStatus.Hp;
 
-        SetStatus();
+        DungeonHp = dungeonStatus.Hp * DungeonLevel;
+        DungeonAtk = dungeonStatus.Atk * DungeonLevel;
 
         IsDead = false;
 
         OnInitDungeonMonsterFinished?.Invoke();
-    }
-
-    /*내부 로직*/
-    //=======================================//
-
-    /// <summary>
-    /// 몬스터 레벨에 따른 스탯 설정 메서드
-    /// </summary>
-    private void SetStatus()
-    {
-        DungeonHp = BaseHP * DungeonLevel;
-        DungeonAtk = BaseATK * DungeonLevel;
     }
 }
