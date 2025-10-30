@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    public float speed = 10f;
     public float lifetime = 2f;
     public int pierceCount = 0; // 관통 수
 
     void Start()
     {
-        Rigidbody2D rd = GetComponent<Rigidbody2D>();
-        if(rd != null)
-        {
-            rd.velocity = transform.up * speed;
-        }
         Destroy(gameObject, lifetime);
     }
 
@@ -25,11 +19,18 @@ public class Arrow : MonoBehaviour
         // 나중에 데미지 적용 담당자가 여기서 처리
         // if (collision.CompareTag("Enemy")) Destroy(gameObject);
         //관통 처리
-        if (pierceCount > 0)
+        if (collision.CompareTag("Enemy"))
         {
-            pierceCount--;
+            if (pierceCount > 0)
+            {
+                pierceCount--;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+        else if (collision.CompareTag("Wall"))
         {
             Destroy(gameObject);
         }
