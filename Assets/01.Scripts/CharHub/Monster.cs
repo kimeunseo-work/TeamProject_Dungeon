@@ -1,0 +1,99 @@
+using UnityEngine;
+
+public class Monster : Character
+{
+    /*필드 & 프로퍼티*/
+    //=======================================//
+
+    private Player target;
+
+    // 나중에 데이터화
+    [SerializeField] private int level;
+    [SerializeField] private Status baseStatus;
+
+    private MonsterStatus status;
+    private MonsterController controller;
+
+    /*생명 주기*/
+    //=======================================//
+
+    private void Awake()
+    {
+        // 플레이어 데이터
+        var go = GameObject.FindWithTag("Player");
+        targetTransform = go.GetComponent<Transform>();
+        target = go.GetComponent<Player>();
+
+        // 몬스터 기능 스크립트 참조
+        status = GetComponent<MonsterStatus>();
+        controller = GetComponent<MonsterController>();
+
+        // 스탯 초기화 - 나중에 데이터로
+        status.InitDungeon(baseStatus, level);
+    }
+
+    private void OnEnable()
+    {
+        status.OnDead += Status_OnDead;
+    }
+    private void OnDisable()
+    {
+        status.OnDead -= Status_OnDead;
+    }
+
+    /*외부 호출*/
+    //=======================================//
+
+    public override void TakeDamage(int amount)
+    {
+        // 데이터
+        status.TakeDamage(amount);
+        // 피격 액션
+        //controller.TakeDamage(amount);
+    }
+
+    /*충돌&트리거*/
+    //=======================================//
+
+    /// <summary>
+    /// 공격 위한 것
+    /// </summary>
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            CanAttack = true;
+        }
+    }
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            CanAttack = false;
+        }
+    }
+
+    /*내부 로직*/
+    //=======================================//
+    
+    protected override void Attack()
+    {
+        // 데이터
+        target.TakeDamage(status.DungeonAtk);
+        // 공격 액션
+        //controller.TakeDamage(amount);
+    }
+
+    /*이벤트 구독*/
+    //=======================================//
+    
+    protected override void Status_OnDead()
+    {
+        // 사망 액션
+        //controller.Dead(amount);
+        // 경험치 오브젝트 뿌리기
+
+        // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
+        Destroy(gameObject);
+    }
+}
