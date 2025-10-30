@@ -5,6 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
+    private Coroutine waveRoutine;
+
+    [SerializeField] private List<GameObject> enemyprefabs;
+
+    [SerializeField] List<Rect> spawnAreas;
+
+    [SerializeField] private Color gizmoColor = new Color(1, 0, 0, .3f);
+
+    private bool enemySpawnComplite;
+
+
+
     private byte clearRequireNum = 0; //스테이지 클리어가 되려면 몬스터가 0이어야함
     private int stageNum;               //스테이지의 숫자
 
@@ -28,17 +40,34 @@ public class StageManager : MonoBehaviour
 
     }
 
-    public void SetMonster()
-    { 
-        //stageNum을 확인하고 currentStageType 값을 결정하게하고
-        //currentStageType 을 확인하고
-        //currentStageType 이 Combat 이거나 Boss일경우
-        //isClear를 false로 두고
-        //clearRequre
+    private void SpawnRandomEnemy()
+    {
+        if (enemyprefabs.Count == 0 || spawnAreas.Count == 0)
+        {
+            Debug.LogWarning("Enemy Prefabs 또는 Spawn Areas가 설정되지 않았습니다.");
+            return;
+        }
+
+        GameObject randomPrefab = enemyprefabs[Random.Range(0, enemyprefabs.Count)];
+
+
+        Rect randomArea = spawnAreas[Random.Range(0, spawnAreas.Count)];
+
+
+        Vector2 randomPosition = new Vector2(
+            Random.Range(randomArea.xMin, randomArea.xMax),
+            Random.Range(randomArea.yMin, randomArea.yMax)
+        );
+
+
+        Instantiate(randomPrefab, randomPosition, Quaternion.identity);
     }
 
+
     public void GameClearMenu()
-    { 
+    {
         //이건테스트 서버 주석
     }
 }
+
+
