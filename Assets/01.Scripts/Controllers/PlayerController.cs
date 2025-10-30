@@ -11,7 +11,7 @@ public class PlayerController : BaseController
 
     protected override void HandleAction()
     {
-        float horizental = Input.GetAxisRaw("Horizental");
+        float horizental = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector2(horizental, vertical).normalized;
     }
