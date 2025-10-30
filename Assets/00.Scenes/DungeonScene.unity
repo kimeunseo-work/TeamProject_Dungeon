@@ -293,6 +293,8 @@ MonoBehaviour:
   cooldown: 2
   arrowPrefab: {fileID: 707792727986895017, guid: 89e7c145867c98d41bfb06a5b692b0d9, type: 3}
   arrowSpeed: 30
+  arrowCount: 2
+  extraPierce: 3
 --- !u!212 &1454784723
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -354,7 +356,7 @@ Transform:
   m_GameObject: {fileID: 1454784721}
   serializedVersion: 2
   m_LocalRotation: {x: 0.09091116, y: 0.001257638, z: -0.0064511225, w: 0.99583733}
-  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalPosition: {x: -2.19, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
