@@ -60,6 +60,8 @@ public class BaseStatus : MonoBehaviour
     public bool IsDead { get; protected set; }
 
     /*Events*/
+    public event Action OnInitDungeonFinished;
+
     public event Action OnDead;
     public event Action OnDamaged;
 
