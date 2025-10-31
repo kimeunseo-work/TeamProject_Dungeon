@@ -3136,7 +3136,8 @@ MonoBehaviour:
   settingsButton: {fileID: 6182055356953364637}
   settingsPanel: {fileID: 960742352017492704}
   sellectSkillPanel: {fileID: 9146346832664253391}
-  skillManager: {fileID: 0}
+  ContentAcquiredSkills: {fileID: 6695435579929813772}
+  ContentRandomSkills: {fileID: 1146532941808138592}
 --- !u!1 &9146346832664253391
 GameObject:
   m_ObjectHideFlags: 0
