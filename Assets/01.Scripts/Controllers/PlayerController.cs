@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : BaseController
 {
-    /*���� �ֱ�*/
+    /*생명 주기*/
     //=======================================//
 
     protected override void Start()
@@ -10,7 +10,7 @@ public class PlayerController : BaseController
         base.Start();
     }
 
-    /*�ܺ� ȣ��*/
+    /*외부 호출용*/
     //=======================================//
 
     public override void HandleAction()

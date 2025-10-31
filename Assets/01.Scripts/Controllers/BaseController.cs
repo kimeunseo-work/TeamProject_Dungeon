@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using UnityEngine;
 
-public class BaseController : MonoBehaviour
+public class BaseController : MonoBehaviour 
 {
-    /*�ʵ� & ������Ƽ*/
+    /*필드 & 프로퍼티*/
     //=======================================//
 
     protected Rigidbody2D _rigidbody;
@@ -27,7 +27,7 @@ public class BaseController : MonoBehaviour
     public event Action<bool> OnMoveChanged;
     public bool IsMove { get; protected set; } = false;
 
-    /*���� �ֱ�*/
+    /*생명 주기*/
     //=======================================//
 
     protected virtual void Awake()
@@ -57,7 +57,7 @@ public class BaseController : MonoBehaviour
         }
     }
 
-    /*�ܺ� ȣ��*/
+    /*외부 호출용*/
     //=======================================//
     public virtual void HandleAction()
     {
@@ -67,12 +67,12 @@ public class BaseController : MonoBehaviour
     {
     }
 
-    /*���� ����*/
+    /*내부 로직*/
     //=======================================//
 
     protected virtual void Movement(Vector2 direction)
     {
-        // �̵����� ������
+        // 움직이지 않을 때
         if (!IsMove) direction = default;
 
         direction = direction * Speed;
@@ -95,7 +95,6 @@ public class BaseController : MonoBehaviour
 
         charRenderer.flipX = isLeft;
     }
-
 
     protected void CheckIsMoveChanged(Vector2 direction)
     {

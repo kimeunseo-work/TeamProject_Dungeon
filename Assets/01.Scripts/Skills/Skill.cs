@@ -1,11 +1,10 @@
-using UnityEngine;
-
+ï»¿using UnityEngine;
 public abstract class Skill : MonoBehaviour
 {
     [Header("Skill Info")]
-    public string skillName = "New Skill"; //ÀÌ¸§ ³ªÁß¿¡ »ı°¢
-    public float cooldown = 2f; //ÄğÅ¸ÀÓ
-    protected bool isRunning = false; //½ºÅ³ »ç¿ëÁßÀÎÁö
+    public string skillName = "New Skill"; //ì´ë¦„ ë‚˜ì¤‘ì— ìƒê°
+    public float cooldown = 2f; //ì¿¨íƒ€ì„
+    protected bool isRunning = false; //ìŠ¤í‚¬ ì‚¬ìš©ì¤‘ì¸ì§€
 
     private Player player;
     private bool canAttack = true;
@@ -45,7 +44,7 @@ public abstract class Skill : MonoBehaviour
 
     private void AutoCastRoutine()
     {
-        // °ø°İ »óÅÂ´Â ¾Æ´Ñµ¥ ÄğÀº Ã¡À» ¶§
+        // ê³µê²© ìƒíƒœëŠ” ì•„ë‹Œë° ì¿¨ì€ ì°¼ì„ ë•Œ
         if (!canAttack && timer >= cooldown)
         {
             if (isSkillReady) return;
@@ -53,13 +52,13 @@ public abstract class Skill : MonoBehaviour
             Debug.Log($"[Skill] Skill Already");
             isSkillReady = true;
         }
-        // Äğ µ¹·Á¾ß ÇÒ ¶§
+        // ì¿¨ ëŒë ¤ì•¼ í•  ë•Œ
         else if (!canAttack && timer < cooldown || canAttack && timer < cooldown)
         {
             timer += Time.deltaTime;
             return;
         }
-        // °ø°İ »óÅÂÀÎµ¥ Äğµµ Ã¡À» ¶§
+        // ê³µê²© ìƒíƒœì¸ë° ì¿¨ë„ ì°¼ì„ ë•Œ
         else if (canAttack && timer >= cooldown)
         {
             Debug.Log($"[Skill] Skill Ready & Cast");

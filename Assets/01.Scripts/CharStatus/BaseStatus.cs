@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,9 +8,9 @@ public struct Status
     public int Atk;
 }
 
-public class BaseStatus : MonoBehaviour
+public class BaseStatus : MonoBehaviour 
 {
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
+    /*í•„ë“œ & í”„ë¡œí¼í‹°*/
     //=======================================//
 
     /*Dungeon*/
@@ -48,28 +48,28 @@ public class BaseStatus : MonoBehaviour
     public event Action OnDead;
     public event Action OnDamaged;
 
-    /*¿ÜºÎ È£Ãâ¿ë*/
+    /*ì™¸ë¶€ í˜¸ì¶œìš©*/
     //=======================================//
 
     /// <summary>
-    /// °ø°İ ¹Ş¾ÒÀ» ¶§ È£Ãâ
+    /// ê³µê²© ë°›ì•˜ì„ ë•Œ í˜¸ì¶œ
     /// </summary>
     public void TakeDamage(int amount) => DecreaseDungeonHp(amount);
 
-    /*³»ºÎ ·ÎÁ÷*/
+    /*ë‚´ë¶€ ë¡œì§*/
     //=======================================//
     private void DecreaseDungeonHp(int amount)
     {
         DungeonHp -= amount;
 
-        Debug.Log($"°ø°İ {amount}, Hp {DungeonHp}");
+        Debug.Log($"ê³µê²© {amount}, Hp {DungeonHp}");
 
         CheckDead();
 
         if (IsDead)
         {
             OnDead?.Invoke();
-            Debug.Log("»ç¸Á");
+            Debug.Log("ì‚¬ë§");
         }
         else
         {

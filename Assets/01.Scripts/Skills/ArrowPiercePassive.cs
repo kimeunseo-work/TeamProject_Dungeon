@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
-
+ï»¿using UnityEngine;
 public class ArrowPiercePassive : PassiveSkill
 {
     public int piercePerLevel = 1;
@@ -13,7 +9,7 @@ public class ArrowPiercePassive : PassiveSkill
         if (arrowSkill != null)
         {
             arrowSkill.extraPierce = level * piercePerLevel;
-            Debug.Log($"{skillName} Àû¿ë: °üÅë ¼ö = {arrowSkill.extraPierce}");
+            Debug.Log($"{skillName} ì ìš©: ê´€í†µ ìˆ˜ = {arrowSkill.extraPierce}");
         }
     }
 }

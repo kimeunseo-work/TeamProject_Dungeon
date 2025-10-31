@@ -1,24 +1,24 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    public Transform targetTransform; // ÇÃ·¹ÀÌ¾î
+    public Transform targetTransform; // í”Œë ˆì´ì–´
     public bool CanAttack { get; protected set; } = true;
 
 
-    /*»ı¸í ÁÖ±â*/
+    /*ìƒëª… ì£¼ê¸°*/
     //=======================================//
 
     /// <summary>
-    /// Attack() Á¸Àç
+    /// Attack() ì¡´ì¬
     /// </summary>
     protected virtual void Update()
     {
         if (CanAttack) Attack();
     }
 
-    /*¿ÜºÎ È£Ãâ*/
+    /*ì™¸ë¶€ í˜¸ì¶œ*/
     //=======================================//
     public abstract void TakeDamage(int amount);
     protected abstract void Attack();

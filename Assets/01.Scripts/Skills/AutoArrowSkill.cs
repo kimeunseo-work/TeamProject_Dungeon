@@ -1,27 +1,26 @@
-using UnityEngine;
-
+ï»¿using UnityEngine;
 public class AutoArrowSkill : Skill
 {
-    [Header("È­»ì Åõ»çÃ¼ ¼³Á¤")]
+    [Header("í™”ì‚´ íˆ¬ì‚¬ì²´ ì„¤ì •")]
     public GameObject arrowPrefab;
-    public float arrowSpeed = 10f; // È­»ì ¼Óµµ
-    public float detectionRadius = 10f; // È­»ì Ãæµ¹ °¨Áö ¹İ°æ
-    public int arrowCount = 1; // ¹ß»çÇÒ È­»ì °³¼ö
-    public int extraPierce = 0; // Ãß°¡ °üÅë ¼ö
-    public float spreadAngle = 0f; // È­»ì ÆÛÁü °¢µµ
+    public float arrowSpeed = 10f; // í™”ì‚´ ì†ë„
+    public float detectionRadius = 10f; // í™”ì‚´ ì¶©ëŒ ê°ì§€ ë°˜ê²½
+    public int arrowCount = 1; // ë°œì‚¬í•  í™”ì‚´ ê°œìˆ˜
+    public int extraPierce = 0; // ì¶”ê°€ ê´€í†µ ìˆ˜
+    public float spreadAngle = 0f; // í™”ì‚´ í¼ì§ ê°ë„
 
     protected override void Activate()
     {
         if (arrowPrefab == null)
         {
-            Debug.LogWarning("arrowPrefabÀÌ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning("arrowPrefabì´ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return;
         }
 
-        // °¡±î¿î Àû Ã£±â
+        // ê°€ê¹Œìš´ ì  ì°¾ê¸°
         Transform target = FindNearestEnemy();
 
-        // ¹ß»ç ±âÁØ ¹æÇâ
+        // ë°œì‚¬ ê¸°ì¤€ ë°©í–¥
         Vector2 direction;
         if (target != null)
         {
@@ -29,11 +28,11 @@ public class AutoArrowSkill : Skill
         }
         else
         {
-            // ÀûÀÌ ¾øÀ¸¸é ÇÃ·¹ÀÌ¾î ¹Ù¶óº¸´Â ¹æÇâ
+            // ì ì´ ì—†ìœ¼ë©´ í”Œë ˆì´ì–´ ë°”ë¼ë³´ëŠ” ë°©í–¥
             direction = transform.up;
         }
 
-        // È­»ì ¿©·¯ ¹ß ÆÛ¶ß¸®±â
+        // í™”ì‚´ ì—¬ëŸ¬ ë°œ í¼ëœ¨ë¦¬ê¸°
         float angleStep = (arrowCount > 1) ? spreadAngle / (arrowCount - 1) : 0f;
         float startAngle = -spreadAngle / 2;
 
@@ -41,21 +40,21 @@ public class AutoArrowSkill : Skill
         {
             float angleOffset = startAngle + angleStep * i;
 
-            // È¸Àü°ª Àû¿ë
+            // íšŒì „ê°’ ì ìš©
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction) * Quaternion.Euler(0, 0, angleOffset);
 
-            // ÇÃ·¹ÀÌ¾î À§Ä¡ ±âÁØÀ¸·Î ¾ÕÂÊ¿¡¼­ ¹ß»ç
+            // í”Œë ˆì´ì–´ ìœ„ì¹˜ ê¸°ì¤€ìœ¼ë¡œ ì•ìª½ì—ì„œ ë°œì‚¬
             Vector3 spawnPos = transform.position + (Vector3)(direction * 0.5f);
             GameObject arrow = Instantiate(arrowPrefab, spawnPos, rotation);
 
-            // È­»ì¿¡ ¼Óµµ ºÎ¿©
+            // í™”ì‚´ì— ì†ë„ ë¶€ì—¬
             Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
                 rb.velocity = rotation * transform.up * arrowSpeed;
             }
 
-            // °üÅë ¼ö ¼³Á¤
+            // ê´€í†µ ìˆ˜ ì„¤ì •
             Arrow arrowScript = arrow.GetComponent<Arrow>();
             if (arrowScript != null)
             {

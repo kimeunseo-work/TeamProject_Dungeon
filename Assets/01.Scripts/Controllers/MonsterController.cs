@@ -1,9 +1,8 @@
-using UnityEditor.Rendering;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MonsterController : BaseController
 {
-    /*�ʵ� & ������Ƽ*/
+    /*필드 & 프로퍼티Ƽ*/
     //=======================================//
 
     private Transform target;
@@ -11,7 +10,7 @@ public class MonsterController : BaseController
     private float attackRange = 0.8f;
     public float speed = 1f;
 
-    /*�ʱ�ȭ*/
+    /*초기화*/
     //=======================================//
 
     public void Init(Transform target)
@@ -19,7 +18,7 @@ public class MonsterController : BaseController
         this.target = target;
     }
 
-    /*�ܺ� ȣ��*/
+    /*외부 호출용*/
     //=======================================//
 
     public override void HandleAction() // Monster �̵�
@@ -61,7 +60,7 @@ public class MonsterController : BaseController
     {
     }
 
-    /*���� ����*/
+    /*내부 로직*/
     //=======================================//
 
     protected float DistanceToTarget() // Target(Player)�� ���� ��ġ ���� �Ÿ�

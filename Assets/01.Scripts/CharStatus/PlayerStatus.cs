@@ -1,9 +1,9 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
-public class PlayerStatus : BaseStatus
+public class PlayerStatus : BaseStatus 
 {
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
+    /*í•„ë“œ & í”„ë¡œí¼í‹°*/
     //=======================================//
 
     /*Dungeon*/
@@ -22,11 +22,11 @@ public class PlayerStatus : BaseStatus
     public event Action OnDungeonExpChanged;
     public event Action OnRequiredDungeonExpChanged;
 
-    /*ÃÊ±âÈ­ Àü¿ë*/
+    /*ì´ˆê¸°í™” ì „ìš©*/
     //=======================================//
 
     /// <summary>
-    /// ´øÀü ³»ºÎ ½ºÅÈ ÃÊ±âÈ­, ´øÀü ÁøÀÔ¸¶´Ù È£Ãâ
+    /// ë˜ì „ ë‚´ë¶€ ìŠ¤íƒ¯ ì´ˆê¸°í™”, ë˜ì „ ì§„ì…ë§ˆë‹¤ í˜¸ì¶œ
     /// </summary>
     public void InitDungeon()
     {
@@ -43,7 +43,7 @@ public class PlayerStatus : BaseStatus
         OnInitDungeonPlayerFinished?.Invoke();
     }
 
-    /*¿ÜºÎ È£Ãâ¿ë*/
+    /*ì™¸ë¶€ í˜¸ì¶œìš©*/
     //=======================================//
 
     /*Dungeon*/
@@ -63,7 +63,7 @@ public class PlayerStatus : BaseStatus
     public void DecreaseDungeonHp(int amount) => InternalDecreaseDungeonHp(amount);
 #endif
 
-    /*³»ºÎ ·ÎÁ÷*/
+    /*ë‚´ë¶€ ë¡œì§*/
     //=======================================//
     
     private void InternalIncreaseDungeonMaxHp(int amount)
@@ -110,7 +110,7 @@ public class PlayerStatus : BaseStatus
 
     private void InternalIncreaseDungeonExp(int amount)
     {
-        // ¸¸·¾ Ã¼Å©
+        // ë§Œë ™ ì²´í¬
         if (DungeonLevel == dungeonExpData.ExpTable.Length) return;
 
         DungeonExp += amount;
@@ -125,7 +125,7 @@ public class PlayerStatus : BaseStatus
         {
             DungeonLevel++;
             OnDungeonLevelChanged?.Invoke();
-            // ¸¸·¾ Ã¼Å©
+            // ë§Œë ™ ì²´í¬
             if (DungeonLevel == dungeonExpData.ExpTable.Length)
             {
                 DungeonExp = 0;
@@ -133,7 +133,7 @@ public class PlayerStatus : BaseStatus
             }
 
             DungeonExp -= RequiredDungeonExp;
-            // ´ÙÀ½ ·¹º§ÀÌ ¿ä±¸ÇÏ´Â °æÇèÄ¡·Î ±âÁØÄ¡ »ó½Â
+            // ë‹¤ìŒ ë ˆë²¨ì´ ìš”êµ¬í•˜ëŠ” ê²½í—˜ì¹˜ë¡œ ê¸°ì¤€ì¹˜ ìƒìŠ¹
             RequiredDungeonExp = dungeonExpData.ExpTable[DungeonLevel];
             OnRequiredDungeonExpChanged?.Invoke();
         }

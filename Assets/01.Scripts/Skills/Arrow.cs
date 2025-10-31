@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
@@ -20,10 +18,10 @@ public class Arrow : MonoBehaviour
                 rb.velocity = direction.normalized * speed;
             }
 
-            // È­»ì ÀÌ¹ÌÁö°¡ È­»ìÃËÀÌ ¾ÕÀ¸·Î ÇâÇÏµµ·Ï
+            // í™”ì‚´ ì´ë¯¸ì§€ê°€ í™”ì‚´ì´‰ì´ ì•ìœ¼ë¡œ í–¥í•˜ë„ë¡
             transform.up = direction.normalized;
 
-            // Rigidbody È¸Àü °íÁ¤
+            // Rigidbody íšŒì „ ê³ ì •
             if (rb != null) rb.freezeRotation = true;
         }
     }
@@ -33,9 +31,9 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // ³ªÁß¿¡ µ¥¹ÌÁö Àû¿ë ´ã´çÀÚ°¡ ¿©±â¼­ Ã³¸®
+        // ë‚˜ì¤‘ì— ë°ë¯¸ì§€ ì ìš© ë‹´ë‹¹ìê°€ ì—¬ê¸°ì„œ ì²˜ë¦¬
         // if (collision.CompareTag("Enemy")) Destroy(gameObject);
-        //°üÅë Ã³¸®
+        //ê´€í†µ ì²˜ë¦¬
         if (!destroyOnHit) return;
 
         if (collision.CompareTag("Enemy") || collision.CompareTag("Wall"))

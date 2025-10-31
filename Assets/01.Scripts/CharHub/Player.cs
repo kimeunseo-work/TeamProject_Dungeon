@@ -1,10 +1,10 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 public class Player : Character
 {
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
-    //=======================================//
+    /*í•„ë“œ & í”„ë¡œí¼í‹°*/
+    //=======================================// 
 
     private Monster target;
 
@@ -14,20 +14,20 @@ public class Player : Character
 
     public event Action<bool> OnCanAttackChanged;
 
-    /*»ı¸í ÁÖ±â*/
+    /*ìƒëª… ì£¼ê¸°*/
     //=======================================//
 
     private void Awake()
     {
-        // ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ
-        // targetTransform = °¡Àå °¡±î¿î ¸ó½ºÅÍ
+        // í”Œë ˆì´ì–´ ë°ì´í„°
+        // targetTransform = ê°€ì¥ ê°€ê¹Œìš´ ëª¬ìŠ¤í„°
 
-        // ÇÃ·¹ÀÌ¾î ±â´É ½ºÅ©¸³Æ® ÂüÁ¶
+        // í”Œë ˆì´ì–´ ê¸°ëŠ¥ ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡°
         status = GetComponent<PlayerStatus>();
         controller = GetComponent<PlayerController>();
         autoArrow = GetComponent<AutoArrowSkill>();
 
-        // ½ºÅÈ ÃÊ±âÈ­
+        // ìŠ¤íƒ¯ ì´ˆê¸°í™”
         status.InitDungeon();
     }
 
@@ -51,45 +51,45 @@ public class Player : Character
         controller.HandleAction();
     }
 
-    /*¿ÜºÎ È£Ãâ*/
+    /*ì™¸ë¶€ í˜¸ì¶œ*/
     //=======================================//
 
     /// <summary>
-    /// ¸ó½ºÅÍ, ÇÔÁ¤ ¿ÀºêÁ§Æ® Àü¿ë
+    /// ëª¬ìŠ¤í„°, í•¨ì • ì˜¤ë¸Œì íŠ¸ ì „ìš©
     /// </summary>
     public override void TakeDamage(int amount)
     {
-        // µ¥ÀÌÅÍ
+        // ë°ì´í„°
         status.TakeDamage(amount);
-        // ÇÇ°İ ¾×¼Ç
+        // í”¼ê²© ì•¡ì…˜
         //controller.TakeDamage(amount);
     }
 
     /// <summary>
-    /// ´øÀü °æÇèÄ¡ ¿ÀºêÁ§Æ® Àü¿ë
+    /// ë˜ì „ ê²½í—˜ì¹˜ ì˜¤ë¸Œì íŠ¸ ì „ìš©
     /// </summary>
     public void GetDungeonExp(int amount)
     {
         status.IncreaseDungeonExp(amount);
-        Debug.Log($"È¹µæ °æÇèÄ¡ {amount}, ÇöÀç °æÇèÄ¡ {status.DungeonExp}");
+        Debug.Log($"íšë“ ê²½í—˜ì¹˜ {amount}, í˜„ì¬ ê²½í—˜ì¹˜ {status.DungeonExp}");
     }
 
-    /*³»ºÎ ·ÎÁ÷*/
+    /*ë‚´ë¶€ ë¡œì§*/
     //=======================================//
 
     protected override void Attack()
     {
     }
 
-    /*ÀÌº¥Æ® ±¸µ¶*/
+    /*ì´ë²¤íŠ¸ êµ¬ë…*/
     //=======================================//
 
     protected override void Status_OnDead()
     {
-        // »ç¸Á ¾×¼Ç
+        // ì‚¬ë§ ì•¡ì…˜
         //controller.Dead(amount);
         
-        // »èÁ¦(³ªÁß¿¡ ½Ã°£µÇ¸é ¿ÀºêÁ§Æ® Ç®¸µ »ç¿ë?)
+        // ì‚­ì œ(ë‚˜ì¤‘ì— ì‹œê°„ë˜ë©´ ì˜¤ë¸Œì íŠ¸ í’€ë§ ì‚¬ìš©?)
         Destroy(gameObject);
     }
     private void Controller_OnMoveChanged(bool isMove)

@@ -1,13 +1,12 @@
-using System;
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManger : MonoBehaviour
 {
     public static GameManger Instance;
 
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
-    //=======================================//
+    /*í•„ë“œ & í”„ë¡œí¼í‹°*/
+    //=======================================// 
 
     public enum GameState { LobbyScene, DungeonScene }
     public GameState CurrentState { get; private set; }
@@ -25,11 +24,11 @@ public class GameManger : MonoBehaviour
         }
     }
 
-    /*¿ÜºÎ È£Ãâ¿ë*/
+    /*ì™¸ë¶€ í˜¸ì¶œìš©*/
     //=======================================//
 
     /// <summary>
-    /// ¾À ·Îµåµµ ÀÌ°É »ç¿ëÇÏ¼¼¿ä.
+    /// ì”¬ ë¡œë“œë„ ì´ê±¸ ì‚¬ìš©í•˜ì„¸ìš”.
     /// </summary>
     /// <param name="state"></param>
     public void ChangeGameState(GameState state)
@@ -40,7 +39,7 @@ public class GameManger : MonoBehaviour
         LoadScene();
     }
 
-    /*³»ºÎ ·ÎÁ÷*/
+    /*ë‚´ë¶€ ë¡œì§*/
     //=======================================//
     private void LoadScene()
     {
