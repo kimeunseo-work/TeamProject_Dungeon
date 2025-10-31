@@ -154,7 +154,7 @@ MonoBehaviour:
   player: {fileID: 2000691934}
   startPoint: {fileID: 1193557712}
   exitCollider: {fileID: 862067483}
-  testMode: 1
+  testMode: 0
   spawnAreas:
   - serializedVersion: 2
     x: -2

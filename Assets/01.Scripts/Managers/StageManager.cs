@@ -1,12 +1,25 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static StageData;
 
-public class StageManager : MonoBehaviour 
+public class StageManager : MonoBehaviour
 {
+    public static StageManager Instance;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
-    [SerializeField] private Transform player;      
+    [SerializeField] private Transform player;
     [SerializeField] private Transform startPoint;
     [SerializeField] private Collider2D exitCollider;
     [SerializeField] private bool testMode = true; // 테스트용 프리패스 치트키
@@ -20,6 +33,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private List<StageData> stageDatas;
     private StageData currentStageData;
 
+    private List<MonsterStatus> monsterStatuses;
 
     private int clearRequireNum; //스테이지 클리어가 되려면 몬스터가 0이어야함
     private int stageNum;               //스테이지의 숫자
@@ -31,6 +45,13 @@ public class StageManager : MonoBehaviour
     {
         stageNum = 1;
         StartStage();
+
+        monsterStatuses = new List<MonsterStatus>();
+    }
+
+    private void FixedUpdate()
+    {
+
     }
 
     // 스테이지 시작 매서드
@@ -67,8 +88,8 @@ public class StageManager : MonoBehaviour
             //보스
         }
         else if (currentStageData.stageType == StageType.Rest)
-        { 
-            
+        {
+
         }
 
     }
@@ -91,14 +112,17 @@ public class StageManager : MonoBehaviour
         exitCollider.enabled = true;
         Debug.Log("Stage Clear! Exit is now active!");
         GoToNextStage();
+
+        SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
     }
 
     public void GoToNextStage()
-    { 
+    {
         stageNum++;
-        if (stageNum > 10)
+        if (stageNum > 3)
         {
-            SceneManager.LoadScene("LobbyScene");
+            GameManger.Instance.ChangeGameState(GameManger.GameState.LobbyScene);
+            stageNum = 1;
             return;
         }
         StartStage();
@@ -141,6 +165,7 @@ public class StageManager : MonoBehaviour
         );
 
         Instantiate(prefab, pos, Quaternion.identity);
+        //monsterStatuses.Add(monster.GetComponent<MonsterStatus>());
     }
 
     private void SpawnFromStageData()
