@@ -21,7 +21,7 @@ public class StageManager : MonoBehaviour
     private StageData currentStageData;
 
 
-    private byte clearRequireNum = 0; //스테이지 클리어가 되려면 몬스터가 0이어야함
+    private int clearRequireNum; //스테이지 클리어가 되려면 몬스터가 0이어야함
     private int stageNum;               //스테이지의 숫자
 
     private bool isClear;       //클리어 확인여부의 불리언
@@ -53,12 +53,13 @@ public class StageManager : MonoBehaviour
         { 
             
         }
+
+
     }
 
-    public void GameClear()
+    public void StageClear()
     {
-        SceneManager.LoadScene("LobbyScene");
-        stageNum++;
+
     }
 
     public void GameOver()
@@ -141,6 +142,8 @@ public class StageManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
             SpawnRandomEnemyFromData();
+
+        clearRequireNum = count;
     }
 
 }
