@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 public class AutoArrowSkill : Skill
 {
     [Header("화살 투사체 설정")]
@@ -12,13 +13,13 @@ public class AutoArrowSkill : Skill
 
     private bool canShoot = true;
 
-    public override void Activate()
+    protected override void Activate()
     {
-        if (!canShoot || arrowPrefab == null) return;
         arrowPrefab = GetArrow();
-        if (arrowPrefab == null)
+        if (!canShoot || arrowPrefab == null)
         {
             Debug.LogWarning("arrowPrefab이 설정되지 않았습니다.");
+            Debug.LogWarning($"canShoot = {canShoot}");
             return;
         }
 
