@@ -11,7 +11,23 @@ public class Arrow : MonoBehaviour
     void Start()
     {
         Destroy(gameObject, lifetime);
+
+        void Launch(Vector3 direction, float speed)
+        {
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.velocity = direction.normalized * speed;
+            }
+
+            // 화살 이미지가 화살촉이 앞으로 향하도록
+            transform.up = direction.normalized;
+
+            // Rigidbody 회전 고정
+            if (rb != null) rb.freezeRotation = true;
+        }
     }
+
 
 
 
