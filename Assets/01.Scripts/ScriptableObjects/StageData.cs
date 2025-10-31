@@ -1,5 +1,5 @@
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine; 
 
 [CreateAssetMenu(fileName = "StageData", menuName = "GameData/StageData")]
 public class StageData : ScriptableObject

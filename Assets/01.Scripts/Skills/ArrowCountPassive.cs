@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
+ï»¿using UnityEngine;
 
 public class ArrowCountPassive : PassiveSkill
 {
@@ -13,7 +10,7 @@ public class ArrowCountPassive : PassiveSkill
         if (arrowSkill != null)
         {
             arrowSkill.arrowCount = level * arrowsPerLevel;
-            Debug.Log($"{skillName} Àû¿ë: È­»ì °³¼ö = {arrowSkill.arrowCount}");
+            Debug.Log($"{skillName} ì ìš©: í™”ì‚´ ê°œìˆ˜ = {arrowSkill.arrowCount}");
         }
     }
 }

@@ -1,41 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
+ï»¿using System.Collections;
 using UnityEngine;
-
 public class AutoArrowSkill : Skill
 {
-    [Header("È­»ì Åõ»çÃ¼ ¼³Á¤")]
+    [Header("í™”ì‚´ íˆ¬ì‚¬ì²´ ì„¤ì •")]
     public GameObject arrowPrefab;
-    public float arrowSpeed = 10f; // È­»ì ¼Óµµ
-    public float detectionRadius = 10f; // È­»ì Ãæµ¹ °¨Áö ¹İ°æ
-    public int arrowCount = 1; // ¹ß»çÇÒ È­»ì °³¼ö
-    public int extraPierce = 0; // Ãß°¡ °üÅë ¼ö
-    public float spreadAngle = 0f; // È­»ì ÆÛÁü °¢µµ
+    public float arrowSpeed = 10f;        // í™”ì‚´ ì†ë„
+    public float detectionRadius = 10f;   // ì  ê°ì§€ ë°˜ê²½
+    public int arrowCount = 1;            // í•œ ë²ˆì— ë°œì‚¬í•  í™”ì‚´ ìˆ˜
+    public int extraPierce = 0;           // ì¶”ê°€ ê´€í†µ ìˆ˜
+    public float spreadAngle = 0f;        // í™”ì‚´ í¼ì§ ê°ë„
+    public float shotInterval = 0.1f;     // ë°œì‚¬ ì¿¨íƒ€ì„
 
-    public override void Activate()
+    private bool canShoot = true;
+
+    protected override void Activate()
     {
-        if (arrowPrefab == null)
+        arrowPrefab = GetArrow();
+        if (!canShoot || arrowPrefab == null)
         {
-            Debug.LogWarning("arrowPrefabÀÌ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning("arrowPrefabì´ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+            Debug.LogWarning($"canShoot = {canShoot}");
             return;
         }
 
-        // °¡±î¿î Àû Ã£±â
+        canShoot = false;
+        FireArrows();
+        StartCoroutine(ResetShotCooldown());
+    }
+
+    private void FireArrows()
+    {
+        // ê°€ì¥ ê°€ê¹Œìš´ ì  ì°¾ê¸°
         Transform target = FindNearestEnemy();
 
-        // ¹ß»ç ±âÁØ ¹æÇâ
-        Vector2 direction;
-        if (target != null)
-        {
-            direction = (target.position - transform.position).normalized;
-        }
-        else
-        {
-            // ÀûÀÌ ¾øÀ¸¸é ÇÃ·¹ÀÌ¾î ¹Ù¶óº¸´Â ¹æÇâ
-            direction = transform.up;
-        }
+        // ë°œì‚¬ ê¸°ì¤€ ë°©í–¥
+        Vector2 direction = target != null
+            ? (target.position - transform.position).normalized
+            : transform.up; // ì  ì—†ìœ¼ë©´ í”Œë ˆì´ì–´ ìœ„ìª½
 
-        // È­»ì ¿©·¯ ¹ß ÆÛ¶ß¸®±â
+        // í™”ì‚´ ì—¬ëŸ¬ ë°œ í¼ëœ¨ë¦¬ê¸°
         float angleStep = (arrowCount > 1) ? spreadAngle / (arrowCount - 1) : 0f;
         float startAngle = -spreadAngle / 2;
 
@@ -43,21 +46,21 @@ public class AutoArrowSkill : Skill
         {
             float angleOffset = startAngle + angleStep * i;
 
-            // È¸Àü°ª Àû¿ë
+            // íšŒì „ê°’ ì ìš©
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction) * Quaternion.Euler(0, 0, angleOffset);
 
-            // ÇÃ·¹ÀÌ¾î À§Ä¡ ±âÁØÀ¸·Î ¾ÕÂÊ¿¡¼­ ¹ß»ç
+            // í”Œë ˆì´ì–´ ìœ„ì¹˜ ê¸°ì¤€ ì•ìª½ ë°œì‚¬
             Vector3 spawnPos = transform.position + (Vector3)(direction * 0.5f);
             GameObject arrow = Instantiate(arrowPrefab, spawnPos, rotation);
 
-            // È­»ì¿¡ ¼Óµµ ºÎ¿©
+            // í™”ì‚´ ì†ë„ ì ìš©
             Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                rb.velocity = rotation * transform.up * arrowSpeed;
+                rb.velocity = rotation * Vector3.up * arrowSpeed;
             }
 
-            // °üÅë ¼ö ¼³Á¤
+            // ê´€í†µ ìˆ˜ ì ìš©
             Arrow arrowScript = arrow.GetComponent<Arrow>();
             if (arrowScript != null)
             {
@@ -65,8 +68,15 @@ public class AutoArrowSkill : Skill
             }
         }
 
-        Debug.Log($"{skillName} activated: Fired {arrowCount} arrows with {extraPierce} extra pierce.");
+        Debug.Log($"{skillName} fired {arrowCount} arrows with {extraPierce} extra pierce.");
     }
+
+    private IEnumerator ResetShotCooldown()
+    {
+        yield return new WaitForSeconds(shotInterval);
+        canShoot = true;
+    }
+
     private Transform FindNearestEnemy()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
@@ -86,5 +96,10 @@ public class AutoArrowSkill : Skill
             }
         }
         return nearest;
+    }
+
+    protected GameObject GetArrow()
+    {
+        return ObjectManager.Instance.ArrowPool.Get();
     }
 }

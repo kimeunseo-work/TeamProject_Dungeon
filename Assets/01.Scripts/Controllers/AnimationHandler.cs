@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class AnimationHandler : MonoBehaviour
+public class AnimationHandler : MonoBehaviour 
 {
     private static readonly int IsMoving = Animator.StringToHash("IsMove");
     private static readonly int IsDamage = Animator.StringToHash("IsDamage");

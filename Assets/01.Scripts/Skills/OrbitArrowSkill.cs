@@ -1,17 +1,16 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class OrbitArrowSkill : Skill
 {
-    [Header("Orbit È­»ì ¼³Á¤")]
-    public GameObject orbitArrowPrefab; // È¸Àü¿ë È­»ì
-    public GameObject shotArrowPrefab;  // ¹ß»ç¿ë È­»ì
-    public int orbitCount = 3;          // ÇÃ·¹ÀÌ¾î ÁÖº¯ Orbit È­»ì ¼ö
-    public float orbitRadius = 1.5f;    // Orbit ¹İ°æ
-    public float orbitSpeed = 90f;      // È¸Àü ¼Óµµ (µµ/ÃÊ)
-    public float shotInterval = 1.0f;   // ¹ß»ç °£°İ
-    public float shotSpeed = 10f;       // ¹ß»ç È­»ì ¼Óµµ
+    [Header("Orbit í™”ì‚´ ì„¤ì •")]
+    public GameObject orbitArrowPrefab; // íšŒì „ìš© í™”ì‚´
+    public GameObject shotArrowPrefab;  // ë°œì‚¬ìš© í™”ì‚´
+    public int orbitCount = 3;          // í”Œë ˆì´ì–´ ì£¼ë³€ Orbit í™”ì‚´ ìˆ˜
+    public float orbitRadius = 1.5f;    // Orbit ë°˜ê²½
+    public float orbitSpeed = 90f;      // íšŒì „ ì†ë„ (ë„/ì´ˆ)
+    public float shotInterval = 1.0f;   // ë°œì‚¬ ê°„ê²©
+    public float shotSpeed = 10f;       // ë°œì‚¬ í™”ì‚´ ì†ë„
 
     private List<GameObject> orbitArrows = new List<GameObject>();
     private List<Vector3> orbitOffsets = new List<Vector3>();
@@ -20,7 +19,7 @@ public class OrbitArrowSkill : Skill
     protected override void Start()
     {
         base.Start();
-        player = transform; // ½ºÅ³ÀÌ ºÙÀº ÇÃ·¹ÀÌ¾î
+        player = transform; // ìŠ¤í‚¬ì´ ë¶™ì€ í”Œë ˆì´ì–´
         InitializeOrbitArrows();
         StartCoroutine(AutoFireRoutine());
     }
@@ -49,21 +48,21 @@ public class OrbitArrowSkill : Skill
 
         for (int i = 0; i < orbitArrows.Count; i++)
         {
-            // null Ã¼Å©: DestroyµÆÀ¸¸é ´Ù½Ã »ı¼º
+            // null ì²´í¬: Destroyëìœ¼ë©´ ë‹¤ì‹œ ìƒì„±
             if (orbitArrows[i] == null)
             {
                 GameObject arrow = Instantiate(orbitArrowPrefab, player.position + orbitOffsets[i], Quaternion.identity);
                 orbitArrows[i] = arrow;
             }
 
-            // È¸Àü °è»ê
+            // íšŒì „ ê³„ì‚°
             float angle = orbitSpeed * Time.time + (360f / orbitCount) * i;
             Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0) * orbitRadius;
 
-            // À§Ä¡ °»½Å
+            // ìœ„ì¹˜ ê°±ì‹ 
             orbitArrows[i].transform.position = player.position + offset;
 
-            // ¹æÇâ ¼³Á¤ (Áß½ÉÀ» ¹Ù¶óº¸µµ·Ï)
+            // ë°©í–¥ ì„¤ì • (ì¤‘ì‹¬ì„ ë°”ë¼ë³´ë„ë¡)
             orbitArrows[i].transform.up = (orbitArrows[i].transform.position - player.position).normalized;
         }
     }
@@ -72,7 +71,7 @@ public class OrbitArrowSkill : Skill
     {
         while (true)
         {
-            // °¡Àå °¡±î¿î Àû Ã£±â
+            // ê°€ì¥ ê°€ê¹Œìš´ ì  ì°¾ê¸°
             GameObject target = FindNearestEnemy();
             if (target != null)
             {
@@ -80,7 +79,7 @@ public class OrbitArrowSkill : Skill
                 {
                     if (orbitArrow != null)
                     {
-                        // Orbit À§Ä¡¿¡¼­ ÀÚµ¿ Å¸°ÙÆÃ ¹ß»ç
+                        // Orbit ìœ„ì¹˜ì—ì„œ ìë™ íƒ€ê²ŸíŒ… ë°œì‚¬
                         Vector3 direction = (target.transform.position - orbitArrow.transform.position).normalized;
                         FireShotArrow(orbitArrow.transform.position, direction);
                     }
@@ -95,7 +94,7 @@ public class OrbitArrowSkill : Skill
         float minDist = Mathf.Infinity;
         GameObject nearest = null;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(player.position, 20f); // Å½Áö ¹üÀ§ ÇÊ¿äÇÏ¸é º¯¼ö·Î ¸¸µé±â
+        Collider2D[] hits = Physics2D.OverlapCircleAll(player.position, 20f); // íƒì§€ ë²”ìœ„ í•„ìš”í•˜ë©´ ë³€ìˆ˜ë¡œ ë§Œë“¤ê¸°
         foreach (var hit in hits)
         {
             if (hit.CompareTag("Enemy"))
@@ -124,7 +123,7 @@ public class OrbitArrowSkill : Skill
             arrow.transform.up = rb.velocity.normalized;
         }
 
-        // ÇÊ¿äÇÏ¸é °üÅë ¼ö µî ÆĞ½Ãºê Àû¿ë °¡´É
+        // í•„ìš”í•˜ë©´ ê´€í†µ ìˆ˜ ë“± íŒ¨ì‹œë¸Œ ì ìš© ê°€ëŠ¥
         Arrow arrowScript = arrow.GetComponent<Arrow>();
         if (arrowScript != null)
         {
@@ -132,10 +131,10 @@ public class OrbitArrowSkill : Skill
         }
     }
 
-    public override void Activate()
+    protected override void Activate()
     {
-        // Activate È£Ãâ ½Ã, AutoFireRoutine ½ÃÀÛ
-        // ÀÌ¹Ì Start¿¡¼­ ÄÚ·çÆ¾ ½ÃÀÛÇÏ¹Ç·Î ¿©±â¼± º°µµ Ã³¸® ¾È ÇØµµ µÊ
+        // Activate í˜¸ì¶œ ì‹œ, AutoFireRoutine ì‹œì‘
+        // ì´ë¯¸ Startì—ì„œ ì½”ë£¨í‹´ ì‹œì‘í•˜ë¯€ë¡œ ì—¬ê¸°ì„  ë³„ë„ ì²˜ë¦¬ ì•ˆ í•´ë„ ë¨
     }
 
 }

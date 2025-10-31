@@ -1,15 +1,15 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(ExpPool))]
-public class ExpPoolEditor : Editor 
+[CustomEditor(typeof(ZombiePool))]
+public class ZombiePoolEditor : Editor 
 {
     public override void OnInspectorGUI()
     {
         // 기본 인스펙터 표시
         DrawDefaultInspector();
 
-        ExpPool pool = (ExpPool)target;
+        ZombiePool pool = (ZombiePool)target;
 
         // 실행 버튼
         if (GUILayout.Button("Get() 실행"))
@@ -18,7 +18,7 @@ public class ExpPoolEditor : Editor
             if (Application.isPlaying)
             {
                 GameObject obj = pool.Get();
-                Debug.Log($"[ExpPoolEditor] 오브젝트 생성됨: {obj.name}");
+                Debug.Log($"[ZombiePoolEditor] 오브젝트 생성됨: {obj.name}");
             }
             else
             {
