@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Player : Character
@@ -9,6 +10,9 @@ public class Player : Character
 
     private PlayerStatus status;
     private PlayerController controller;
+    private AutoArrowSkill autoArrow;
+
+    public event Action<bool> OnCanAttackChanged;
 
     /*생명 주기*/
     //=======================================//
@@ -21,6 +25,7 @@ public class Player : Character
         // 플레이어 기능 스크립트 참조
         status = GetComponent<PlayerStatus>();
         controller = GetComponent<PlayerController>();
+        autoArrow = GetComponent<AutoArrowSkill>();
 
         // 스탯 초기화
         status.InitDungeon();
@@ -29,10 +34,13 @@ public class Player : Character
     private void OnEnable()
     {
         status.OnDead += Status_OnDead;
+        controller.OnMoveChanged += Controller_OnMoveChanged;
     }
+
     private void OnDisable()
     {
         status.OnDead -= Status_OnDead;
+        controller.OnMoveChanged -= Controller_OnMoveChanged;
     }
 
     protected override void Update()
@@ -71,7 +79,6 @@ public class Player : Character
 
     protected override void Attack()
     {
-
     }
 
     /*이벤트 구독*/
@@ -84,5 +91,10 @@ public class Player : Character
         
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
         Destroy(gameObject);
+    }
+    private void Controller_OnMoveChanged(bool isMove)
+    {
+        CanAttack = !isMove;
+        OnCanAttackChanged?.Invoke(CanAttack);
     }
 }

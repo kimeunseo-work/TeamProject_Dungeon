@@ -7,7 +7,7 @@ public class DoubleShotSkill : AutoArrowSkill
     [Header("더블샷 설정")]
     public float secondShotDelay = 0.15f; // 두 번째 화살 딜레이
 
-    public override void Activate()
+    protected override void Activate()
     {
         if (arrowPrefab == null) return;
 
