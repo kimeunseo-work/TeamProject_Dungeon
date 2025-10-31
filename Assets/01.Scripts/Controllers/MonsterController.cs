@@ -8,7 +8,7 @@ public class MonsterController : BaseController
 
     private Transform target;
     private float followRange = 15f;
-    private float attackRange = 0.8f;
+    private float attackRange = 1.5f;
     public float speed = 1f;
 
     /*√ ±‚»≠*/
@@ -45,6 +45,7 @@ public class MonsterController : BaseController
         else
         {
             movementDirection = Vector2.zero;
+            _rigidbody.velocity = Vector2.zero;
         }
 
     }
