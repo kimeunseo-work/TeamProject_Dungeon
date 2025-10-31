@@ -8,13 +8,12 @@ public abstract class Character : MonoBehaviour
     /*생명 주기*/
     //=======================================//
 
+    /// <summary>
+    /// Attack() 존재
+    /// </summary>
     protected virtual void Update()
     {
-        if (CanAttack)
-        {
-            Attack();
-            Debug.Log(CanAttack);
-        }
+        if (CanAttack) Attack();
     }
 
     /*외부 호출*/
