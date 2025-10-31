@@ -121,6 +121,7 @@ public class OrbitArrowSkill : Skill
         if (rb != null)
         {
             rb.velocity = direction.normalized * shotSpeed;
+            arrow.transform.up = rb.velocity.normalized;
         }
 
         // 필요하면 관통 수 등 패시브 적용 가능
