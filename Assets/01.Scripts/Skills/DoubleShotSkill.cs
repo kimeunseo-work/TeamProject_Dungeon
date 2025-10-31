@@ -1,26 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+ï»¿using System.Collections;
 using UnityEngine;
-
 public class DoubleShotSkill : AutoArrowSkill
 {
-    [Header("´õºí¼¦ ¼³Á¤")]
-    public float secondShotDelay = 0.15f; // µÎ ¹øÂ° È­»ì µô·¹ÀÌ
+    [Header("ë”ë¸”ìƒ· ì„¤ì •")]
+    public float secondShotDelay = 0.15f; // ë‘ ë²ˆì§¸ í™”ì‚´ ë”œë ˆì´
 
-    public override void Activate()
+    protected override void Activate()
     {
         if (arrowPrefab == null) return;
 
-        // Ã¹ ¹øÂ° ¹ß»ç
+        // ì²« ë²ˆì§¸ ë°œì‚¬
         StartCoroutine(FireDoubleShot());
     }
 
     private IEnumerator FireDoubleShot()
     {
-        // Ã¹ ¹øÂ° È­»ì ¹ß»ç
+        // ì²« ë²ˆì§¸ í™”ì‚´ ë°œì‚¬
         FireArrow();
 
-        // µô·¹ÀÌ ÈÄ µÎ ¹øÂ° È­»ì ¹ß»ç
+        // ë”œë ˆì´ í›„ ë‘ ë²ˆì§¸ í™”ì‚´ ë°œì‚¬
         yield return new WaitForSeconds(secondShotDelay);
         FireArrow();
 
@@ -31,18 +29,18 @@ public class DoubleShotSkill : AutoArrowSkill
     {
         Quaternion rotation = transform.rotation;
 
-        // È­»ì »ı¼º
+        // í™”ì‚´ ìƒì„±
         Vector3 spawnOffset = transform.up * 0.5f;
         GameObject arrow = Instantiate(arrowPrefab, transform.position + spawnOffset, rotation);
 
-        // ¼Óµµ ºÎ¿©
+        // ì†ë„ ë¶€ì—¬
         Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
             rb.velocity = transform.up * arrowSpeed;
         }
 
-        // °üÅë ¼ö ¼³Á¤
+        // ê´€í†µ ìˆ˜ ì„¤ì •
         Arrow arrowScript = arrow.GetComponent<Arrow>();
         if (arrowScript != null)
         {

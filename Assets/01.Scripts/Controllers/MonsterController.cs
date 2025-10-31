@@ -1,16 +1,16 @@
-using UnityEditor.Rendering;
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 public class MonsterController : BaseController
 {
-    /*« µÂ & «¡∑Œ∆€∆º*/
+    /*ÌïÑÎìú & ÌîÑÎ°úÌçºÌã∞∆º*/
     //=======================================//
 
     private Transform target;
     private float followRange = 15f;
+    public float attackRange = 0.8f;
     public float speed = 1f;
 
-    /*√ ±‚»≠*/
+    /*Ï¥àÍ∏∞Ìôî*/
     //=======================================//
 
     public void Init(Transform target)
@@ -18,48 +18,58 @@ public class MonsterController : BaseController
         this.target = target;
     }
 
-    /*ø‹∫Œ »£√‚*/
+    /*Ïô∏Î∂Ä Ìò∏Ï∂úÏö©*/
     //=======================================//
 
-    public override void HandleAction() // Monster ¿Ãµø
+    public override void HandleAction() // Monster ÔøΩÃµÔøΩ
     {
         base.HandleAction();
 
         if (target == null)
         {
             if (!movementDirection.Equals(Vector2.zero)) movementDirection = Vector2.zero;
+
+            CheckIsMoveChanged(movementDirection);
             return;
         }
         float distance = DistanceToTarget();
         Vector2 direction = DirectionToTarget();
-
-        if (distance <= followRange) // ≈∏∞Ÿ¿Ã π¸¿ß æ»ø° ¿÷¥¬¡ˆ »Æ¿Œ
+        if (distance > attackRange)
         {
-            lookDirection = direction;
+            if (distance <= followRange) // ≈∏ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩ»øÔøΩ ÔøΩ÷¥ÔøΩÔøΩÔøΩ »ÆÔøΩÔøΩ
+            {
+                lookDirection = direction;
 
-            movementDirection = direction;
+                movementDirection = direction;
+            }
         }
+        else
+        {
+            movementDirection = Vector2.zero;
+        }
+
+        CheckIsMoveChanged(movementDirection);
     }
     protected override void Movement(Vector2 direction)
     {
-        direction = direction * speed;
-        _rigidbody.velocity = direction;
+         direction = direction * speed;
+         _rigidbody.velocity = direction;
     }
 
     public override void Dead()
     {
     }
 
-    /*≥ª∫Œ ∑Œ¡˜*/
+    /*ÎÇ¥Î∂Ä Î°úÏßÅ*/
     //=======================================//
 
-    protected float DistanceToTarget() // Target(Player)∞˙ «ˆ¿Á ¿ßƒ° ªÁ¿Ã ∞≈∏Æ
+    protected float DistanceToTarget() // Target(Player)ÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩƒ° ÔøΩÔøΩÔøΩÔøΩ ÔøΩ≈∏ÔøΩ
     {
         return Vector3.Distance(transform.position, target.position);
-        // µŒ ∆˜¡ˆº« ªÁ¿Ã ∞≈∏Æ
+        // ÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩ≈∏ÔøΩ
     }
 
-    protected Vector2 DirectionToTarget() // Target(Player)ø°∞‘ ¥Ÿ∞°∞°¥¬ º”µµ
+    protected Vector2 DirectionToTarget()
     {
         return (target.position - transform.position).normalized;
     }

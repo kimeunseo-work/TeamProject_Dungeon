@@ -1,34 +1,34 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Monster : Character
 {
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
+    /*í•„ë“œ & í”„ë¡œí¼í‹°*/
     //=======================================//
 
     private Player target;
 
-    // ³ªÁß¿¡ µ¥ÀÌÅÍÈ­
+    // ë‚˜ì¤‘ì— ë°ì´í„°í™”
     [SerializeField] private int level;
     [SerializeField] private Status baseStatus;
 
     private MonsterStatus status;
     private MonsterController controller;
 
-    /*»ı¸í ÁÖ±â*/
+    /*ìƒëª… ì£¼ê¸°*/
     //=======================================//
 
     private void Awake()
     {
-        // ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ
+        // í”Œë ˆì´ì–´ ë°ì´í„°
         var go = GameObject.FindWithTag("Player");
         targetTransform = go.GetComponent<Transform>();
         target = go.GetComponent<Player>();
 
-        // ¸ó½ºÅÍ ±â´É ½ºÅ©¸³Æ® ÂüÁ¶
+        // ëª¬ìŠ¤í„° ê¸°ëŠ¥ ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡°
         status = GetComponent<MonsterStatus>();
         controller = GetComponent<MonsterController>();
 
-        // ½ºÅÈ ÃÊ±âÈ­ - ³ªÁß¿¡ µ¥ÀÌÅÍ·Î
+        // ìŠ¤íƒ¯ ì´ˆê¸°í™” - ë‚˜ì¤‘ì— ë°ì´í„°ë¡œ
         status.InitDungeon(baseStatus, level);
         controller.Init(targetTransform);
         CanAttack = false;
@@ -50,22 +50,22 @@ public class Monster : Character
         controller.HandleAction();
     }
 
-    /*¿ÜºÎ È£Ãâ*/
+    /*ì™¸ë¶€ í˜¸ì¶œ*/
     //=======================================//
 
     public override void TakeDamage(int amount)
     {
-        // µ¥ÀÌÅÍ
+        // ë°ì´í„°
         status.TakeDamage(amount);
-        // ÇÇ°İ ¾×¼Ç
+        // í”¼ê²© ì•¡ì…˜
         //controller.TakeDamage(amount);
     }
 
-    /*Ãæµ¹&Æ®¸®°Å*/
+    /*ì¶©ëŒ&íŠ¸ë¦¬ê±°*/
     //=======================================//
 
     /// <summary>
-    /// °ø°İ À§ÇÑ °Í
+    /// ê³µê²© ìœ„í•œ ê²ƒ
     /// </summary>
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -82,27 +82,27 @@ public class Monster : Character
         }
     }
 
-    /*³»ºÎ ·ÎÁ÷*/
+    /*ë‚´ë¶€ ë¡œì§*/
     //=======================================//
     
     protected override void Attack()
     {
-        // µ¥ÀÌÅÍ
+        // ë°ì´í„°
         target.TakeDamage(status.DungeonAtk);
-        // °ø°İ ¾×¼Ç
+        // ê³µê²© ì•¡ì…˜
         //controller.TakeDamage(amount);
     }
 
-    /*ÀÌº¥Æ® ±¸µ¶*/
+    /*ì´ë²¤íŠ¸ êµ¬ë…*/
     //=======================================//
     
     protected override void Status_OnDead()
     {
-        // »ç¸Á ¾×¼Ç
+        // ì‚¬ë§ ì•¡ì…˜
         controller.Dead();
-        // °æÇèÄ¡ ¿ÀºêÁ§Æ® »Ñ¸®±â
+        // ê²½í—˜ì¹˜ ì˜¤ë¸Œì íŠ¸ ë¿Œë¦¬ê¸°
 
-        // »èÁ¦(³ªÁß¿¡ ½Ã°£µÇ¸é ¿ÀºêÁ§Æ® Ç®¸µ »ç¿ë?)
+        // ì‚­ì œ(ë‚˜ì¤‘ì— ì‹œê°„ë˜ë©´ ì˜¤ë¸Œì íŠ¸ í’€ë§ ì‚¬ìš©?)
         Destroy(gameObject);
     }
 }

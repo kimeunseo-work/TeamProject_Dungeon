@@ -1,6 +1,6 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 
-public class ObjectManager : MonoBehaviour
+public class ObjectManager : MonoBehaviour 
 {
     public static ObjectManager Instance { get; private set; }
 
@@ -8,8 +8,9 @@ public class ObjectManager : MonoBehaviour
     //=======================================//
 
     public ExpPool ExpPool { get; private set; }
+    public ArrowPool ArrowPool { get; private set; }
 
-    /*ª˝∏Ì ¡÷±‚*/
+    /*ÏÉùÎ™Ö Ï£ºÍ∏∞*/
     //=======================================//
 
     private void Awake()
@@ -25,5 +26,6 @@ public class ObjectManager : MonoBehaviour
         }
 
         ExpPool = GetComponentInChildren<ExpPool>();
+        ArrowPool = GetComponentInChildren<ArrowPool>();
     }
 }

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : BaseController
 {
@@ -10,7 +10,7 @@ public class PlayerController : BaseController
         base.Start();
     }
 
-    /*외부 호출*/
+    /*외부 호출용*/
     //=======================================//
 
     public override void HandleAction()
@@ -18,24 +18,12 @@ public class PlayerController : BaseController
         float horizental = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector2(horizental, vertical).normalized;
+
+        CheckIsMoveChanged(movementDirection);
     }
 
     public override void Dead()
     {
         Time.timeScale = 0f;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Finish"))
-        {
-            Debug.Log("Exit Triggered!");
-            StageManager stageManager = FindObjectOfType<StageManager>();
-
-            if (stageManager != null)
-            {
-                stageManager.GoToNextStage();
-            }
-        }
     }
 }

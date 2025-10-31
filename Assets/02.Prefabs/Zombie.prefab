@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1596244790108264188}
   - component: {fileID: 8534040332290377043}
   - component: {fileID: 2850244433602750285}
-  - component: {fileID: 400806072079090624}
   - component: {fileID: 7570799048968725695}
   - component: {fileID: 8198635165048601797}
   m_Layer: 0
@@ -31,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1095429283834799408}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.6, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -79,28 +78,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71771b5ddb34dbb42bc1d982154e04ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
---- !u!95 &400806072079090624
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095429283834799408}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8275c13a0e12c254581e620f2e0947c9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  attackRange: 0.8
+  speed: 1.2
 --- !u!70 &7570799048968725695
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -133,8 +112,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.5}
-  m_Size: {x: 1.0000004, y: 0.5}
+  m_Offset: {x: 0.03, y: -0.044493563}
+  m_Size: {x: 0.78, y: 0.82}
   m_Direction: 1
 --- !u!50 &8198635165048601797
 Rigidbody2D:
@@ -151,7 +130,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -173,8 +152,9 @@ GameObject:
   m_Component:
   - component: {fileID: 853723753370359248}
   - component: {fileID: 8500063064357663834}
+  - component: {fileID: 3498796627466628854}
   m_Layer: 0
-  m_Name: MainSprite
+  m_Name: ZombieSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,3 +227,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &3498796627466628854
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7047404115314174126}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5ba158496991a154abcd4bc28de6bc12, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

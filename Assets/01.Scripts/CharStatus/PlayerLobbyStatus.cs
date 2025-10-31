@@ -1,9 +1,9 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
-public class PlayerLobbyStatus : MonoBehaviour
+public class PlayerLobbyStatus : MonoBehaviour 
 {
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
+    /*í•„ë“œ & í”„ë¡œí¼í‹°*/
     //=======================================//
 
     public static PlayerLobbyStatus Instance;
@@ -40,7 +40,7 @@ public class PlayerLobbyStatus : MonoBehaviour
     public event Action OnRequiredBaseExpChanged;
     public event Action OnPointChanged;
 
-    /*»ı¸í ÁÖ±â*/
+    /*ìƒëª… ì£¼ê¸°*/
     //=======================================//
 
     private void Awake()
@@ -61,11 +61,11 @@ public class PlayerLobbyStatus : MonoBehaviour
         InitAccount();
     }
 
-    /*ÃÊ±âÈ­ Àü¿ë*/
+    /*ì´ˆê¸°í™” ì „ìš©*/
     //=======================================//
 
     /// <summary>
-    /// °èÁ¤ »ı¼º½Ã ÃÊ±âÈ­, ÃÖÃÊ 1¹ø È£Ãâ
+    /// ê³„ì • ìƒì„±ì‹œ ì´ˆê¸°í™”, ìµœì´ˆ 1ë²ˆ í˜¸ì¶œ
     /// </summary>
     public void InitAccount()
     {
@@ -98,7 +98,7 @@ public class PlayerLobbyStatus : MonoBehaviour
     }
 #endif
 
-    /*¿ÜºÎ È£Ãâ¿ë*/
+    /*ì™¸ë¶€ í˜¸ì¶œìš©*/
     //=======================================//
 
     /*Base*/
@@ -117,7 +117,7 @@ public class PlayerLobbyStatus : MonoBehaviour
     public void EditorOnly_DecreaseLevel() => InternalDecreseBaseLevel();
 #endif
 
-    /*³»ºÎ ·ÎÁ÷*/
+    /*ë‚´ë¶€ ë¡œì§*/
     //=======================================//
 
     private void InternalIncreaseBaseHp()
@@ -146,7 +146,7 @@ public class PlayerLobbyStatus : MonoBehaviour
 
     private void InternalIncreaseBaseExp(int amount)
     {
-        // ¸¸·¾ Ã¼Å©
+        // ë§Œë ™ ì²´í¬
         if (BaseLevel == baseExpData.ExpTable.Length) return;
 
         BaseExp += amount;
@@ -162,7 +162,7 @@ public class PlayerLobbyStatus : MonoBehaviour
             BaseLevel++;
             OnBaseLevelChanged.Invoke();
 
-            // ¸¸·¾ Ã¼Å©
+            // ë§Œë ™ ì²´í¬
             if (BaseLevel == baseExpData.ExpTable.Length)
             {
                 BaseExp = 0;
@@ -170,7 +170,7 @@ public class PlayerLobbyStatus : MonoBehaviour
             }
 
             BaseExp -= RequiredBaseExp;
-            // ´ÙÀ½ ·¹º§ÀÌ ¿ä±¸ÇÏ´Â °æÇèÄ¡·Î ±âÁØÄ¡ »ó½Â
+            // ë‹¤ìŒ ë ˆë²¨ì´ ìš”êµ¬í•˜ëŠ” ê²½í—˜ì¹˜ë¡œ ê¸°ì¤€ì¹˜ ìƒìŠ¹
             RequiredBaseExp = baseExpData.ExpTable[BaseLevel];
             OnRequiredBaseExpChanged?.Invoke();
         }

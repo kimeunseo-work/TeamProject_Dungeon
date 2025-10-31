@@ -557,6 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconImage: {fileID: 4245256329216204028}
   skillNameText: {fileID: 5120341286451268016}
+  skillDescriptionText: {fileID: 1340636150263172569}
 --- !u!1 &8382546536414378310
 GameObject:
   m_ObjectHideFlags: 0
