@@ -15,7 +15,7 @@ public class AutoArrowSkill : Skill
 
     protected override void Activate()
     {
-        arrowPrefab = GetArrow();
+        //arrowPrefab = GetArrow();
         if (!canShoot || arrowPrefab == null)
         {
             Debug.LogWarning("arrowPrefab이 설정되지 않았습니다.");
@@ -98,8 +98,11 @@ public class AutoArrowSkill : Skill
         return nearest;
     }
 
-    protected GameObject GetArrow()
+    protected GameObject GetArrow(Vector3 spawnPos, Quaternion rotation)
     {
-        return ObjectManager.Instance.ArrowPool.Get();
+        if (ObjectManager.Instance == null || ObjectManager.Instance.ArrowPool == null)
+            return null;
+
+        return ObjectManager.Instance.ArrowPool.Get(spawnPos, rotation);
     }
 }
