@@ -17,44 +17,49 @@ public class StageUI : MonoBehaviour
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject sellectSkillPanel;
 
-    [Header("Panels")]
+    [Header("Panels Content Transform")]
     [SerializeField] private Transform ContentAcquiredSkills;
     [SerializeField] private Transform ContentRandomSkills;
 
-    //public SkillManager skillManager;
+    [SerializeField] private TextMeshProUGUI howGetSkillText;
 
     private PlayerStatus playerStatus;
 
+    #region Life cycle
     private void Start()
     {
         settingsButton.onClick.AddListener(OpenSettingsPanel);
-        SkillManager.Instance.Init(selectSkillPanel: ContentRandomSkills, acquiredSkillPanel: ContentAcquiredSkills);
-        SceneManager.sceneLoaded += OnSceneChanged;
-        //SkillManager.Instance.Init();
+        SkillManager.Instance.Init(selectSkillPanel: ContentRandomSkills
+                                        , acquiredSkillPanel: ContentAcquiredSkills
+                                        , howGetSkillText: howGetSkillText);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
         //playerStatus.OnDungeonExpChanged += UpdateExp;
         //playerStatus.OnDungeonLevelChanged += UpdateLevel;
-    }
-
-    private void OnSceneChanged(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log("init");
-        SkillManager.Instance.Init(selectSkillPanel: ContentRandomSkills, acquiredSkillPanel: ContentAcquiredSkills);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            OpenSelectSkillPanel();
+            OpenSelectSkillPanel("Stage Clear");
         }
     }
 
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneChanged;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    #endregion
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SkillManager.Instance.Init(selectSkillPanel: ContentRandomSkills
+                                    , acquiredSkillPanel: ContentAcquiredSkills
+                                    , howGetSkillText: howGetSkillText);
     }
 
-    #region Game UI
+    #region Game
     private void UpdateHUD()
     {
         // 레벨, 골드, 경험치 세팅 이런식으로?
@@ -67,7 +72,7 @@ public class StageUI : MonoBehaviour
     {
         levelText.text = playerStatus.DungeonLevel.ToString();
         UpdateExp();
-        OpenSelectSkillPanel();
+        OpenSelectSkillPanel("Level Up");
     }
 
     private void UpdateExp()
@@ -85,12 +90,9 @@ public class StageUI : MonoBehaviour
     #endregion
 
     #region Select Skill
-    private void OpenSelectSkillPanel()
+    private void OpenSelectSkillPanel(string howGetSkillStr)
     {
-        //UIManager.Instance.PushUI(sellectSkillPanel);
-        //SkillManager.Instance.ShowSkillLists();
-
-        SkillManager.Instance.RequestOpenSkillPanel();
+        SkillManager.Instance.RequestOpenSkillPanel(howGetSkillStr);
     }
     #endregion
 }

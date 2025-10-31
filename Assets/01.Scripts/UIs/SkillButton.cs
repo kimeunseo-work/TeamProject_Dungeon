@@ -9,6 +9,7 @@ public class SkillButton : MonoBehaviour
 {
     public Image iconImage;
     public TextMeshProUGUI skillNameText;
+    public TextMeshProUGUI skillDescriptionText;
     private SkillData skilldata;
     private Action<SkillData> onClickAction;
 
@@ -18,6 +19,7 @@ public class SkillButton : MonoBehaviour
         onClickAction = onClick;
         iconImage.sprite = skill.icon;
         skillNameText.text = skill.name;
+        skillDescriptionText.text = skill.skillDescription;
         GetComponent<Button>().onClick.AddListener(()=>onClickAction.Invoke(skilldata));
     }
 }

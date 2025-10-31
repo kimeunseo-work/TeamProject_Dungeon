@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -9,6 +10,8 @@ using UnityEngine;
 public class SkillManager : MonoBehaviour
 {
     public static SkillManager Instance;
+
+    [SerializeField] private TextMeshProUGUI howGetSkillText;
 
     [Header("All Skills Data")]
     [SerializeField] private List<SkillData> allSkills;
@@ -35,24 +38,25 @@ public class SkillManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void Init(Transform selectSkillPanel, Transform acquiredSkillPanel)
+    public void Init(Transform selectSkillPanel, Transform acquiredSkillPanel, TextMeshProUGUI howGetSkillText)
     {
         this.selectSkillPanel = selectSkillPanel;
         this.acquiredSkillPanel = acquiredSkillPanel;
+        this.howGetSkillText = howGetSkillText;
     }
 
-    public void RequestOpenSkillPanel(Action onComplete = null)
+    public void RequestOpenSkillPanel(string howGetSkillStr, Action onComplete = null)
     {
         if (isSelectingSkill)
         {
-            skillSelectQueue.Enqueue(() => OpenSelectSkillPanel(onComplete));
+            skillSelectQueue.Enqueue(() => OpenSelectSkillPanel(howGetSkillStr, onComplete));
             return;
         }
 
-        OpenSelectSkillPanel(onComplete);
+        OpenSelectSkillPanel(howGetSkillStr,onComplete);
     }
 
-    public void OpenSelectSkillPanel(Action onComplete)
+    public void OpenSelectSkillPanel(string howGetSkillStr, Action onComplete)
     {
         isSelectingSkill = true;
         UIManager.Instance.PushUI(selectSkillPanel.parent.gameObject);
@@ -69,6 +73,8 @@ public class SkillManager : MonoBehaviour
 
         foreach (Transform child in selectSkillPanel)
             Destroy(child.gameObject);
+
+        this.howGetSkillText.text = howGetSkillStr;
 
         foreach (var skill in options)
         {
