@@ -28,6 +28,8 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (gameObject.activeSelf == false) return;
+
         if (collision.CompareTag("Enemy"))
         {
             collision.GetComponent<Monster>().TakeDamage(10);
@@ -39,6 +41,7 @@ public class Arrow : MonoBehaviour
         // 플레이어 
         if (collision.CompareTag("Enemy") || collision.CompareTag("Wall"))
         {
+
             ObjectManager.Instance.ArrowPool.Release(gameObject);
         }
 
