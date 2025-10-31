@@ -6,6 +6,7 @@ using UnityEngine;
 public class SkillData : ScriptableObject
 {
     public string skillName;
+    public string skillDescription;
     public Sprite icon;
     public GameObject skillPrefab;
     public SkillType type;

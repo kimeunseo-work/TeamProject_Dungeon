@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StageUI : MonoBehaviour
@@ -14,13 +15,23 @@ public class StageUI : MonoBehaviour
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject sellectSkillPanel;
 
-    public SkillManager skillManager;
+    [Header("Panels Content Transform")]
+    [SerializeField] private Transform ContentAcquiredSkills;
+    [SerializeField] private Transform ContentRandomSkills;
+
+    [SerializeField] private TextMeshProUGUI howGetSkillText;
 
     private PlayerStatus playerStatus;
 
+    #region Life cycle
     private void Start()
     {
         settingsButton.onClick.AddListener(OpenSettingsPanel);
+        SkillManager.Instance.Init(selectSkillPanel: ContentRandomSkills
+                                        , acquiredSkillPanel: ContentAcquiredSkills
+                                        , howGetSkillText: howGetSkillText);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
         //playerStatus.OnDungeonExpChanged += UpdateExp;
         //playerStatus.OnDungeonLevelChanged += UpdateLevel;
     }
@@ -29,12 +40,24 @@ public class StageUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            //sellectSkillPanel.gameObject.SetActive(true);
-            skillManager.ShowSkillLists();
+            OpenSelectSkillPanel("Stage Clear");
         }
     }
 
-    #region Game UI
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    #endregion
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SkillManager.Instance.Init(selectSkillPanel: ContentRandomSkills
+                                    , acquiredSkillPanel: ContentAcquiredSkills
+                                    , howGetSkillText: howGetSkillText);
+    }
+
+    #region Game
     private void UpdateHUD()
     {
         // 레벨, 골드, 경험치 세팅 이런식으로?
@@ -47,7 +70,7 @@ public class StageUI : MonoBehaviour
     {
         levelText.text = playerStatus.DungeonLevel.ToString();
         UpdateExp();
-        OpenLevelUpPanel();
+        OpenSelectSkillPanel("Level Up");
     }
 
     private void UpdateExp()
@@ -64,10 +87,10 @@ public class StageUI : MonoBehaviour
     }
     #endregion
 
-    #region Level Up
-    private void OpenLevelUpPanel()
+    #region Select Skill
+    private void OpenSelectSkillPanel(string howGetSkillStr)
     {
-        UIManager.Instance.PushUI(sellectSkillPanel);
+        SkillManager.Instance.RequestOpenSkillPanel(howGetSkillStr);
     }
     #endregion
 }
