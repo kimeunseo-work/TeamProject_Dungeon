@@ -160,7 +160,6 @@ public class PlayerLobbyStatus : MonoBehaviour
         while (BaseExp >= RequiredBaseExp)
         {
             BaseLevel++;
-            OnBaseLevelChanged.Invoke();
 
             // 만렙 체크
             if (BaseLevel == baseExpData.ExpTable.Length)
@@ -172,6 +171,8 @@ public class PlayerLobbyStatus : MonoBehaviour
             BaseExp -= RequiredBaseExp;
             // 다음 레벨이 요구하는 경험치로 기준치 상승
             RequiredBaseExp = baseExpData.ExpTable[BaseLevel];
+
+            OnBaseLevelChanged.Invoke();
             OnRequiredBaseExpChanged?.Invoke();
         }
     }
