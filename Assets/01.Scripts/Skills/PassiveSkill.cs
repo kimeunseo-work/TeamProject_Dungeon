@@ -1,21 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+ï»¿using UnityEngine;
 public abstract class PassiveSkill : MonoBehaviour
 {
     [Header("Passive Info")]
     public string skillName = "New Passive";
-    public int level = 1; // ÆĞ½Ãºê ·¹º§
+    public int level = 1; // íŒ¨ì‹œë¸Œ ë ˆë²¨
 
-    // ÆĞ½Ãºê È¿°ú¸¦ ´ë»ó ½ºÅ³¿¡ Àû¿ë
+    // íŒ¨ì‹œë¸Œ íš¨ê³¼ë¥¼ ëŒ€ìƒ ìŠ¤í‚¬ì— ì ìš©
     public abstract void ApplyEffect(Skill targetSkill);
 
-    // ¼±ÅÃÁö¿¡¼­ ·¹º§¾÷ ½Ã È£Ãâ
+    // ì„ íƒì§€ì—ì„œ ë ˆë²¨ì—… ì‹œ í˜¸ì¶œ
     public void LevelUp(Skill targetSkill)
     {
         level++;
         ApplyEffect(targetSkill);
-        Debug.Log($"{skillName} ·¹º§¾÷! ÇöÀç ·¹º§: {level}");
+        Debug.Log($"{skillName} ë ˆë²¨ì—…! í˜„ì¬ ë ˆë²¨: {level}");
     }
 }

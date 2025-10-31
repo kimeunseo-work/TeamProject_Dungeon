@@ -1,8 +1,8 @@
-using Unity.VisualScripting;
+ï»¿using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
-public struct DropItemInfo
+public struct DropItemInfo 
 {
     public string Name;
     public int Amount;
@@ -10,14 +10,14 @@ public struct DropItemInfo
 
 public class DropItem : MonoBehaviour
 {
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
+    /*í•„ë“œ & í”„ë¡œí¼í‹°*/
     //=======================================//
 
-    // ÇÃ·¹ÀÌ¾î ÂüÁ¶
+    // í”Œë ˆì´ì–´ ì°¸ì¡°
     private Player targetData;
     private Transform targetPos;
 
-    // ¾ÆÀÌÅÛ ÀÎÆ÷ ÂüÁ¶
+    // ì•„ì´í…œ ì¸í¬ ì°¸ì¡°
     [SerializeField] private DropItemInfo info;
 
     public string Name
@@ -31,20 +31,20 @@ public class DropItem : MonoBehaviour
         private set => info.Amount = value;
     }
 
-    // ½ºÅ×ÀÌÁö Å¬¸®¾î½Ã true
+    // ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ì‹œ true
     [SerializeField] private bool canMove = false;
     [SerializeField][Range(0, 100)] private float speed = 1f;
     [SerializeField][Range(0, 100)] private float acceleration = 1f;
 
-    // µå¶ø ¿¬Ãâ¿ë
-    public float moveDistance = 1f;   // Èğ»Ñ¸± °Å¸®
-    public float curveHeight = 0.5f;  // °î¼± ³ôÀÌ
-    public float duration = 0.5f;     // ÀÌµ¿ ½Ã°£
+    // ë“œë ì—°ì¶œìš©
+    public float moveDistance = 1f;   // í©ë¿Œë¦´ ê±°ë¦¬
+    public float curveHeight = 0.5f;  // ê³¡ì„  ë†’ì´
+    public float duration = 0.5f;     // ì´ë™ ì‹œê°„
 
     private Vector3 startPos;
     private Vector3 endPos;
 
-    /*»ı¸í ÁÖ±â*/
+    /*ìƒëª… ì£¼ê¸°*/
     //=======================================//
 
     private void Awake()
@@ -56,18 +56,18 @@ public class DropItem : MonoBehaviour
 
     private void OnEnable()
     {
-        // ½ºÅ×ÀÌÁö Å¬¸®¾î ÀÌº¥Æ®¿Í Stage_OnCompleted ±¸µ¶
+        // ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ ì´ë²¤íŠ¸ì™€ Stage_OnCompleted êµ¬ë…
     }
     private void OnDisable()
     {
-        // ½ºÅ×ÀÌÁö Å¬¸®¾î ÀÌº¥Æ®¿Í Stage_OnCompleted ÇØÁö
+        // ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ ì´ë²¤íŠ¸ì™€ Stage_OnCompleted í•´ì§€
     }
     private void Update()
     {
         if (canMove) Movement();
     }
 
-    /*ÃÊ±âÈ­ Àü¿ë*/
+    /*ì´ˆê¸°í™” ì „ìš©*/
     //=======================================//
 
     public void Get(Vector2 monPos)
@@ -78,15 +78,15 @@ public class DropItem : MonoBehaviour
         endPos = monPos;
     }
 
-    /*ÀÌº¥Æ® Àü¿ë*/
+    /*ì´ë²¤íŠ¸ ì „ìš©*/
     //=======================================//
 
     /// <summary>
-    /// ½ºÅ×ÀÌÁö Å¬¸®¾î ÀÌº¥Æ®¿¡ ¿¬°á
+    /// ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ ì´ë²¤íŠ¸ì— ì—°ê²°
     /// </summary>
     private void Stage_OnCompleted() => canMove = true;
 
-    /*Ãæµ¹ & Æ®¸®°Å*/
+    /*ì¶©ëŒ & íŠ¸ë¦¬ê±°*/
     //=======================================//
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -99,22 +99,22 @@ public class DropItem : MonoBehaviour
         }
     }
 
-    /*³»ºÎ ·ÎÁ÷*/
+    /*ë‚´ë¶€ ë¡œì§*/
     //=======================================//
 
     private void Movement()
     {
-        // ¼Óµµ Áõ°¡
+        // ì†ë„ ì¦ê°€
         speed += acceleration * Time.deltaTime;
-        // ¹æÇâ µµÃâ
+        // ë°©í–¥ ë„ì¶œ
         Vector2 dir = (targetPos.position - transform.position).normalized;
-        // ÀÌµ¿
+        // ì´ë™
         transform.position += (Vector3)(dir * speed * Time.deltaTime);
     }
 
     private void Release()
     {
-        // ÃÊ±â °ªÀ¸·Î
+        // ì´ˆê¸° ê°’ìœ¼ë¡œ
         canMove = false;
 
         ObjectManager.Instance.ExpPool.Release(gameObject);

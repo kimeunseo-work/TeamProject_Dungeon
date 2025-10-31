@@ -1,9 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviour 
 {
     public static UIManager Instance;
 
@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            //SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
             Destroy(gameObject);
@@ -35,8 +35,8 @@ public class UIManager : MonoBehaviour
 
     public void PushUI(GameObject ui)
     {
-        //if (uiStack.Count > 0)
-        //    uiStack.Peek().SetActive(false);
+        if (uiStack.Count > 0)
+            uiStack.Peek().SetActive(false);
 
         ui.SetActive(true);
         uiStack.Push(ui);
@@ -80,7 +80,10 @@ public class UIManager : MonoBehaviour
                 StageUI stageUI = FindObjectOfType<StageUI>();
 
                 if (stageUI != null)
+                {
+                    Debug.Log("push stageUI");
                     uiStack.Push(stageUI.gameObject);
+                }
 
                 break;
         }

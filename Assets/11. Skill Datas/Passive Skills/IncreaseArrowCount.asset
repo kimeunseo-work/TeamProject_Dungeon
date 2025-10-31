@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b77b92f7f0843074582e5990cc24c7ea, type: 3}
-  m_Name: IncreaseHp
+  m_Name: IncreaseArrowCount
   m_EditorClassIdentifier: 
-  skillName: Increase Hp
-  icon: {fileID: 21300000, guid: fcf9331350749474fa4fb330c83c5c39, type: 3}
+  skillName: Increase Arrow Count
+  skillDescription: Increase Arrow + 1
+  icon: {fileID: 21300000, guid: e4b7b8c1a66f88c458f20c711992530a, type: 3}
   skillPrefab: {fileID: 0}
   type: 1
   canStack: 1

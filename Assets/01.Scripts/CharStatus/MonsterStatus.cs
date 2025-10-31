@@ -1,13 +1,13 @@
-using System;
+ï»¿using System;
 
-public class MonsterStatus : BaseStatus
+public class MonsterStatus : BaseStatus 
 {
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
+    /*í•„ë“œ & í”„ë¡œí¼í‹°*/
     //=======================================//
 
     public event Action OnInitDungeonMonsterFinished;
 
-    /*ÃÊ±âÈ­ Àü¿ë*/
+    /*ì´ˆê¸°í™” ì „ìš©*/
     //=======================================//
 
     public void InitDungeon(Status baseStatus, int dungeonLevel)

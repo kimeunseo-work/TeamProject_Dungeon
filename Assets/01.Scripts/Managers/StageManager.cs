@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static StageData;
 
-public class StageManager : MonoBehaviour
+public class StageManager : MonoBehaviour 
 {
 
     [SerializeField] private Transform player;      
