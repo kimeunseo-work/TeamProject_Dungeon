@@ -26,14 +26,19 @@ public class StageUI : MonoBehaviour
     #region Life cycle
     private void Start()
     {
-        settingsButton.onClick.AddListener(OpenSettingsPanel);
+        playerStatus = FindObjectOfType<PlayerStatus>();
+
         SkillManager.Instance.Init(selectSkillPanel: ContentRandomSkills
                                         , acquiredSkillPanel: ContentAcquiredSkills
                                         , howGetSkillText: howGetSkillText);
 
+        settingsButton.onClick.AddListener(OpenSettingsPanel);
+
         SceneManager.sceneLoaded += OnSceneLoaded;
-        //playerStatus.OnDungeonExpChanged += UpdateExp;
-        //playerStatus.OnDungeonLevelChanged += UpdateLevel;
+        playerStatus.OnDungeonLevelChanged += OnLevelUp;
+        playerStatus.OnDungeonExpChanged += UpdateExp;
+
+        UpdateHUD();
     }
 
     private void Update()
@@ -42,11 +47,19 @@ public class StageUI : MonoBehaviour
         {
             OpenSelectSkillPanel("Stage Clear");
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("R");
+            playerStatus.IncreaseDungeonExp(5);
+        }
     }
 
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        playerStatus.OnDungeonLevelChanged -= OnLevelUp;
+        playerStatus.OnDungeonExpChanged -= UpdateExp;
     }
     #endregion
 
@@ -60,22 +73,32 @@ public class StageUI : MonoBehaviour
     #region Game
     private void UpdateHUD()
     {
-        // 레벨, 골드, 경험치 세팅 이런식으로?
-        //levelText.text = StatusManager.Instance.level.ToString();
-        //goldText.text = StatusManager.Instance.gold.ToString();
-        //expSlider.value = StatusManager.Instance.Exp / StatusManager.Instance.nextExp
+        UpdateLevel();
+        UpdateExp();
     }
 
     private void UpdateLevel()
     {
         levelText.text = playerStatus.DungeonLevel.ToString();
-        UpdateExp();
-        OpenSelectSkillPanel("Level Up");
     }
 
     private void UpdateExp()
     {
-        expSlider.value = (float)playerStatus.DungeonExp / (float)playerStatus.RequiredDungeonExp;
+        float targetValue;
+        if (playerStatus.RequiredDungeonExp == 0)
+            targetValue = (float)playerStatus.DungeonExp / 1;
+        else
+            targetValue = (float)playerStatus.DungeonExp / playerStatus.RequiredDungeonExp;
+
+        expSlider.value = targetValue;
+    }
+
+    private void OnLevelUp()
+    {
+        Debug.Log("level up");
+        UpdateLevel();
+        OpenSelectSkillPanel("Level Up");
+        UpdateExp();
     }
     #endregion
 
@@ -86,7 +109,7 @@ public class StageUI : MonoBehaviour
         UIManager.Instance.PushUI(settingsPanel);
     }
     #endregion
-
+    
     #region Select Skill
     private void OpenSelectSkillPanel(string howGetSkillStr)
     {

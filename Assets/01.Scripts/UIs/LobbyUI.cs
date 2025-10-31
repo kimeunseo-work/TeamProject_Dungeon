@@ -15,8 +15,6 @@ public class LobbyUI : MonoBehaviour
     [Header("Play")]
     [SerializeField] private Button playButton;
 
-    private PlayerStatus playerStatus;
-
     private void Awake()
     {
         playButton.onClick.AddListener(OnClickPlay);
@@ -25,7 +23,8 @@ public class LobbyUI : MonoBehaviour
     private void Start()
     {
         UIManager.Instance.PushUI(gameObject);
-        AllUIs();
+        UpdateAllUIs();
+
         PlayerLobbyStatus.Instance.OnPointChanged += UpdateGoldUI;
         PlayerLobbyStatus.Instance.OnBaseExpChanged += UpdateExpUI;
         PlayerLobbyStatus.Instance.OnBaseLevelChanged += UpdateLevelUI;
@@ -41,7 +40,7 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-    private void AllUIs()
+    private void UpdateAllUIs()
     {
         UpdateGoldUI();
         UpdateExpUI();
@@ -57,6 +56,7 @@ public class LobbyUI : MonoBehaviour
     {
         float percentage = (float)(PlayerLobbyStatus.Instance.BaseExp) / PlayerLobbyStatus.Instance.RequiredBaseExp;
         expFill.localScale = new Vector3(percentage, 1.0f, 1.0f);
+        //expFill.DOScaleX(percentage, 0.4f);
         int intPercentage = (int)(percentage * 100);
         expPercentageText.text = $"{intPercentage}%";
     }
