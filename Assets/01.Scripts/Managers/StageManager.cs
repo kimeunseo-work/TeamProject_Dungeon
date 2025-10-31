@@ -66,29 +66,6 @@ public class StageManager : MonoBehaviour
 
     }
 
-    private void SpawnFromStageData()
-    {
-        if (currentStageData == null)
-        {
-            Debug.LogError("StageData가 설정되지 않았습니다!");
-            return;
-        }
-
-        if (currentStageData.monsterPrefabs.Count == 0)
-        {
-            Debug.LogWarning("몬스터 프리팹이 StageData에 없습니다!");
-            return;
-        }
-
-        int count = Random.Range(
-            currentStageData.minMonsterCount,
-            currentStageData.maxMonsterCount + 1
-        );
-
-        for (int i = 0; i < count; i++)
-            SpawnRandomEnemyFromData();
-    }
-
     private void OnDrawGizmosSelected()
     {
         if (spawnAreas == null) return;
@@ -142,6 +119,30 @@ public class StageManager : MonoBehaviour
 
         Instantiate(prefab, pos, Quaternion.identity);
     }
+
+    private void SpawnFromStageData()
+    {
+        if (currentStageData == null)
+        {
+            Debug.LogError("StageData가 설정되지 않았습니다!");
+            return;
+        }
+
+        if (currentStageData.monsterPrefabs.Count == 0)
+        {
+            Debug.LogWarning("몬스터 프리팹이 StageData에 없습니다!");
+            return;
+        }
+
+        int count = Random.Range(
+            currentStageData.minMonsterCount,
+            currentStageData.maxMonsterCount + 1
+        );
+
+        for (int i = 0; i < count; i++)
+            SpawnRandomEnemyFromData();
+    }
+
 }
 
 
