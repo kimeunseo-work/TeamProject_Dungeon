@@ -72,16 +72,44 @@ public class OrbitArrowSkill : Skill
     {
         while (true)
         {
-            foreach (var orbitArrow in orbitArrows)
+            // 가장 가까운 적 찾기
+            GameObject target = FindNearestEnemy();
+            if (target != null)
             {
-                if (orbitArrow != null)
+                foreach (var orbitArrow in orbitArrows)
                 {
-                    // orbit 위치에서 직선 발사
-                    FireShotArrow(orbitArrow.transform.position, orbitArrow.transform.up);
+                    if (orbitArrow != null)
+                    {
+                        // Orbit 위치에서 자동 타겟팅 발사
+                        Vector3 direction = (target.transform.position - orbitArrow.transform.position).normalized;
+                        FireShotArrow(orbitArrow.transform.position, direction);
+                    }
                 }
             }
             yield return new WaitForSeconds(shotInterval);
         }
+    }
+
+    private GameObject FindNearestEnemy()
+    {
+        float minDist = Mathf.Infinity;
+        GameObject nearest = null;
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(player.position, 20f); // 탐지 범위 필요하면 변수로 만들기
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Enemy"))
+            {
+                float dist = Vector2.Distance(player.position, hit.transform.position);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    nearest = hit.gameObject;
+                }
+            }
+        }
+
+        return nearest;
     }
 
     private void FireShotArrow(Vector3 position, Vector3 direction)
@@ -108,4 +136,5 @@ public class OrbitArrowSkill : Skill
         // Activate 호출 시, AutoFireRoutine 시작
         // 이미 Start에서 코루틴 시작하므로 여기선 별도 처리 안 해도 됨
     }
+
 }
