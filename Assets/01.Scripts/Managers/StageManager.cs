@@ -17,6 +17,9 @@ public class StageManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        stageNum = 1;
+        StartStage();
     }
 
     [SerializeField] private Transform player;
@@ -43,10 +46,11 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
-        stageNum = 1;
-        StartStage();
+        //stageNum = 1;
+        //StartStage();
 
-        monsterStatuses = new List<MonsterStatus>();
+
+
     }
 
     private void FixedUpdate()
@@ -57,20 +61,14 @@ public class StageManager : MonoBehaviour
     // 스테이지 시작 매서드
     public void StartStage()
     {
-        if (testMode)
-        {
-            Debug.Log("TEST MODE: Stage Auto Clear Active!");
-            isClear = true;
-            exitCollider.enabled = true;
-            PlacePlayerToStageStart();
-            return;
-        }
+
 
         isClear = false;
         exitCollider.enabled = false;
         PlacePlayerToStageStart();
 
-        currentStageData = stageDatas.Find(x => x.stageNum == stageNum);
+        //currentStageData = stageDatas.Find(x => x.stageNum == stageNum);
+        currentStageData = stageDatas[0];
         Debug.Log($"현재 {stageNum}스테이지 입니다");
 
         if (currentStageData == null)
@@ -111,21 +109,21 @@ public class StageManager : MonoBehaviour
         isClear = true;
         exitCollider.enabled = true;
         Debug.Log("Stage Clear! Exit is now active!");
-        GoToNextStage();
-
+        //GoToNextStage();
+        stageNum++;
         SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
     }
 
     public void GoToNextStage()
     {
-        stageNum++;
+        //stageNum++;
         if (stageNum > 3)
         {
             GameManger.Instance.ChangeGameState(GameManger.GameState.LobbyScene);
             stageNum = 1;
             return;
         }
-        //StartStage();
+        StartStage();
     }
 
 
