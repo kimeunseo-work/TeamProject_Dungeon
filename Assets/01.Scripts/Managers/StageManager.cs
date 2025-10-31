@@ -33,6 +33,7 @@ public class StageManager : MonoBehaviour
         StartStage();
     }
 
+    // 스테이지 시작 매서드
     public void StartStage()
     {
         PlacePlayerToStageStart();
@@ -57,28 +58,30 @@ public class StageManager : MonoBehaviour
 
     }
 
-    public void StageClear()
+    public void OnMonsterKilled()
     {
+        clearRequireNum--;
 
-    }
+        Debug.Log($"남은 몬스터 수: {clearRequireNum}");
 
-    public void GameOver()
-    { 
-
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (spawnAreas == null) return;
-
-        Gizmos.color = gizmoColor;
-        foreach (var area in spawnAreas)
+        if (clearRequireNum <= 0)
         {
-            Vector3 center = new Vector3(area.x + area.width / 2, area.y + area.height / 2);
-            Vector3 size = new Vector3(area.width, area.height);
-            Gizmos.DrawCube(center, size);
+            StageClear();
         }
     }
+
+    public void StageClear()
+    {
+        isClear = true;
+
+        //Exit 활성화
+
+
+    }
+
+
+
+
 
     private void Update()
     {
@@ -86,11 +89,6 @@ public class StageManager : MonoBehaviour
         {
             SpawnRandomEnemyFromData();
         }
-    }
-
-    public void GameClearMenu()
-    {
-        //이건테스트 서버 주석
     }
 
     private void PlacePlayerToStageStart()
@@ -106,6 +104,7 @@ public class StageManager : MonoBehaviour
         Debug.Log("플레이어를 시작 위치에 배치했습니다!");
     }
 
+    // 스폰 관련 매서드
     private void SpawnRandomEnemyFromData()
     {
         GameObject prefab = currentStageData.monsterPrefabs[
@@ -146,6 +145,29 @@ public class StageManager : MonoBehaviour
         clearRequireNum = count;
     }
 
+    // 기즈모 코드
+    private void OnDrawGizmosSelected()
+    {
+        if (spawnAreas == null) return;
+
+        Gizmos.color = gizmoColor;
+        foreach (var area in spawnAreas)
+        {
+            Vector3 center = new Vector3(area.x + area.width / 2, area.y + area.height / 2);
+            Vector3 size = new Vector3(area.width, area.height);
+            Gizmos.DrawCube(center, size);
+        }
+    }
 }
 
 
+// 아직까진 미구현 된 매서드들
+//public void GameOver()
+//{
+
+//}
+
+//public void GameClearMenu()
+//{
+//    //이건테스트 서버 주석
+//}
