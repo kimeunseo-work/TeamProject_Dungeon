@@ -1,14 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Runtime.CompilerServices;
+using UnityEngine;
 
 public class MonsterController : BaseController
 {
     /*필드 & 프로퍼티Ƽ*/
     //=======================================//
-
+    public enum MonsterType
+    {
+        Melee = 0,
+        Ranged = 1,
+    }
+    public MonsterType type;
     private Transform target;
+    public GameObject shooter;
+
     private float followRange = 15f;
     public float attackRange = 0.8f;
     public float speed = 1f;
+    
 
     /*초기화*/
     //=======================================//
@@ -45,10 +54,30 @@ public class MonsterController : BaseController
         }
         else
         {
+            MonsterAttack();
             movementDirection = Vector2.zero;
         }
 
         CheckIsMoveChanged(movementDirection);
+    }
+    private void MonsterAttack()
+    {
+        float shootSpeed = 0.2f;
+        if(type == MonsterType.Melee)
+        { 
+            // 근거리 몬스터 공격
+        }
+        else if(type == MonsterType.Ranged)
+        {
+            if (shooter == null) return;
+
+            Vector2 direction = DirectionToTarget();
+
+            GameObject Shot = Instantiate(shooter, transform.position, Quaternion.identity);
+
+            Rigidbody2D _rigidbody = shooter.GetComponent<Rigidbody2D>();
+            _rigidbody.velocity = direction * shootSpeed;
+        }    
     }
     protected override void Movement(Vector2 direction)
     {
