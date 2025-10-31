@@ -26,19 +26,28 @@ public class Arrow : MonoBehaviour
         }
     }
 
-
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 나중에 데미지 적용 담당자가 여기서 처리
-        // if (collision.CompareTag("Enemy")) Destroy(gameObject);
-        //관통 처리
+        if (collision.CompareTag("Enemy"))
+        {
+            collision.GetComponent<Monster>().TakeDamage(10);
+        }
+
+        // 관통 옵션
         if (!destroyOnHit) return;
 
+        // 플레이어 
         if (collision.CompareTag("Enemy") || collision.CompareTag("Wall"))
         {
-            Destroy(gameObject);
+            ObjectManager.Instance.ArrowPool.Release(gameObject);
         }
+
+        // 나중에 데미지 적용 담당자가 여기서 처리
+        //if (collision.CompareTag("Enemy"))
+        //{
+        //    collision.GetComponent<Monster>().TakeDamage(10);
+        //}
+        //// 관통
+        //if (!destroyOnHit) return;
     }
 }

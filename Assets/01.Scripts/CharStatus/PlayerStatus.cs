@@ -46,6 +46,13 @@ public class PlayerStatus : BaseStatus
     /*외부 호출용*/
     //=======================================//
 
+    public override void TakeDamage(int amount)
+    {
+        var prevHp = DungeonHp;
+        base.TakeDamage(amount);
+        Debug.Log($" [{nameof(MonsterStatus)}] player takeDamage = {amount}. prevHp = {prevHp}, currentHp = {DungeonHp}");
+    }
+
     /*Dungeon*/
     public void IncreaseDungeonMaxHp(int amount) => InternalIncreaseDungeonMaxHp(amount);
     public void DecreseDungeonMaxHp(int amount) => InternalDecreseDungeonMaxHp(amount);

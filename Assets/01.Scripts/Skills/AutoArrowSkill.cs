@@ -2,7 +2,7 @@
 public class AutoArrowSkill : Skill
 {
     [Header("화살 투사체 설정")]
-    public GameObject arrowPrefab;
+    protected GameObject arrowPrefab;
     public float arrowSpeed = 10f; // 화살 속도
     public float detectionRadius = 10f; // 화살 충돌 감지 반경
     public int arrowCount = 1; // 발사할 화살 개수
@@ -11,6 +11,7 @@ public class AutoArrowSkill : Skill
 
     protected override void Activate()
     {
+        arrowPrefab = GetArrow();
         if (arrowPrefab == null)
         {
             Debug.LogWarning("arrowPrefab이 설정되지 않았습니다.");
@@ -83,5 +84,10 @@ public class AutoArrowSkill : Skill
             }
         }
         return nearest;
+    }
+
+    protected GameObject GetArrow()
+    {
+        return ObjectManager.Instance.ArrowPool.Get();
     }
 }

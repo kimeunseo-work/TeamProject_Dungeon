@@ -54,15 +54,13 @@ public class BaseStatus : MonoBehaviour
     /// <summary>
     /// 공격 받았을 때 호출
     /// </summary>
-    public void TakeDamage(int amount) => DecreaseDungeonHp(amount);
+    public virtual void TakeDamage(int amount) => DecreaseDungeonHp(amount);
 
     /*내부 로직*/
     //=======================================//
     private void DecreaseDungeonHp(int amount)
     {
         DungeonHp -= amount;
-
-        Debug.Log($"공격 {amount}, Hp {DungeonHp}");
 
         CheckDead();
 

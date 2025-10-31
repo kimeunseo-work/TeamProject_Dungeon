@@ -6,9 +6,11 @@ public abstract class Skill : MonoBehaviour
     public float cooldown = 2f; //쿨타임
     protected bool isRunning = false; //스킬 사용중인지
 
+    // 플레이어 이벤트 참조 위함
     private Player player;
     private bool canAttack = true;
     private float timer = 0f;
+    // 디버그용 속성
     private bool isSkillReady = true;
 
     private void Awake()
