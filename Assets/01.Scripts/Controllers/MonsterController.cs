@@ -28,6 +28,8 @@ public class MonsterController : BaseController
         if (target == null)
         {
             if (!movementDirection.Equals(Vector2.zero)) movementDirection = Vector2.zero;
+
+            IsMove = movementDirection != default;
             return;
         }
         float distance = DistanceToTarget();
@@ -39,6 +41,8 @@ public class MonsterController : BaseController
 
             movementDirection = direction;
         }
+
+        IsMove = movementDirection != default;
     }
     protected override void Movement(Vector2 direction)
     {

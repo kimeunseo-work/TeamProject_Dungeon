@@ -18,6 +18,8 @@ public class PlayerController : BaseController
         float horizental = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector2(horizental, vertical).normalized;
+
+        IsMove = movementDirection != default;
     }
 
     public override void Dead()
