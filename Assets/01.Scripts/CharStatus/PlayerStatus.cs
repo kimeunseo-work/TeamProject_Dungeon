@@ -179,7 +179,7 @@ public class PlayerStatus : BaseStatus
         arrowSkills.Add(skill);
         OnSkillsListChanged?.Invoke();
 
-        Debug.Log($"[PlayerStatus] player gain arrowSkill: {skill.skillName}? {skill.name}");
+        Debug.Log($"[PlayerStatus] player gain arrowSkill: {skill.SkillName}? {skill.name}");
     }
     private void InternalAddPassiveSkills(PassiveSkill skill)
     {
@@ -220,7 +220,7 @@ public class PlayerStatus : BaseStatus
         arrowSkills.Remove(skill);
         OnSkillsListChanged?.Invoke();
 
-        Debug.Log($"[PlayerStatus] player lose arrowSkill: {skill.skillName}? {skill.name}");
+        Debug.Log($"[PlayerStatus] player lose arrowSkill: {skill.SkillName}? {skill.name}");
     }
 
     private void InternalRemovePassiveSkill(PassiveSkill skill)
