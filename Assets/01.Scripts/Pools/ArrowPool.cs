@@ -12,7 +12,8 @@ public class ArrowPool : MonoBehaviour
     {
         pool = new ObjectPool<GameObject>(
             () => Instantiate(arrowPrefab),
-            bullet => bullet.SetActive(true),
+            //bullet => bullet.SetActive(true),
+            actionOnGet: null,
             bullet => bullet.SetActive(false),
             bullet => Destroy(bullet),
             defaultCapacity: defaultCapacity,
@@ -20,6 +21,12 @@ public class ArrowPool : MonoBehaviour
         );
     }
 
-    public GameObject Get() => pool.Get();
+    public GameObject Get(Vector3 spawnPos, Quaternion rotation)
+    {
+        GameObject obj = pool.Get();
+        obj.transform.SetPositionAndRotation(spawnPos, rotation);
+        obj.SetActive(true);
+        return obj;
+    }
     public void Release(GameObject obj) => pool.Release(obj);
 }
