@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shot : MonoBehaviour
 {
-    public float lifeTime = 5f;
+    public float lifeTime = 10f;
     private void Start()
     {
         Destroy(gameObject, lifeTime);
