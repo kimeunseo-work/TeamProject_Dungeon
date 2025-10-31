@@ -1,3 +1,4 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class MonsterController : BaseController
@@ -7,6 +8,7 @@ public class MonsterController : BaseController
 
     private Transform target;
     private float followRange = 15f;
+    public float speed = 1f;
 
     /*√ ±‚»≠*/
     //=======================================//
@@ -37,6 +39,11 @@ public class MonsterController : BaseController
 
             movementDirection = direction;
         }
+    }
+    protected override void Movement(Vector2 direction)
+    {
+        direction = direction * speed;
+        _rigidbody.velocity = direction;
     }
 
     public override void Dead()
