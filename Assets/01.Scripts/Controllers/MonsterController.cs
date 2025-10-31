@@ -8,6 +8,7 @@ public class MonsterController : BaseController
 
     private Transform target;
     private float followRange = 15f;
+    private float attackRange = 1.5f;
     public float speed = 1f;
 
     /*초기화*/
@@ -32,18 +33,26 @@ public class MonsterController : BaseController
         }
         float distance = DistanceToTarget();
         Vector2 direction = DirectionToTarget();
-
-        if (distance <= followRange) // 타겟이 범위 안에 있는지 확인
+        if (distance > attackRange)
         {
-            lookDirection = direction;
+            if (distance <= followRange) // 타겟이 범위 안에 있는지 확인
+            {
+                lookDirection = direction;
 
-            movementDirection = direction;
+                movementDirection = direction;
+            }
         }
+        else
+        {
+            movementDirection = Vector2.zero;
+            _rigidbody.velocity = Vector2.zero;
+        }
+
     }
     protected override void Movement(Vector2 direction)
     {
-        direction = direction * speed;
-        _rigidbody.velocity = direction;
+         direction = direction * speed;
+         _rigidbody.velocity = direction;
     }
 
     public override void Dead()
@@ -59,7 +68,7 @@ public class MonsterController : BaseController
         // 두 포지션 사이 거리
     }
 
-    protected Vector2 DirectionToTarget() // Target(Player)에게 다가가는 속도
+    protected Vector2 DirectionToTarget()
     {
         return (target.position - transform.position).normalized;
     }
