@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
+ï»¿using UnityEngine;
 
 public class CooldownReductionPassive : PassiveSkill
 {
@@ -10,6 +7,6 @@ public class CooldownReductionPassive : PassiveSkill
     public override void ApplyEffect(Skill targetSkill)
     {
         targetSkill.cooldown = Mathf.Max(0.1f, targetSkill.cooldown - level * cooldownReductionPerLevel);
-        Debug.Log($"{skillName} Àû¿ë: ÄğÅ¸ÀÓ = {targetSkill.cooldown}");
+        Debug.Log($"{skillName} ì ìš©: ì¿¨íƒ€ì„ = {targetSkill.cooldown}");
     }
 }

@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+ï»¿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -62,7 +60,7 @@ public class StageUI : MonoBehaviour
     #region Game
     private void UpdateHUD()
     {
-        // ·¹º§, °ñµå, °æÇèÄ¡ ¼¼ÆÃ ÀÌ·±½ÄÀ¸·Î?
+        // ë ˆë²¨, ê³¨ë“œ, ê²½í—˜ì¹˜ ì„¸íŒ… ì´ëŸ°ì‹ìœ¼ë¡œ?
         //levelText.text = StatusManager.Instance.level.ToString();
         //goldText.text = StatusManager.Instance.gold.ToString();
         //expSlider.value = StatusManager.Instance.Exp / StatusManager.Instance.nextExp

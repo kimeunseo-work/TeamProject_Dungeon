@@ -1,9 +1,8 @@
-using UnityEditor.Rendering;
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class MonsterController : BaseController
 {
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
+    /*í•„ë“œ & í”„ë¡œí¼í‹°Æ¼*/
     //=======================================//
 
     private Transform target;
@@ -11,7 +10,7 @@ public class MonsterController : BaseController
     private float attackRange = 0.8f;
     public float speed = 1f;
 
-    /*ÃÊ±âÈ­*/
+    /*ì´ˆê¸°í™”*/
     //=======================================//
 
     public void Init(Transform target)
@@ -19,23 +18,25 @@ public class MonsterController : BaseController
         this.target = target;
     }
 
-    /*¿ÜºÎ È£Ãâ*/
+    /*ì™¸ë¶€ í˜¸ì¶œìš©*/
     //=======================================//
 
-    public override void HandleAction() // Monster ÀÌµ¿
+    public override void HandleAction() // Monster ï¿½Ìµï¿½
     {
         base.HandleAction();
 
         if (target == null)
         {
             if (!movementDirection.Equals(Vector2.zero)) movementDirection = Vector2.zero;
+
+            CheckIsMoveChanged(movementDirection);
             return;
         }
         float distance = DistanceToTarget();
         Vector2 direction = DirectionToTarget();
         if (distance > attackRange)
         {
-            if (distance <= followRange) // Å¸°ÙÀÌ ¹üÀ§ ¾È¿¡ ÀÖ´ÂÁö È®ÀÎ
+            if (distance <= followRange) // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
             {
                 lookDirection = direction;
 
@@ -47,6 +48,7 @@ public class MonsterController : BaseController
             movementDirection = Vector2.zero;
         }
 
+        CheckIsMoveChanged(movementDirection);
     }
     protected override void Movement(Vector2 direction)
     {
@@ -58,13 +60,13 @@ public class MonsterController : BaseController
     {
     }
 
-    /*³»ºÎ ·ÎÁ÷*/
+    /*ë‚´ë¶€ ë¡œì§*/
     //=======================================//
 
-    protected float DistanceToTarget() // Target(Player)°ú ÇöÀç À§Ä¡ »çÀÌ °Å¸®
+    protected float DistanceToTarget() // Target(Player)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½
     {
         return Vector3.Distance(transform.position, target.position);
-        // µÎ Æ÷Áö¼Ç »çÀÌ °Å¸®
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½
     }
 
     protected Vector2 DirectionToTarget()

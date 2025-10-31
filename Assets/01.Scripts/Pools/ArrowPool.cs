@@ -1,20 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
 
-public class ExpPool : MonoBehaviour 
+public class ArrowPool : MonoBehaviour 
 {
-    [SerializeField] private GameObject expPrefab;
+    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private readonly int defaultCapacity = 5;
+    [SerializeField] private readonly int maxSize = 10;
     private ObjectPool<GameObject> pool;
 
     void Awake()
     {
         pool = new ObjectPool<GameObject>(
-            () => Instantiate(expPrefab),
+            () => Instantiate(arrowPrefab),
             bullet => bullet.SetActive(true),
             bullet => bullet.SetActive(false),
             bullet => Destroy(bullet),
-            defaultCapacity: 3,
-            maxSize: 5
+            defaultCapacity: defaultCapacity,
+            maxSize: maxSize
         );
     }
 

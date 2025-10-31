@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class StateManager : MonoBehaviour
+public class StateManager : MonoBehaviour 
 {
     // Start is called before the first frame update
     void Start()

@@ -1,28 +1,28 @@
-using UnityEditor;
+ï»¿using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ExpPool))]
-public class ExpPoolEditor : Editor
+public class ExpPoolEditor : Editor 
 {
     public override void OnInspectorGUI()
     {
-        // ±âº» ÀÎ½ºÆåÅÍ Ç¥½Ã
+        // ê¸°ë³¸ ì¸ìŠ¤í™í„° í‘œì‹œ
         DrawDefaultInspector();
 
         ExpPool pool = (ExpPool)target;
 
-        // ½ÇÇà ¹öÆ°
-        if (GUILayout.Button("Get() ½ÇÇà"))
+        // ì‹¤í–‰ ë²„íŠ¼
+        if (GUILayout.Button("Get() ì‹¤í–‰"))
         {
-            // ·±Å¸ÀÓ ÁßÀÏ ¶§¸¸ ÀÛµ¿ÇÏµµ·Ï Á¦ÇÑ
+            // ëŸ°íƒ€ì„ ì¤‘ì¼ ë•Œë§Œ ì‘ë™í•˜ë„ë¡ ì œí•œ
             if (Application.isPlaying)
             {
                 GameObject obj = pool.Get();
-                Debug.Log($"[ExpPoolEditor] ¿ÀºêÁ§Æ® »ı¼ºµÊ: {obj.name}");
+                Debug.Log($"[ExpPoolEditor] ì˜¤ë¸Œì íŠ¸ ìƒì„±ë¨: {obj.name}");
             }
             else
             {
-                Debug.LogWarning("Play ¸ğµå¿¡¼­¸¸ ½ÇÇàÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+                Debug.LogWarning("Play ëª¨ë“œì—ì„œë§Œ ì‹¤í–‰í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
             }
         }
     }
