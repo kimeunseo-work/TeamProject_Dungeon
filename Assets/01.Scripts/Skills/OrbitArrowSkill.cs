@@ -132,7 +132,7 @@ public class OrbitArrowSkill : Skill
         }
     }
 
-    public override void Activate()
+    protected override void Activate()
     {
         // Activate 호출 시, AutoFireRoutine 시작
         // 이미 Start에서 코루틴 시작하므로 여기선 별도 처리 안 해도 됨

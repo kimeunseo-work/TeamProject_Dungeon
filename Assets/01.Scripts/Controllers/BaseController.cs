@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 public class BaseController : MonoBehaviour
 {
-    /*ÇÊµå & ÇÁ·ÎÆÛÆ¼*/
+    /*ï¿½Êµï¿½ & ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼*/
     //=======================================//
 
     protected Rigidbody2D _rigidbody;
@@ -17,13 +18,16 @@ public class BaseController : MonoBehaviour
     public Vector2 MovementDirection { get { return movementDirection; } }
 
     protected Vector2 knockback = Vector2.zero;
-    protected float  knockbackDuration = 0f;
+    protected float knockbackDuration = 0f;
 
     protected Vector2 lookDirection = Vector2.zero;
     public Vector2 LookDirection { get { return lookDirection; } }
 
+    protected float Speed = 5f;
+    public event Action<bool> OnMoveChanged;
+    public bool IsMove { get; protected set; } = false;
 
-    /*»ý¸í ÁÖ±â*/
+    /*ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½*/
     //=======================================//
 
     protected virtual void Awake()
@@ -40,7 +44,6 @@ public class BaseController : MonoBehaviour
 
     protected virtual void Update()
     {
-        //HandleAction();
         Rotate(movementDirection);
     }
 
@@ -54,7 +57,7 @@ public class BaseController : MonoBehaviour
         }
     }
 
-    /*¿ÜºÎ È£Ãâ*/
+    /*ï¿½Üºï¿½ È£ï¿½ï¿½*/
     //=======================================//
     public virtual void HandleAction()
     {
@@ -64,12 +67,16 @@ public class BaseController : MonoBehaviour
     {
     }
 
-    /*³»ºÎ ·ÎÁ÷*/
+    /*ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
     //=======================================//
 
     protected virtual void Movement(Vector2 direction)
     {
-        direction = direction * 5;
+        // ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (!IsMove) direction = default;
+
+        direction = direction * Speed;
+
         if (knockbackDuration > 0.0f)
         {
             direction *= 0.2f;
@@ -81,11 +88,23 @@ public class BaseController : MonoBehaviour
 
     protected virtual void Rotate(Vector2 direction)
     {
+        if (!IsMove) direction = default;
+
         float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         bool isLeft = Mathf.Abs(rotZ) > 90;
 
-        if (movementDirection == default) return;
-        
         charRenderer.flipX = isLeft;
+    }
+
+
+    protected void CheckIsMoveChanged(Vector2 direction)
+    {
+        var currentMove = direction != default;
+
+        if(IsMove != currentMove)
+        {
+            IsMove = currentMove;
+            OnMoveChanged?.Invoke(IsMove);
+        }
     }
 }

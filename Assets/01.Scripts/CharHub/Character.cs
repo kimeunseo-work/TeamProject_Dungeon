@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
     public Transform targetTransform; // 플레이어
-    public bool CanAttack { get; protected set; }
+    public bool CanAttack { get; protected set; } = true;
+
 
     /*생명 주기*/
     //=======================================//

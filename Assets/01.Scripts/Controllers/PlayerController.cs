@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerController : BaseController
 {
-    /*»ý¸í ÁÖ±â*/
+    /*ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½*/
     //=======================================//
 
     protected override void Start()
@@ -10,7 +10,7 @@ public class PlayerController : BaseController
         base.Start();
     }
 
-    /*¿ÜºÎ È£Ãâ*/
+    /*ï¿½Üºï¿½ È£ï¿½ï¿½*/
     //=======================================//
 
     public override void HandleAction()
@@ -18,6 +18,8 @@ public class PlayerController : BaseController
         float horizental = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector2(horizental, vertical).normalized;
+
+        CheckIsMoveChanged(movementDirection);
     }
 
     public override void Dead()

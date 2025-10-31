@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AutoArrowSkill : Skill
@@ -12,7 +10,7 @@ public class AutoArrowSkill : Skill
     public int extraPierce = 0; // 추가 관통 수
     public float spreadAngle = 0f; // 화살 퍼짐 각도
 
-    public override void Activate()
+    protected override void Activate()
     {
         if (arrowPrefab == null)
         {
