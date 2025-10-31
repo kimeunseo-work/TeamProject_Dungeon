@@ -12,12 +12,14 @@ public class MonsterController : BaseController
     }
     public MonsterType type;
     private Transform target;
-    public GameObject shooter;
+    public GameObject shooterPrefab;
 
     private float followRange = 15f;
     public float attackRange = 0.8f;
     public float speed = 1f;
-    
+    private float Cooldown = 3.0f;
+    private float timer;
+
 
     /*초기화*/
     //=======================================//
@@ -54,8 +56,14 @@ public class MonsterController : BaseController
         }
         else
         {
-            MonsterAttack();
-            movementDirection = Vector2.zero;
+            timer += Time.deltaTime;
+            if (timer <= Cooldown) return;
+            else
+            {
+                MonsterAttack();
+                timer = 0f;
+                movementDirection = Vector2.zero;
+            } 
         }
 
         CheckIsMoveChanged(movementDirection);
@@ -63,20 +71,21 @@ public class MonsterController : BaseController
     private void MonsterAttack()
     {
         float shootSpeed = 0.2f;
-        if(type == MonsterType.Melee)
+        if (type == MonsterType.Melee)
         { 
             // 근거리 몬스터 공격
         }
         else if(type == MonsterType.Ranged)
         {
-            if (shooter == null) return;
+            if (shooterPrefab == null) return;
 
             Vector2 direction = DirectionToTarget();
 
-            GameObject Shot = Instantiate(shooter, transform.position, Quaternion.identity);
+            GameObject Shot = Instantiate(shooterPrefab, transform.position, Quaternion.identity);
 
-            Rigidbody2D _rigidbody = shooter.GetComponent<Rigidbody2D>();
-            _rigidbody.velocity = direction * shootSpeed;
+            Rigidbody2D _rigidbody = Shot.GetComponent<Rigidbody2D>();
+            _rigidbody.AddRelativeForce(direction * shootSpeed * 10f, ForceMode2D.Impulse);
+            Debug.Log("Attack : " + _rigidbody.velocity);
         }    
     }
     protected override void Movement(Vector2 direction)
