@@ -1,18 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static ObjectManager Instance { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    /*ObjectPool*/
+    //=======================================//
+
+    public ExpPool ExpPool { get; private set; }
+
+    /*생명 주기*/
+    //=======================================//
+
+    private void Awake()
     {
-        
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if(Instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        ExpPool = GetComponentInChildren<ExpPool>();
     }
 }
