@@ -14,8 +14,9 @@ public class StageUI : MonoBehaviour
 
     [Header("Panels")]
     [SerializeField] private GameObject settingsPanel;
-    [SerializeField] private GameObject levelUpPanel;
+    [SerializeField] private GameObject sellectSkillPanel;
 
+    public SkillManager skillManager;
 
     private PlayerStatus playerStatus;
 
@@ -24,6 +25,15 @@ public class StageUI : MonoBehaviour
         settingsButton.onClick.AddListener(OpenSettingsPanel);
         //playerStatus.OnDungeonExpChanged += UpdateExp;
         //playerStatus.OnDungeonLevelChanged += UpdateLevel;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            //sellectSkillPanel.gameObject.SetActive(true);
+            skillManager.ShowSkillLists();
+        }
     }
 
     #region Game UI
@@ -59,7 +69,7 @@ public class StageUI : MonoBehaviour
     #region Level Up
     private void OpenLevelUpPanel()
     {
-        UIManager.Instance.PushUI(levelUpPanel);
+        UIManager.Instance.PushUI(sellectSkillPanel);
     }
     #endregion
 }
