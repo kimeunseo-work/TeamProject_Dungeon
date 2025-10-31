@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerController : BaseController
 {
-    /*ª˝∏Ì ¡÷±‚*/
+    /*ÏÉùÎ™Ö Ï£ºÍ∏∞*/
     //=======================================//
 
     protected override void Start()
@@ -10,7 +10,7 @@ public class PlayerController : BaseController
         base.Start();
     }
 
-    /*ø‹∫Œ »£√‚*/
+    /*Ïô∏Î∂Ä Ìò∏Ï∂ú*/
     //=======================================//
 
     public override void HandleAction()
@@ -23,5 +23,19 @@ public class PlayerController : BaseController
     public override void Dead()
     {
         Time.timeScale = 0f;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Finish"))
+        {
+            Debug.Log("Exit Triggered!");
+            StageManager stageManager = FindObjectOfType<StageManager>();
+
+            if (stageManager != null)
+            {
+                stageManager.GoToNextStage();
+            }
+        }
     }
 }

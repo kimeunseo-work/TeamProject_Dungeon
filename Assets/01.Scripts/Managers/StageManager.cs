@@ -9,7 +9,8 @@ public class StageManager : MonoBehaviour
 
     [SerializeField] private Transform player;      
     [SerializeField] private Transform startPoint;
-
+    [SerializeField] private Collider2D exitCollider;
+    [SerializeField] private bool testMode = true; // 테스트용 프리패스 치트키
 
     [SerializeField] List<Rect> spawnAreas;
 
@@ -36,9 +37,21 @@ public class StageManager : MonoBehaviour
     // 스테이지 시작 매서드
     public void StartStage()
     {
+        if (testMode)
+        {
+            Debug.Log("TEST MODE: Stage Auto Clear Active!");
+            isClear = true;
+            exitCollider.enabled = true;
+            PlacePlayerToStageStart();
+            return;
+        }
+
+        isClear = false;
+        exitCollider.enabled = false;
         PlacePlayerToStageStart();
 
         currentStageData = stageDatas.Find(x => x.stageNum == stageNum);
+        Debug.Log($"현재 {stageNum}스테이지 입니다");
 
         if (currentStageData == null)
         {
@@ -50,11 +63,14 @@ public class StageManager : MonoBehaviour
         {
             SpawnFromStageData();
         }
-        if (currentStageData.stageType == StageType.Boss)
+        else if (currentStageData.stageType == StageType.Boss)
+        {
+            //보스
+        }
+        else if (currentStageData.stageType == StageType.Rest)
         { 
             
         }
-
 
     }
 
@@ -73,13 +89,21 @@ public class StageManager : MonoBehaviour
     public void StageClear()
     {
         isClear = true;
-
-        //Exit 활성화
-
-
+        exitCollider.enabled = true;
+        Debug.Log("Stage Clear! Exit is now active!");
+        GoToNextStage();
     }
 
-
+    public void GoToNextStage()
+    { 
+        stageNum++;
+        if (stageNum > 10)
+        {
+            SceneManager.LoadScene("LobbyScene");
+            return;
+        }
+        StartStage();
+    }
 
 
 
