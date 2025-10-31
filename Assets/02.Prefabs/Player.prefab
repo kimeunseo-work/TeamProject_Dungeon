@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6763274521525734703}
-  - component: {fileID: 131644761307821982}
   - component: {fileID: 54065966970516791}
+  - component: {fileID: 131644761307821982}
   - component: {fileID: 9217014064239429329}
   - component: {fileID: -8646360542089540847}
   - component: {fileID: 2639280082948197486}
@@ -38,18 +38,6 @@ Transform:
   - {fileID: 7144942677043487453}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &131644761307821982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342568766878510748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c45af157fb8643459ccc554adbb826a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &54065966970516791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +51,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 0}
+  status: {fileID: 0}
+  controller: {fileID: 0}
+  autoArrow: {fileID: 0}
+--- !u!114 &131644761307821982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342568766878510748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c45af157fb8643459ccc554adbb826a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &9217014064239429329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,12 +90,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4820e9512f7b34c96c226823f849c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillName: New Skill
-  cooldown: 2
+  SkillName: New Skill
+  Cooldown: 2
   arrowPrefab: {fileID: 707792727986895017, guid: 89e7c145867c98d41bfb06a5b692b0d9, type: 3}
   arrowSpeed: 10
+  detectionRadius: 10
   arrowCount: 1
   extraPierce: 0
+  spreadAngle: 0
+  shotInterval: 0.1
 --- !u!50 &2639280082948197486
 Rigidbody2D:
   serializedVersion: 4

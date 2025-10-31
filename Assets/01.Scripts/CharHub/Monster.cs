@@ -21,7 +21,7 @@ public class Monster : Character
     {
         // 플레이어 데이터
         var go = GameObject.FindWithTag("Player");
-        targetTransform = go.GetComponent<Transform>();
+        TargetTransform = go.GetComponent<Transform>();
         target = go.GetComponent<Player>();
 
         // 몬스터 기능 스크립트 참조
@@ -30,7 +30,7 @@ public class Monster : Character
 
         // 스탯 초기화 - 나중에 데이터로
         status.InitDungeon(baseStatus, level);
-        controller.Init(targetTransform);
+        controller.Init(TargetTransform);
         CanAttack = false;
     }
 
