@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Monster : Character
 {
@@ -41,6 +41,7 @@ public class Monster : Character
     private void OnDisable()
     {
         status.OnDead -= Status_OnDead;
+        StageManager.Instance.OnMonsterKilled();
     }
 
     protected override void Update()

@@ -125,7 +125,7 @@ public class StageManager : MonoBehaviour
             stageNum = 1;
             return;
         }
-        StartStage();
+        //StartStage();
     }
 
 
