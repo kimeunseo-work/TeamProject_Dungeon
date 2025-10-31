@@ -1,8 +1,10 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : Character
 {
+    /*필드 & 프로퍼티*/
+    //=======================================//
+
     private Monster target;
 
     private PlayerStatus status;
@@ -35,6 +37,7 @@ public class Player : Character
 
     protected override void Update()
     {
+        // Attack()
         base.Update();
 
         controller.HandleAction();
@@ -43,12 +46,24 @@ public class Player : Character
     /*외부 호출*/
     //=======================================//
 
+    /// <summary>
+    /// 몬스터, 함정 오브젝트 전용
+    /// </summary>
     public override void TakeDamage(int amount)
     {
         // 데이터
         status.TakeDamage(amount);
         // 피격 액션
         //controller.TakeDamage(amount);
+    }
+
+    /// <summary>
+    /// 던전 경험치 오브젝트 전용
+    /// </summary>
+    public void GetDungeonExp(int amount)
+    {
+        status.IncreaseDungeonExp(amount);
+        Debug.Log($"획득 경험치 {amount}, 현재 경험치 {status.DungeonExp}");
     }
 
     /*내부 로직*/
