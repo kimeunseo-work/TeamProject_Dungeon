@@ -8,7 +8,7 @@ public class MonsterController : BaseController
 
     private Transform target;
     private float followRange = 15f;
-    private float attackRange = 0.8f;
+    public float attackRange = 0.8f;
     public float speed = 1f;
 
     /*√ ±‚»≠*/
