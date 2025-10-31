@@ -8,6 +8,7 @@ public class ObjectManager : MonoBehaviour
     //=======================================//
 
     public ExpPool ExpPool { get; private set; }
+    public ArrowPool ArrowPool { get; private set; }
 
     /*생명 주기*/
     //=======================================//
@@ -25,5 +26,6 @@ public class ObjectManager : MonoBehaviour
         }
 
         ExpPool = GetComponentInChildren<ExpPool>();
+        ArrowPool = GetComponentInChildren<ArrowPool>();
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStatus : BaseStatus 
+public class PlayerStatus : BaseStatus
 {
     /*필드 & 프로퍼티*/
     //=======================================//
@@ -9,8 +10,11 @@ public class PlayerStatus : BaseStatus
     /*Dungeon*/
     public int DungeonExp { get; private set; }
     public int RequiredDungeonExp { get; private set; }
-    //[SerializeField] private LevelData dungeonExpData;
     private ExpData dungeonExpData;
+
+    /*Skills*/
+    List<PassiveSkill> passiveSkills;
+    List<Skill> arrowSkills;
 
     /*Events*/
     public event Action OnInitDungeonPlayerFinished;
@@ -22,6 +26,8 @@ public class PlayerStatus : BaseStatus
     public event Action OnDungeonExpChanged;
     public event Action OnRequiredDungeonExpChanged;
 
+    public event Action OnSkillsListChanged;
+
     /*초기화 전용*/
     //=======================================//
 
@@ -30,15 +36,22 @@ public class PlayerStatus : BaseStatus
     /// </summary>
     public void InitDungeon()
     {
+        DungeonLevel = 1;
+        IsDead = false;
+
+        /*Exp Init*/
         DungeonExp = 0;
         dungeonExpData = Resources.Load<ExpData>("DungeonLevelData");
         RequiredDungeonExp = dungeonExpData.ExpTable[DungeonLevel];
 
-        DungeonLevel = 1;
+        /*Status Init*/
         dungeonStatus = PlayerLobbyStatus.Instance.GetBaseData();
         DungeonHp = DungeonMaxHp = dungeonStatus.Hp;
         DungeonAtk = dungeonStatus.Atk;
-        IsDead = false;
+
+        /*Skill Init*/
+        passiveSkills = new(10);
+        arrowSkills = new(10);
 
         OnInitDungeonPlayerFinished?.Invoke();
     }
@@ -46,26 +59,51 @@ public class PlayerStatus : BaseStatus
     /*외부 호출용*/
     //=======================================//
 
-    /*Dungeon*/
+    public override void TakeDamage(int amount)
+    {
+        var prevHp = DungeonHp;
+        base.TakeDamage(amount);
+        Debug.Log($" [{nameof(MonsterStatus)}] player takeDamage = {amount}. prevHp = {prevHp}, currentHp = {DungeonHp}");
+    }
+
+    /*Status*/
     public void IncreaseDungeonMaxHp(int amount) => InternalIncreaseDungeonMaxHp(amount);
     public void DecreseDungeonMaxHp(int amount) => InternalDecreseDungeonMaxHp(amount);
     public void IncreaseDungeonHp(int amount) => InternalIncreaseDungeonHp(amount);
     public void IncreaseDungeonAtk(int amount) => InternalIncreaseDungeonAtk(amount);
     public void DecreaseDungeonAtk(int amount) => InternalDecreaseDungeonAtk(amount);
+
+    /*Level & Exp*/
     public void IncreaseDungeonExp(int amount) => InternalIncreaseDungeonExp(amount);
+
+    /*Skills*/
+    public void AddPassiveSkill(PassiveSkill skill) => InternalAddPassiveSkills(skill);
+    public void AddArrowSkill(Skill skill) => InternalAddSkills(skill);
+
 
 #if UNITY_EDITOR
 
-    /*Dungeon*/
+    /*Status*/
+    /// <summary>
+    /// 대신 TakeDamage를 사용하세요.
+    /// </summary>
+    public void EditorOnly_DecreaseDungeonHp(int amount) => InternalDecreaseDungeonHp(amount);
+
+    /*Level & Exp*/
     public void EditorOnly_DecreaseDungeonExp(int amount) => InternalDecreaseDungeonExp(amount);
     public void EditorOnly_IncreaseDungeonLevel() => InternalIncreaseDungeonLevel();
     public void EditorOnly_DecreaseDungeonLevel() => InternalDecreaseDungeonLevel();
-    public void DecreaseDungeonHp(int amount) => InternalDecreaseDungeonHp(amount);
+
+    /*Skills*/
+    public void EditorOnly_RemovePassiveSkill(PassiveSkill skill) => InternalRemovePassiveSkill(skill);
+    public void EditorOnly_RemoveArrowSkill(Skill skill) => InternalRemoveSkill(skill);
+
 #endif
 
     /*내부 로직*/
     //=======================================//
-    
+
+    /*Status*/
     private void InternalIncreaseDungeonMaxHp(int amount)
     {
         DungeonMaxHp += amount;
@@ -90,12 +128,6 @@ public class PlayerStatus : BaseStatus
         OnDungeonHpChanged?.Invoke();
     }
 
-    private void InternalDecreaseDungeonHp(int amount)
-    {
-        DungeonHp -= amount;
-        OnDungeonHpChanged?.Invoke();
-    }
-
     private void InternalIncreaseDungeonAtk(int amount)
     {
         DungeonAtk += amount;
@@ -108,6 +140,7 @@ public class PlayerStatus : BaseStatus
         OnDungeonAtkChanged?.Invoke();
     }
 
+    /*Level & Exp*/
     private void InternalIncreaseDungeonExp(int amount)
     {
         // 만렙 체크
@@ -124,7 +157,6 @@ public class PlayerStatus : BaseStatus
         while (DungeonExp >= RequiredDungeonExp)
         {
             DungeonLevel++;
-            OnDungeonLevelChanged?.Invoke();
             // 만렙 체크
             if (DungeonLevel == dungeonExpData.ExpTable.Length)
             {
@@ -135,25 +167,68 @@ public class PlayerStatus : BaseStatus
             DungeonExp -= RequiredDungeonExp;
             // 다음 레벨이 요구하는 경험치로 기준치 상승
             RequiredDungeonExp = dungeonExpData.ExpTable[DungeonLevel];
+
+            OnDungeonLevelChanged?.Invoke();
             OnRequiredDungeonExpChanged?.Invoke();
         }
     }
 
+    /*Skills*/
+    private void InternalAddSkills(Skill skill)
+    {
+        arrowSkills.Add(skill);
+        OnSkillsListChanged?.Invoke();
+
+        Debug.Log($"[PlayerStatus] player gain arrowSkill: {skill.SkillName}? {skill.name}");
+    }
+    private void InternalAddPassiveSkills(PassiveSkill skill)
+    {
+        passiveSkills.Add(skill);
+        OnSkillsListChanged?.Invoke();
+
+        Debug.Log($"[PlayerStatus] player gain passiveSkill: {skill.skillName}? {skill.name}");
+    }
+
+#if UNITY_EDITOR
+    /*Status*/
+    private void InternalDecreaseDungeonHp(int amount)
+    {
+        DungeonHp -= amount;
+        OnDungeonHpChanged?.Invoke();
+    }
+
+    /*Level & Exp*/
     private void InternalDecreaseDungeonExp(int amount)
     {
         DungeonExp -= amount;
         OnDungeonExpChanged?.Invoke();
     }
-
     private void InternalIncreaseDungeonLevel()
     {
         DungeonLevel++;
         OnDungeonLevelChanged?.Invoke();
     }
-
     private void InternalDecreaseDungeonLevel()
     {
         DungeonLevel--;
         OnDungeonLevelChanged?.Invoke();
     }
+
+    /*Skills*/
+    private void InternalRemoveSkill(Skill skill)
+    {
+        arrowSkills.Remove(skill);
+        OnSkillsListChanged?.Invoke();
+
+        Debug.Log($"[PlayerStatus] player lose arrowSkill: {skill.SkillName}? {skill.name}");
+    }
+
+    private void InternalRemovePassiveSkill(PassiveSkill skill)
+    {
+        passiveSkills.Remove(skill);
+        OnSkillsListChanged?.Invoke();
+
+        Debug.Log($"[PlayerStatus] player lose arrowSkill: {skill.skillName}? {skill.name}");
+    }
+#endif
 }

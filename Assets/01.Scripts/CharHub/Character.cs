@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    public Transform targetTransform; // 플레이어
+    public Transform TargetTransform { get; protected set; } = null;
     public bool CanAttack { get; protected set; } = true;
 
 

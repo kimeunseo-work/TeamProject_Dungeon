@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
 
-public class ArrowPool : MonoBehaviour 
+public class ZombiePool : MonoBehaviour 
 {
-    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private GameObject zombiePrefab;
     [SerializeField] private readonly int defaultCapacity = 5;
     [SerializeField] private readonly int maxSize = 10;
     private ObjectPool<GameObject> pool;
@@ -11,9 +11,8 @@ public class ArrowPool : MonoBehaviour
     void Awake()
     {
         pool = new ObjectPool<GameObject>(
-            () => Instantiate(arrowPrefab),
-            //bullet => bullet.SetActive(true),
-            actionOnGet: null,
+            () => Instantiate(zombiePrefab),
+            bullet => bullet.SetActive(true),
             bullet => bullet.SetActive(false),
             bullet => Destroy(bullet),
             defaultCapacity: defaultCapacity,
@@ -21,12 +20,6 @@ public class ArrowPool : MonoBehaviour
         );
     }
 
-    public GameObject Get(Vector3 spawnPos, Quaternion rotation)
-    {
-        GameObject obj = pool.Get();
-        obj.transform.SetPositionAndRotation(spawnPos, rotation);
-        obj.SetActive(true);
-        return obj;
-    }
+    public GameObject Get() => pool.Get();
     public void Release(GameObject obj) => pool.Release(obj);
 }
