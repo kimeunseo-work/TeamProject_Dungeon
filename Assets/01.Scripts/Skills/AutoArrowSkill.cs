@@ -6,34 +6,33 @@ public class AutoArrowSkill : Skill
 {
     [Header("화살 투사체 설정")]
     public GameObject arrowPrefab;
-    public float arrowSpeed = 10f; // 화살 속도
-    public float detectionRadius = 10f; // 화살 충돌 감지 반경
-    public int arrowCount = 1; // 발사할 화살 개수
-    public int extraPierce = 0; // 추가 관통 수
-    public float spreadAngle = 0f; // 화살 퍼짐 각도
+    public float arrowSpeed = 10f;        // 화살 속도
+    public float detectionRadius = 10f;   // 적 감지 반경
+    public int arrowCount = 1;            // 한 번에 발사할 화살 수
+    public int extraPierce = 0;           // 추가 관통 수
+    public float spreadAngle = 0f;        // 화살 퍼짐 각도
+    public float shotInterval = 0.1f;     // 발사 쿨타임
+
+    private bool canShoot = true;
 
     public override void Activate()
     {
-        if (arrowPrefab == null)
-        {
-            Debug.LogWarning("arrowPrefab이 설정되지 않았습니다.");
-            return;
-        }
+        if (!canShoot || arrowPrefab == null) return;
 
-        // 가까운 적 찾기
+        canShoot = false;
+        FireArrows();
+        StartCoroutine(ResetShotCooldown());
+    }
+
+    private void FireArrows()
+    {
+        // 가장 가까운 적 찾기
         Transform target = FindNearestEnemy();
 
         // 발사 기준 방향
-        Vector2 direction;
-        if (target != null)
-        {
-            direction = (target.position - transform.position).normalized;
-        }
-        else
-        {
-            // 적이 없으면 플레이어 바라보는 방향
-            direction = transform.up;
-        }
+        Vector2 direction = target != null
+            ? (target.position - transform.position).normalized
+            : transform.up; // 적 없으면 플레이어 위쪽
 
         // 화살 여러 발 퍼뜨리기
         float angleStep = (arrowCount > 1) ? spreadAngle / (arrowCount - 1) : 0f;
@@ -46,18 +45,18 @@ public class AutoArrowSkill : Skill
             // 회전값 적용
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, direction) * Quaternion.Euler(0, 0, angleOffset);
 
-            // 플레이어 위치 기준으로 앞쪽에서 발사
+            // 플레이어 위치 기준 앞쪽 발사
             Vector3 spawnPos = transform.position + (Vector3)(direction * 0.5f);
             GameObject arrow = Instantiate(arrowPrefab, spawnPos, rotation);
 
-            // 화살에 속도 부여
+            // 화살 속도 적용
             Rigidbody2D rb = arrow.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                rb.velocity = rotation * transform.up * arrowSpeed;
+                rb.velocity = rotation * Vector3.up * arrowSpeed;
             }
 
-            // 관통 수 설정
+            // 관통 수 적용
             Arrow arrowScript = arrow.GetComponent<Arrow>();
             if (arrowScript != null)
             {
@@ -65,8 +64,15 @@ public class AutoArrowSkill : Skill
             }
         }
 
-        Debug.Log($"{skillName} activated: Fired {arrowCount} arrows with {extraPierce} extra pierce.");
+        Debug.Log($"{skillName} fired {arrowCount} arrows with {extraPierce} extra pierce.");
     }
+
+    private IEnumerator ResetShotCooldown()
+    {
+        yield return new WaitForSeconds(shotInterval);
+        canShoot = true;
+    }
+
     private Transform FindNearestEnemy()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
