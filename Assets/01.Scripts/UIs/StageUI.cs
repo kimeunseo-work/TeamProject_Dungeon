@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StageUI : MonoBehaviour
@@ -16,24 +17,41 @@ public class StageUI : MonoBehaviour
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject sellectSkillPanel;
 
-    public SkillManager skillManager;
+    [Header("Panels")]
+    [SerializeField] private Transform ContentAcquiredSkills;
+    [SerializeField] private Transform ContentRandomSkills;
+
+    //public SkillManager skillManager;
 
     private PlayerStatus playerStatus;
 
     private void Start()
     {
         settingsButton.onClick.AddListener(OpenSettingsPanel);
+        SkillManager.Instance.Init(selectSkillPanel: ContentRandomSkills, acquiredSkillPanel: ContentAcquiredSkills);
+        SceneManager.sceneLoaded += OnSceneChanged;
+        //SkillManager.Instance.Init();
         //playerStatus.OnDungeonExpChanged += UpdateExp;
         //playerStatus.OnDungeonLevelChanged += UpdateLevel;
+    }
+
+    private void OnSceneChanged(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("init");
+        SkillManager.Instance.Init(selectSkillPanel: ContentRandomSkills, acquiredSkillPanel: ContentAcquiredSkills);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            //sellectSkillPanel.gameObject.SetActive(true);
-            skillManager.ShowSkillLists();
+            OpenSelectSkillPanel();
         }
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneChanged;
     }
 
     #region Game UI
@@ -49,7 +67,7 @@ public class StageUI : MonoBehaviour
     {
         levelText.text = playerStatus.DungeonLevel.ToString();
         UpdateExp();
-        OpenLevelUpPanel();
+        OpenSelectSkillPanel();
     }
 
     private void UpdateExp()
@@ -66,10 +84,13 @@ public class StageUI : MonoBehaviour
     }
     #endregion
 
-    #region Level Up
-    private void OpenLevelUpPanel()
+    #region Select Skill
+    private void OpenSelectSkillPanel()
     {
-        UIManager.Instance.PushUI(sellectSkillPanel);
+        //UIManager.Instance.PushUI(sellectSkillPanel);
+        //SkillManager.Instance.ShowSkillLists();
+
+        SkillManager.Instance.RequestOpenSkillPanel();
     }
     #endregion
 }
