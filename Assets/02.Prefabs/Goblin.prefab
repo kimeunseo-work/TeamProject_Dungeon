@@ -79,7 +79,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  attackRange: 5
+  shooterPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
+  attackRange: 10
   speed: 1.5
 --- !u!70 &8386697284813138138
 CapsuleCollider2D:
