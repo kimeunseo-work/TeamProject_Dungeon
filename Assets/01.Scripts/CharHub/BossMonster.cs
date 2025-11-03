@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BossMonster : Character
 {
-    [Header("보스 스텟")]
-    public int maxHp = 500;
-    private int currentHp;
+    private MonsterStatus status;   //체력, 공격력 등은 여기서 관리
+    private Player target;
+    private Rigidbody2D rb;
 
     [Header("공격 쿨타임")]
     public float patternCooldown = 2f;
@@ -31,23 +30,23 @@ public class BossMonster : Character
     private float bombTimer = 0f;
     public float bombExplosionRadius = 2f;
 
-    private Transform player;
-    private Rigidbody2D rb;
-
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        target = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
         rb = GetComponent<Rigidbody2D>();
-        currentHp = maxHp;
+        status = GetComponent<MonsterStatus>();
+
+        //스탯 초기화 (Monster처럼)
+        var baseStatus = new Status { Hp = 500, Atk = 50 };  // 또는 데이터에서 불러오기
+        status.InitDungeon(baseStatus, 1);
     }
 
     protected override void Update()
     {
         base.Update();
+        if (target == null) return;
 
-        if (player == null) return;
-
-        // 폭탄 패턴은 별도 타이머
+        // 폭탄 쿨타임 관리
         bombTimer += Time.deltaTime;
         if (bombTimer >= bombCooldown)
         {
@@ -55,7 +54,7 @@ public class BossMonster : Character
             bombTimer = 0f;
         }
 
-        // 돌진/점프 등 공격 패턴 관리
+        // 다른 패턴 쿨타임 관리
         if (!isDashing && !isJumping)
         {
             patternTimer += Time.deltaTime;
@@ -81,12 +80,11 @@ public class BossMonster : Character
         }
     }
 
-    // 돌진 공격
     private IEnumerator DashAttack()
     {
         isDashing = true;
         float elapsed = 0f;
-        Vector2 direction = (player.position - transform.position).normalized;
+        Vector2 direction = (target.transform.position - transform.position).normalized;
         rb.velocity = direction * dashSpeed;
 
         while (elapsed < dashDuration)
@@ -99,7 +97,6 @@ public class BossMonster : Character
         isDashing = false;
     }
 
-    // 점프 공격
     private IEnumerator JumpAttack()
     {
         isJumping = true;
@@ -114,9 +111,8 @@ public class BossMonster : Character
             yield return null;
         }
 
-        // 내려찍기
         elapsed = 0f;
-        Vector3 targetPos = new Vector3(player.position.x, startPos.y, startPos.z);
+        Vector3 targetPos = new Vector3(target.transform.position.x, startPos.y, startPos.z);
         while (elapsed < jumpDuration / 2f)
         {
             elapsed += Time.deltaTime;
@@ -146,9 +142,9 @@ public class BossMonster : Character
 
     private void SpawnBomb()
     {
-        if (bombPrefab == null || player == null) return;
+        if (bombPrefab == null || target == null) return;
 
-        Vector3 spawnPos = player.position + new Vector3(
+        Vector3 spawnPos = target.transform.position + new Vector3(
             Random.Range(-bombSpawnRange.x, bombSpawnRange.x),
             Random.Range(-bombSpawnRange.y, bombSpawnRange.y),
             0f
@@ -160,16 +156,32 @@ public class BossMonster : Character
             bombScript.explosionRadius = bombExplosionRadius;
     }
 
-    protected override void Attack() { }
-
     public override void TakeDamage(int amount)
     {
-        currentHp -= amount;
-        if (currentHp <= 0)
+        if (status == null)
         {
-            currentHp = 0;
+            return;
+        }
+
+        status.TakeDamage(amount);
+
+
+        if (status.DungeonHp <= 0 && !status.IsDead)
+        {
             Status_OnDead();
         }
+    }
+
+    private void OnEnable()
+    {
+        if (status != null)
+            status.OnDead += Status_OnDead;
+    }
+
+    private void OnDisable()
+    {
+        if (status != null)
+            status.OnDead -= Status_OnDead;
     }
 
     protected override void Status_OnDead()
@@ -177,4 +189,6 @@ public class BossMonster : Character
         Debug.Log("보스 사망!");
         Destroy(gameObject);
     }
+
+    protected override void Attack() { }
 }

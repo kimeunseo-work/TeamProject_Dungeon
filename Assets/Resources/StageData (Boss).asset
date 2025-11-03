@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageType: 2
   monsterPrefabs:
-  - {fileID: 4047121749721248677, guid: b5effc41a2ff83d4990eff92d23c483b, type: 3}
-  minMonsterCount: 3
-  maxMonsterCount: 3
+  - {fileID: 8610769567903503749, guid: dd5f97a1fb239ef4b969309bb3bfa530, type: 3}
+  minMonsterCount: 1
+  maxMonsterCount: 1

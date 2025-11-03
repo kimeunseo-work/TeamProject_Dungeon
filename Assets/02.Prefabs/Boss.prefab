@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  shooterPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
+  shooterPrefab: {fileID: 0}
   attackRange: 0.8
   speed: 1
 --- !u!70 &-6992224698652151698
@@ -263,14 +263,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 500
-  attackCooldown: 2
+  patternCooldown: 2
   dashSpeed: 10
   dashDuration: 1
   dashDamage: 20
+  jumpHeight: 5
+  jumpDuration: 1
+  jumpDamage: 50
   bombPrefab: {fileID: 6892321934412946387, guid: 6dcf6fefdea99174ba8f7015891bb0a4, type: 3}
   bombSpawnRange: {x: 5, y: 5}
   bombCooldown: 5
   bombExplosionRadius: 5
-  jumpHeight: 5
-  jumpDuration: 1
-  jumpDamage: 50
