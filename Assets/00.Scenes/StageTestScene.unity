@@ -2551,6 +2551,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1655741116}
   startPoint: {fileID: 1274901862}
+  exitCollider: {fileID: 0}
+  testMode: 1
   spawnAreas:
   - serializedVersion: 2
     x: -2

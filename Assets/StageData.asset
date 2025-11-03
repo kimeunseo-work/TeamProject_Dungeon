@@ -17,4 +17,4 @@ MonoBehaviour:
   monsterPrefabs:
   - {fileID: 1095429283834799408, guid: 9d4aaee8e693d984982ad62e92430d7e, type: 3}
   minMonsterCount: 1
-  maxMonsterCount: 3
+  maxMonsterCount: 1

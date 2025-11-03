@@ -3,12 +3,29 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static StageData;
 
-public class StageManager : MonoBehaviour 
+public class StageManager : MonoBehaviour
 {
+    public static StageManager Instance;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject);
+        }
 
-    [SerializeField] private Transform player;      
+        stageNum = 1;
+        StartStage();
+    }
+
+    [SerializeField] private Transform player;
     [SerializeField] private Transform startPoint;
-
+    [SerializeField] private Collider2D exitCollider;
+    [SerializeField] private bool testMode = true; // 테스트용 프리패스 치트키
 
     [SerializeField] List<Rect> spawnAreas;
 
@@ -19,8 +36,9 @@ public class StageManager : MonoBehaviour
     [SerializeField] private List<StageData> stageDatas;
     private StageData currentStageData;
 
+    private List<MonsterStatus> monsterStatuses;
 
-    private byte clearRequireNum = 0; //스테이지 클리어가 되려면 몬스터가 0이어야함
+    private int clearRequireNum; //스테이지 클리어가 되려면 몬스터가 0이어야함
     private int stageNum;               //스테이지의 숫자
 
     private bool isClear;       //클리어 확인여부의 불리언
@@ -28,15 +46,30 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
-        stageNum = 1;
-        StartStage();
+        //stageNum = 1;
+        //StartStage();
+
+
+
     }
 
+    private void FixedUpdate()
+    {
+
+    }
+
+    // 스테이지 시작 매서드
     public void StartStage()
     {
+
+
+        isClear = false;
+        exitCollider.enabled = false;
         PlacePlayerToStageStart();
 
-        currentStageData = stageDatas.Find(x => x.stageNum == stageNum);
+        //currentStageData = stageDatas.Find(x => x.stageNum == stageNum);
+        currentStageData = stageDatas[0];
+        Debug.Log($"현재 {stageNum}스테이지 입니다");
 
         if (currentStageData == null)
         {
@@ -48,21 +81,89 @@ public class StageManager : MonoBehaviour
         {
             SpawnFromStageData();
         }
-        if (currentStageData.stageType == StageType.Boss)
-        { 
-            
+        else if (currentStageData.stageType == StageType.Boss)
+        {
+            //보스
+        }
+        else if (currentStageData.stageType == StageType.Rest)
+        {
+
+        }
+
+    }
+
+    public void OnMonsterKilled()
+    {
+        clearRequireNum--;
+
+        Debug.Log($"남은 몬스터 수: {clearRequireNum}");
+
+        if (clearRequireNum <= 0)
+        {
+            StageClear();
         }
     }
 
-    public void GameClear()
+    public void StageClear()
     {
-        SceneManager.LoadScene("LobbyScene");
+        isClear = true;
+        exitCollider.enabled = true;
+        Debug.Log("Stage Clear! Exit is now active!");
+        //GoToNextStage();
         stageNum++;
+        SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
     }
 
-    public void GameOver()
-    { 
+    public void GoToNextStage()
+    {
+        //stageNum++;
+        if (stageNum > 3)
+        {
+            GameManger.Instance.ChangeGameState(GameManger.GameState.LobbyScene);
+            stageNum = 1;
+            return;
+        }
+        StartStage();
+    }
 
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SpawnRandomEnemyFromData();
+        }
+    }
+
+    private void PlacePlayerToStageStart()
+    {
+        if (player == null || startPoint == null)
+        {
+            Debug.LogError("Player 또는 StartPoint가 지정되지 않았습니다!");
+            return;
+        }
+
+        // 위치 리셋
+        player.position = startPoint.position;
+        Debug.Log("플레이어를 시작 위치에 배치했습니다!");
+    }
+
+    // 스폰 관련 매서드
+    private void SpawnRandomEnemyFromData()
+    {
+        GameObject prefab = currentStageData.monsterPrefabs[
+            Random.Range(0, currentStageData.monsterPrefabs.Count)
+        ];
+
+        Rect area = spawnAreas[Random.Range(0, spawnAreas.Count)];
+        Vector2 pos = new Vector2(
+            Random.Range(area.xMin, area.xMax),
+            Random.Range(area.yMin, area.yMax)
+        );
+
+        Instantiate(prefab, pos, Quaternion.identity);
+        //monsterStatuses.Add(monster.GetComponent<MonsterStatus>());
     }
 
     private void SpawnFromStageData()
@@ -86,8 +187,11 @@ public class StageManager : MonoBehaviour
 
         for (int i = 0; i < count; i++)
             SpawnRandomEnemyFromData();
+
+        clearRequireNum = count;
     }
 
+    // 기즈모 코드
     private void OnDrawGizmosSelected()
     {
         if (spawnAreas == null) return;
@@ -100,47 +204,16 @@ public class StageManager : MonoBehaviour
             Gizmos.DrawCube(center, size);
         }
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpawnRandomEnemyFromData();
-        }
-    }
-
-    public void GameClearMenu()
-    {
-        //이건테스트 서버 주석
-    }
-
-    private void PlacePlayerToStageStart()
-    {
-        if (player == null || startPoint == null)
-        {
-            Debug.LogError("Player 또는 StartPoint가 지정되지 않았습니다!");
-            return;
-        }
-
-        // 위치 리셋
-        player.position = startPoint.position;
-        Debug.Log("플레이어를 시작 위치에 배치했습니다!");
-    }
-
-    private void SpawnRandomEnemyFromData()
-    {
-        GameObject prefab = currentStageData.monsterPrefabs[
-            Random.Range(0, currentStageData.monsterPrefabs.Count)
-        ];
-
-        Rect area = spawnAreas[Random.Range(0, spawnAreas.Count)];
-        Vector2 pos = new Vector2(
-            Random.Range(area.xMin, area.xMax),
-            Random.Range(area.yMin, area.yMax)
-        );
-
-        Instantiate(prefab, pos, Quaternion.identity);
-    }
 }
 
 
+// 아직까진 미구현 된 매서드들
+//public void GameOver()
+//{
+
+//}
+
+//public void GameClearMenu()
+//{
+//    //이건테스트 서버 주석
+//}
