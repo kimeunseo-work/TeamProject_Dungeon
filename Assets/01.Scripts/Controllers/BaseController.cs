@@ -90,7 +90,7 @@ public class BaseController : MonoBehaviour
 
         _rigidbody.velocity = direction;
 
-        animationHandler?.Move(direction);
+        animationHandler.Move(direction);
     }
 
     protected virtual void Rotate(Vector2 direction)
