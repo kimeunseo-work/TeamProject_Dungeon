@@ -12,10 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77b92f7f0843074582e5990cc24c7ea, type: 3}
   m_Name: IncreaseHp
   m_EditorClassIdentifier: 
-  skillName: Increase Hp
-  skillDescription: Increase Hp little
-  icon: {fileID: 21300000, guid: fcf9331350749474fa4fb330c83c5c39, type: 3}
-  skillPrefab: {fileID: 0}
-  type: 2
+  SkillName: Increase Hp
+  SkillDescription: Increase Hp little
+  Icon: {fileID: 21300000, guid: fcf9331350749474fa4fb330c83c5c39, type: 3}
+  Type: 2
+  SkillPrefab: {fileID: 0}
   skillValue: 30
-  canStack: 1
+  CanStack: 1
+  ActiveSkillType: 0
+  CoolDown: 0
+  Timer: 0
+  ArrowSpeed: 0
+  ArrowCount: 0
+  ExtraPierce: 0
+  SpreadAngle: 0
+  ShotInterval: 0
+  CanPierce: 0
