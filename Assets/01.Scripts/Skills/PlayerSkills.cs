@@ -2,21 +2,30 @@
 using UnityEngine;
 public class PlayerSkills : MonoBehaviour
 {
-    [SerializeField] public List<SkillData> acquiredSkills = new List<SkillData>();
-    [SerializeField] private PlayerStatus playerStatus;
     public static PlayerSkills Instance;
-    [SerializeField] private SkillData defaultSkilldata;
-    [SerializeField] private BaseSkill defaultSkill;
+
+    [SerializeField] public List<SkillData> AcquiredSkills = new List<SkillData>(10);
+    [SerializeField] private PlayerStatus playerStatus;
+    private BaseSkill defaultSkill;
+
+    private void Reset()
+    {
+        playerStatus = GetComponent<PlayerStatus>();
+        defaultSkill = GetComponent<BaseSkill>();
+    }
 
     private void Start()
     {
         SkillManager.Instance.Init(this);
+
+        if (defaultSkill == null)
+        {
+            Debug.Log("[PlayerSkills] defaultSkill is NULL, Attached script <BaseSkill>");
+            defaultSkill = gameObject.AddComponent<BaseSkill>();
+        }
+        defaultSkill.Init();
     }
 
-    private void Reset()
-    {
-        dungeonStatus = GetComponent<PlayerStatus>();
-        defaultSkill = GetComponent<BaseSkill>();
     private void Update()
     {
         {
@@ -24,22 +33,6 @@ public class PlayerSkills : MonoBehaviour
             playerStatus.IncreaseDungeonExp(1);
         }
     }
-
-    private void Start()
-    {
-        if(defaultSkill == null)
-        {
-            Debug.Log("[PlayerSkills] defaultSkill is NULL");
-        }
-        defaultSkill.Init();
-    }
-
-    /// <summary>
-    /// 현재 등록된 스킬
-    /// UI에서 랜덤 스킬 뽑을 때 중복을 피하기 위해서 사용
-    /// </summary>
-    public List<SkillData> AcquiredSkills { get; private set; } = new(5);
-
 
     /*외부 호출*/
     //=======================================//
@@ -81,12 +74,12 @@ public class PlayerSkills : MonoBehaviour
             case "Increase Attack":
                 // increase dungeon attack
                 //PlayerLobbyStatus.Instance.IncreaseBaseAtk();
-                dungeonStatus.IncreaseDungeonAtk(1);
+                playerStatus.IncreaseDungeonAtk(1);
                 break;
             case "Increase Hp":
                 // increase dungeon hp
                 //PlayerLobbyStatus.Instance.IncreaseBaseHp();
-                dungeonStatus.IncreaseDungeonMaxHp(1);
+                playerStatus.IncreaseDungeonMaxHp(1);
                 break;
             case "Increase Attack Speed":
                 // increase dungeon attack Speed

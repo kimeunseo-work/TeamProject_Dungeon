@@ -13,7 +13,15 @@ public class BaseSkill : MonoBehaviour
     public float ShotInterval { get; private set; }
     public bool CanPierce { get; private set; }
     public bool IsReady { get; private set; } = true;
-    
+
+    private void Awake()
+    {
+        if(skill == null)
+        {
+            skill = Resources.Load<SkillData>("defaultSkill");
+        }
+    }
+
     public void Init()
     {
         SkillName = skill.SkillName;

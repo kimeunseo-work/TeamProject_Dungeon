@@ -25,11 +25,13 @@ public class SkillData : ScriptableObject
 public enum SkillType
 {
     Active,
-    Pasive,
+    Passive,
     Status,
+}
+
 public enum ActiveSkillType
-    None,
 {
+    None,
     ArrowCount,
     ExtraPierce,
     CoolDown

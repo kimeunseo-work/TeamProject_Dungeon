@@ -68,8 +68,8 @@ public class SkillManager : MonoBehaviour
 
         List<SkillData> options = allSkills
             .Where(
-            s => s.canStack
-            || !playerSkills.acquiredSkills.Contains(s)
+            s => s.CanStack
+            || !playerSkills.AcquiredSkills.Contains(s)
             )
             .OrderBy(x => UnityEngine.Random.value)
             .Take(3)
@@ -89,8 +89,7 @@ public class SkillManager : MonoBehaviour
 
         void OnSkillSelected(SkillData selected)
         {
-            // ������ ���
-            playerSkills.AddSkill(seleted);
+            playerSkills.AddSkill(selected);
 
             GameObject imgObj = Instantiate(acquiredSkillPrefab, acquiredSkillPanel);
             imgObj.GetComponent<SkillIcon>().SetUp(selected.Icon);

@@ -15,11 +15,12 @@ MonoBehaviour:
   SkillName: defaultSkill
   SkillDescription: "\uAE30\uBCF8 \uACF5\uACA9"
   Icon: {fileID: 21300000, guid: e4b7b8c1a66f88c458f20c711992530a, type: 3}
-  SkillPrefab: {fileID: 707792727986895017, guid: 89e7c145867c98d41bfb06a5b692b0d9, type: 3}
   Type: 0
+  SkillPrefab: {fileID: 707792727986895017, guid: 89e7c145867c98d41bfb06a5b692b0d9, type: 3}
+  skillValue: 0
   CanStack: 0
   ActiveSkillType: 0
-  CoolDown: 0.1
+  CoolDown: 0.5
   Timer: 0
   ArrowSpeed: 10
   ArrowCount: 1
