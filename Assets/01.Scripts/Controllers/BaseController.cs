@@ -16,7 +16,6 @@ public class BaseController : MonoBehaviour
     //[SerializeField] private Transform WeaponPivot;
     [SerializeField] private Transform weaponTransform; // 무기(활) 오브젝트
     [SerializeField] private float detectionRadius = 10f;
-    [SerializeField] private Vector2 weaponOffset = new Vector2(0.5f, 0f);
     private Vector2 lastMoveDirection = Vector2.right;
 
     protected Vector2 movementDirection = Vector2.zero;
@@ -76,6 +75,10 @@ public class BaseController : MonoBehaviour
     {
         animationHandler.Dead();
     }
+    public virtual void Attack()
+    {
+        animationHandler.Attack();
+    }
 
     /*내부 로직*/
     //=======================================//
@@ -97,6 +100,7 @@ public class BaseController : MonoBehaviour
 
         animationHandler.Move(direction);
     }
+    
 
     protected virtual void Rotate(Vector2 direction)
     {

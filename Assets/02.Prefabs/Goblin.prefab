@@ -78,9 +78,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71771b5ddb34dbb42bc1d982154e04ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponTransform: {fileID: 0}
+  detectionRadius: 10
   type: 1
   shooterPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
-  attackRange: 10
+  attackRange: 5
   speed: 1.5
 --- !u!114 &1601624326190399142
 MonoBehaviour:
