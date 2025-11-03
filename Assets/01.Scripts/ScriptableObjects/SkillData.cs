@@ -8,6 +8,7 @@ public class SkillData : ScriptableObject
     public Sprite Icon;
     public SkillType Type;
     public GameObject SkillPrefab;
+    public StatusType statusType;
     public int skillValue;
     public bool CanStack = false;
 
@@ -27,6 +28,13 @@ public enum SkillType
     Active,
     Passive,
     Status,
+}
+
+public enum StatusType
+{
+    None,
+    MaxHp,
+    Attack,
 }
 
 public enum ActiveSkillType

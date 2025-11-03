@@ -14,12 +14,14 @@ public class StageUI : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject sellectSkillPanel;
+    [SerializeField] private GameObject StageEndingPanel;
 
     [Header("Panels Content Transform")]
     [SerializeField] private Transform ContentAcquiredSkills;
     [SerializeField] private Transform ContentRandomSkills;
 
     [SerializeField] private TextMeshProUGUI howGetSkillText;
+    [SerializeField] private StageEndingUI stageEndingUI;
 
     private PlayerStatus playerStatus;
 
@@ -37,21 +39,16 @@ public class StageUI : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         playerStatus.OnDungeonLevelChanged += OnLevelUp;
         playerStatus.OnDungeonExpChanged += UpdateExp;
+        playerStatus.OnDead += OpenGameOverUI;
 
         UpdateHUD();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            OpenSelectSkillPanel("Stage Clear");
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("R");
-            playerStatus.IncreaseDungeonExp(7);
+            OpenStageClearUI();
         }
     }
 
@@ -60,6 +57,7 @@ public class StageUI : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
         playerStatus.OnDungeonLevelChanged -= OnLevelUp;
         playerStatus.OnDungeonExpChanged -= UpdateExp;
+        playerStatus.OnDead -= OpenGameOverUI;
     }
     #endregion
 
@@ -118,4 +116,17 @@ public class StageUI : MonoBehaviour
         SkillManager.Instance.RequestOpenSkillPanel(howGetSkillStr);
     }
     #endregion
+
+    private void OpenGameOverUI()
+    {
+        Time.timeScale = 0f;
+        stageEndingUI.Init(false);
+        UIManager.Instance.PushUI(StageEndingPanel);
+    }
+
+    public void OpenStageClearUI()
+    {
+        stageEndingUI.Init(true);
+        UIManager.Instance.PushUI(StageEndingPanel);
+    }
 }

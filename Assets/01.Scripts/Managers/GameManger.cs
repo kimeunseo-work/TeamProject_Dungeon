@@ -46,7 +46,9 @@ public class GameManger : MonoBehaviour
     {
         yield return UIManager.Instance.FadeOut();
 
-        if(CurrentState == GameState.LobbyScene)
+        UIManager.Instance.PopUI();
+
+        if (CurrentState == GameState.LobbyScene)
         {
             SceneManager.LoadScene(nameof(GameState.LobbyScene));
         }
@@ -54,7 +56,8 @@ public class GameManger : MonoBehaviour
         {
             SceneManager.LoadScene(nameof(GameState.DungeonScene));
         }
-
         yield return UIManager.Instance.FadeIn();
+
+        Time.timeScale = 1f;
     }
 }

@@ -27,32 +27,25 @@ public class PlayerSkills : MonoBehaviour
         defaultSkill.Init();
     }
 
-    private void Update()
-    {
-        {
-        if (Input.GetKeyDown(KeyCode.G))
-            playerStatus.IncreaseDungeonExp(1);
-        }
-    }
-
     /*외부 호출*/
     //=======================================//
 
     /// <summary>
     /// 스테이지 클리어 후 스킬 선택했을 때
     /// </summary>
-    public void AddSkill(SkillData skill)
+    public void AddSkill(SkillData skillData)
     {
         // 이미 획득했는데 중복도 안되는 스킬이면 리턴
-        if (!skill.CanStack && AcquiredSkills.Contains(skill))
+        if (!skillData.CanStack && AcquiredSkills.Contains(skillData))
             return;
 
-        AcquiredSkills.Add(skill);
+        AcquiredSkills.Add(skillData);
 
-        if (skill.Type == SkillType.Passive)
-            ApplyPassiveSkill(skill);
+        if (skillData.Type == SkillType.Passive)
+            ApplyPassiveSkill(skillData);
         else
-            ApplyActiveSkill(skill);
+            ApplyActiveSkill(skillData);
+
     }
 
     /// <summary>
@@ -67,13 +60,12 @@ public class PlayerSkills : MonoBehaviour
 
     /*내부 로직*/
     //=======================================//
-
     private void ApplyPassiveSkill(SkillData skill)
     {
         switch (skill.SkillName)
         {
-            case "Increase Attack":
                 // increase dungeon attack
+            case "Increase Attack":
                 //PlayerLobbyStatus.Instance.IncreaseBaseAtk();
                 playerStatus.IncreaseDungeonAtk(1);
                 break;
@@ -82,8 +74,7 @@ public class PlayerSkills : MonoBehaviour
                 //PlayerLobbyStatus.Instance.IncreaseBaseHp();
                 playerStatus.IncreaseDungeonMaxHp(1);
                 break;
-            case "Increase Attack Speed":
-                // increase dungeon attack Speed
+            default:
                 break;
         }
     }
