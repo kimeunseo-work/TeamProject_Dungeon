@@ -25,13 +25,13 @@ public class StageEndingUI : MonoBehaviour
     {
         if (isClear)
         {
-            endStageTitle.text = gameOverTitleStr;
-            endStageText.text = gameOverStr;
+            endStageTitle.text = clearTitleStr;
+            endStageText.text = clearStr;
         }
         else
         {
-            endStageTitle.text = clearTitleStr;
-            endStageText.text = clearStr;
+            endStageTitle.text = gameOverTitleStr;
+            endStageText.text = gameOverStr;
         }
     }
 
