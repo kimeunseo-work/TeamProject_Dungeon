@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public class PlayerLobbyStatus : MonoBehaviour 
@@ -172,7 +172,7 @@ public class PlayerLobbyStatus : MonoBehaviour
             // 다음 레벨이 요구하는 경험치로 기준치 상승
             RequiredBaseExp = baseExpData.ExpTable[BaseLevel];
 
-            OnBaseLevelChanged.Invoke();
+            OnBaseLevelChanged?.Invoke();
             OnRequiredBaseExpChanged?.Invoke();
         }
     }
