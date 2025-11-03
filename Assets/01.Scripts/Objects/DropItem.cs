@@ -1,8 +1,7 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
-public struct DropItemInfo 
+public struct DropItemInfo
 {
     public string Name;
     public int Amount;
@@ -32,7 +31,6 @@ public class DropItem : MonoBehaviour
     }
 
     // 스테이지 클리어시 true
-    [SerializeField] private bool canMove = false;
     [SerializeField][Range(0, 100)] private float speed = 1f;
     [SerializeField][Range(0, 100)] private float acceleration = 1f;
 
@@ -41,8 +39,9 @@ public class DropItem : MonoBehaviour
     public float curveHeight = 0.5f;  // 곡선 높이
     public float duration = 0.5f;     // 이동 시간
 
-    private Vector3 startPos;
-    private Vector3 endPos;
+    private bool canMove = false;
+    private float timer = 0f;
+    private float cool = 0.5f;
 
     /*생명 주기*/
     //=======================================//
@@ -54,16 +53,17 @@ public class DropItem : MonoBehaviour
         targetPos = go.GetComponent<Transform>();
     }
 
-    private void OnEnable()
-    {
-        // 스테이지 클리어 이벤트와 Stage_OnCompleted 구독
-    }
-    private void OnDisable()
-    {
-        // 스테이지 클리어 이벤트와 Stage_OnCompleted 해지
-    }
     private void Update()
     {
+        if(timer < cool)
+        {
+            timer += Time.deltaTime;
+        }
+        else
+        {
+            canMove = true;
+        }
+
         if (canMove) Movement();
     }
 
@@ -73,24 +73,15 @@ public class DropItem : MonoBehaviour
     public void Get(Vector2 monPos)
     {
         ObjectManager.Instance.ExpPool.Get();
-
-        startPos = monPos;
-        endPos = monPos;
     }
-
-    /*이벤트 전용*/
-    //=======================================//
-
-    /// <summary>
-    /// 스테이지 클리어 이벤트에 연결
-    /// </summary>
-    private void Stage_OnCompleted() => canMove = true;
 
     /*충돌 & 트리거*/
     //=======================================//
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!canMove) return;
+
         if (collision.CompareTag("Player"))
         {
             targetData.GetDungeonExp(Amount);
@@ -107,9 +98,9 @@ public class DropItem : MonoBehaviour
         // 속도 증가
         speed += acceleration * Time.deltaTime;
         // 방향 도출
-        Vector2 dir = (targetPos.position - transform.position).normalized;
+        Vector2 direction = (targetPos.position - transform.position).normalized;
         // 이동
-        transform.position += (Vector3)(dir * speed * Time.deltaTime);
+        transform.position += (Vector3)(speed * Time.deltaTime * direction);
     }
 
     private void Release()

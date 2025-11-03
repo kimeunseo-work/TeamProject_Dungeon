@@ -79,6 +79,6 @@ public class LobbyUI : MonoBehaviour
 
     private void OnClickPlay()
     {
-        GameManger.Instance.ChangeGameState(GameManger.GameState.DungeonScene);
+        GameManager.Instance.ChangeGameState(GameManager.GameState.DungeonScene);
     }
 }

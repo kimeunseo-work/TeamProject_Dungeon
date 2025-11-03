@@ -21,13 +21,10 @@ public class ArrowPool : MonoBehaviour
         );
     }
 
-    //public GameObject Get(Vector3 spawnPos, Quaternion rotation)
-    //{
-    //    GameObject obj = pool.Get();
-    //    obj.transform.SetPositionAndRotation(spawnPos, rotation);
-    //    obj.SetActive(true);
-    //    return obj;
-    //}
     public GameObject Get() => pool.Get();
-    public void Release(GameObject obj) => pool.Release(obj);
+    public void Release(GameObject obj)
+    {
+        obj.transform.parent = gameObject.transform;
+        pool.Release(obj);
+    }
 }

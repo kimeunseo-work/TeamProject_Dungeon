@@ -131,7 +131,7 @@ public class StageManager : MonoBehaviour
         //stageNum++;
         if (stageNum > 10)
         {
-            GameManger.Instance.ChangeGameState(GameManger.GameState.LobbyScene);
+            GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
             stageNum = 1;
             return;
         }
