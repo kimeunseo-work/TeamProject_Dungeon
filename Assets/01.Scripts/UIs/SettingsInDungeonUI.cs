@@ -4,21 +4,25 @@ using UnityEngine.UI;
 public class SettingsInDungeonUI : MonoBehaviour
 {
     [Header("List of skills acpuired")]
-    [SerializeField] GameObject skillSlotPrefab;
     [SerializeField] RectTransform content;
     [SerializeField] ScrollRect scrollRect;
 
     [Header("Buttons")]
     [SerializeField] Button playButton;
-    [SerializeField] Button bgmMuteButton;
-    [SerializeField] Button sfxMuteButton;
+    [SerializeField] Button muteButton;
     [SerializeField] Button loadLobbyButton;
+
+    [Header("MuteImages")]
+    [SerializeField] private Image muteImage;
+    [SerializeField] private Sprite unMuteSprite;
+    [SerializeField] private Sprite muteSprite;
+
+    bool isMute = false;
 
     private void Start()
     {
         playButton.onClick.AddListener(OnClickPlay);
-        bgmMuteButton.onClick.AddListener(OnClickBgmMute);
-        sfxMuteButton.onClick.AddListener(OnClickSfxMute);
+        muteButton.onClick.AddListener(OnClickMute);
         loadLobbyButton.onClick.AddListener(OnClickLoadLobby);
     }
 
@@ -29,14 +33,15 @@ public class SettingsInDungeonUI : MonoBehaviour
         UIManager.Instance.PopUI();
     }
 
-    private void OnClickBgmMute()
+    private void OnClickMute()
     {
+        isMute = !isMute;
+        if (isMute)
+            muteImage.sprite = muteSprite;
+        else
+            muteImage.sprite = unMuteSprite;
 
-    }
-
-    private void OnClickSfxMute()
-    {
-
+        AudioManager.instance.Mute(isMute);
     }
 
     private void OnClickLoadLobby()
