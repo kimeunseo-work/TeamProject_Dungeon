@@ -22,11 +22,6 @@ public class PlayerController : BaseController
         CheckIsMoveChanged(movementDirection);
     }
 
-    public override void Dead()
-    {
-        Time.timeScale = 0f;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Finish"))

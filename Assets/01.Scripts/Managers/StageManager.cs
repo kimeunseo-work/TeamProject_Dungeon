@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -46,18 +46,25 @@ public class StageManager : MonoBehaviour
     private bool isClear;       //클리어 확인여부의 불리언
     private bool isStageProcessing;     //로딩중일때 입력키방지용
 
-    private void Start()
-    {
-        //stageNum = 1;
-        //StartStage();
-
-
-
-    }
-
     private void FixedUpdate()
     {
 
+    }
+
+    private StageType GetStageType(int stage)
+    {
+        if (stage % 10 == 0)
+            return StageType.Boss; 
+
+        if (stage % 5 == 0)
+            return StageType.Rest;
+
+        return StageType.Combat;
+    }
+
+    private StageData GetStageDataByType(StageType type)
+    {
+        return stageDatas.Find(x => x.stageType == type);
     }
 
     // 스테이지 시작 매서드
@@ -70,27 +77,27 @@ public class StageManager : MonoBehaviour
         nextStage.enabled = false;
         PlacePlayerToStageStart();
 
-        //currentStageData = stageDatas.Find(x => x.stageNum == stageNum);
-        currentStageData = stageDatas[0];
-        Debug.Log($"현재 {stageNum}스테이지 입니다");
+        StageType stageType = GetStageType(stageNum);
+        currentStageData = GetStageDataByType(stageType);
 
-        if (currentStageData == null)
-        {
-            Debug.LogError($"StageData 없음! StageNum: {stageNum}");
-            return;
-        }
+        Debug.Log($"현재 {stageNum} 스테이지 - [{stageType}]");
 
-        if (currentStageData.stageType == StageType.Combat)
+        switch (stageType)
         {
-            SpawnFromStageData();
-        }
-        else if (currentStageData.stageType == StageType.Boss)
-        {
-            //보스
-        }
-        else if (currentStageData.stageType == StageType.Rest)
-        {
-
+            case StageType.Combat:
+                SpawnFromStageData();
+                break;
+            case StageType.Rest:
+                SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
+                Debug.Log("휴식의시간");
+                stageNum++;
+                isClear = true;
+                exitCollider.enabled = true;
+                break;
+            case StageType.Boss:
+                SpawnFromStageData();
+                Debug.Log("보스 전투 시작!");
+                break;
         }
 
     }
@@ -121,7 +128,7 @@ public class StageManager : MonoBehaviour
     public void GoToNextStage()
     {
         //stageNum++;
-        if (stageNum > 3)
+        if (stageNum > 10)
         {
             GameManger.Instance.ChangeGameState(GameManger.GameState.LobbyScene);
             stageNum = 1;
