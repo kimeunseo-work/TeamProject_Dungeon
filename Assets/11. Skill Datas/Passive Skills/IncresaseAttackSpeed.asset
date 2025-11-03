@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b77b92f7f0843074582e5990cc24c7ea, type: 3}
-  m_Name: defaultSkill
+  m_Name: IncresaseAttackSpeed
   m_EditorClassIdentifier: 
-  SkillName: defaultSkill
-  SkillDescription: "\uAE30\uBCF8 \uACF5\uACA9"
-  Icon: {fileID: 21300000, guid: e4b7b8c1a66f88c458f20c711992530a, type: 3}
-  Type: 0
-  SkillPrefab: {fileID: 707792727986895017, guid: 89e7c145867c98d41bfb06a5b692b0d9, type: 3}
-  statusType: 0
-  skillValue: 0
-  CanStack: 0
+  SkillName: IncreaseAttackSpeed
+  SkillDescription: IncreaseAttackSpeed + 5
+  Icon: {fileID: 21300000, guid: 9c88b816673547945be179c07658d666, type: 3}
+  Type: 1
+  SkillPrefab: {fileID: 0}
+  statusType: 3
+  skillValue: 5
+  CanStack: 1
   ActiveSkillType: 0
-  CoolDown: 0.5
+  CoolDown: 0
   Timer: 0
-  ArrowSpeed: 10
-  ArrowCount: 1
+  ArrowSpeed: 0
+  ArrowCount: 0
   ExtraPierce: 0
-  SpreadAngle: 45
+  SpreadAngle: 0
   ShotInterval: 0
   CanPierce: 0

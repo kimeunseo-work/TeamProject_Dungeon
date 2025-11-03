@@ -21,6 +21,10 @@ public class PlayerController : BaseController
 
         CheckIsMoveChanged(movementDirection);
     }
+    public override void Attack()
+    {
+        base.Attack();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

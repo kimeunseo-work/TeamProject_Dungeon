@@ -117,6 +117,7 @@ public class DropItem : MonoBehaviour
         // 초기 값으로
         canMove = false;
 
+        targetData.GetDungeonExp(1);
         ObjectManager.Instance.ExpPool.Release(gameObject);
     }
 }

@@ -12,10 +12,8 @@ public class PlayerStatus : BaseStatus
     public int RequiredDungeonExp { get; private set; }
     private ExpData dungeonExpData;
 
-    /*Skills*/
-    //List<PassiveSkill> passiveSkills;
-    //List<Skill> arrowSkills;
-    //BaseSkill defaultSkill = new();
+    /*Status*/
+    public float DungeonAttackSpeed { get; private set; }
 
     /*Events*/
     public event Action OnInitDungeonPlayerFinished;
@@ -26,6 +24,8 @@ public class PlayerStatus : BaseStatus
     public event Action OnDungeonAtkChanged;
     public event Action OnDungeonExpChanged;
     public event Action OnRequiredDungeonExpChanged;
+
+    public event Action OnDungeonSpeedChanged;
 
     //public event Action OnSkillsListChanged;
 
@@ -72,6 +72,7 @@ public class PlayerStatus : BaseStatus
     public void IncreaseDungeonHp(int amount) => InternalIncreaseDungeonHp(amount);
     public void IncreaseDungeonAtk(int amount) => InternalIncreaseDungeonAtk(amount);
     public void DecreaseDungeonAtk(int amount) => InternalDecreaseDungeonAtk(amount);
+    public void IncreaseDungeonAttackSpeed(int amount) => InternalIncreaseDungeonAttackSpeed(amount);
 
     /*Level & Exp*/
     public void IncreaseDungeonExp(int amount) => InternalIncreaseDungeonExp(amount);
@@ -145,6 +146,15 @@ public class PlayerStatus : BaseStatus
     {
         DungeonAtk -= amount;
         OnDungeonAtkChanged?.Invoke();
+    }
+
+    private void InternalIncreaseDungeonAttackSpeed(int amount)
+    {
+        var ex = DungeonAttackSpeed;
+
+        DungeonAttackSpeed += amount;
+        Debug.Log($"[PlayerStatus] Before Speed = {ex}, After Speed = {DungeonAttackSpeed}");
+        OnDungeonSpeedChanged?.Invoke();
     }
 
     /*Level & Exp*/

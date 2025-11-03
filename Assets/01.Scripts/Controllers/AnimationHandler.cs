@@ -6,9 +6,11 @@ public class AnimationHandler : MonoBehaviour
     private static readonly int IsMoving = Animator.StringToHash("IsMove");
     private static readonly int IsDamage = Animator.StringToHash("IsDamage");
     private static readonly int IsDead = Animator.StringToHash("IsDead");
+    private static readonly int IsAttack = Animator.StringToHash("IsAttack");
 
     private bool isDamage = false;
     private bool isDead = false;
+    private bool isAttack = false;
 
     float time;
     float destroyTime;
@@ -60,6 +62,12 @@ public class AnimationHandler : MonoBehaviour
         if (!HasParameter(IsMoving)) return;
         bool ismoving = obj.magnitude > 0.1f;
         animator.SetBool(IsMoving, ismoving);
+    }
+    public void Attack()
+    {
+        if (!HasParameter(IsMoving)) return;
+        isAttack = true;
+        animator.SetBool(IsAttack, isAttack);
     }
 
     public void Damage()

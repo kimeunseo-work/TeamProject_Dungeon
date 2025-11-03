@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Monster : Character
 {
@@ -42,6 +42,8 @@ public class Monster : Character
     {
         status.OnDead -= Status_OnDead;
         StageManager.Instance.OnMonsterKilled();
+
+        SpreadExp(5);
     }
 
     protected override void Update()
@@ -59,7 +61,7 @@ public class Monster : Character
         // 데이터
         status.TakeDamage(amount);
         // 피격 액션
-        //controller.TakeDamage(amount);
+        // controller.TakeDamage(amount);
     }
 
     /*충돌&트리거*/
@@ -91,7 +93,22 @@ public class Monster : Character
         // 데이터
         target.TakeDamage(status.DungeonAtk);
         // 공격 액션
-        //controller.TakeDamage(amount);
+        // controller.TakeDamage(amount);
+    }
+
+    private void SpreadExp(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            float angle = i * 360f / amount;
+            Vector2 pos = transform.position + (Vector3)(Quaternion.Euler(0, 0, angle) * Vector2.up * 2f);
+
+            var exp = ObjectManager.Instance.ExpPool.Get();
+            exp.transform.position = pos;
+            exp.transform.localRotation = Quaternion.identity;
+
+            exp.transform.up = (transform.position - exp.transform.position).normalized; // 중심 바라보게 회전
+        }
     }
 
     /*이벤트 구독*/
