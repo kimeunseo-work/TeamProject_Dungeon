@@ -53,26 +53,26 @@ public class PlayerSkills : MonoBehaviour
     /// </summary>
     /// <param name="launchPos"></param>
     /// <param name="direction"></param>
-    public void ActivateSkills(Transform launchPos, Transform direction, int damage)
+    public void ActivateSkills(Transform launchPos, Transform direction, int damage, float speed)
     {
-        defaultSkill.Activate(launchPos, direction, damage);
+        defaultSkill.Activate(launchPos, direction, damage, speed);
     }
 
     /*내부 로직*/
     //=======================================//
     private void ApplyPassiveSkill(SkillData skill)
     {
-        switch (skill.SkillName)
+        switch (skill.statusType)
         {
                 // increase dungeon attack
-            case "Increase Attack":
-                //PlayerLobbyStatus.Instance.IncreaseBaseAtk();
+            case StatusType.Attack:
                 playerStatus.IncreaseDungeonAtk(1);
                 break;
-            case "Increase Hp":
-                // increase dungeon hp
-                //PlayerLobbyStatus.Instance.IncreaseBaseHp();
+            case StatusType.MaxHp:
                 playerStatus.IncreaseDungeonMaxHp(1);
+                break;
+            case StatusType.Speed:
+                playerStatus.IncreaseDungeonAttackSpeed(5);
                 break;
             default:
                 break;

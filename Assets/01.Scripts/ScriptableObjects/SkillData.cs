@@ -35,6 +35,7 @@ public enum StatusType
     None,
     MaxHp,
     Attack,
+    Speed,
 }
 
 public enum ActiveSkillType

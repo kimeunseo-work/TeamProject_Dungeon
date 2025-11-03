@@ -50,7 +50,7 @@ public class BaseSkill : MonoBehaviour
             IsReady = true;
     }
 
-    public virtual void Activate(Transform launchPos, Transform targetTransform, int damage)
+    public virtual void Activate(Transform launchPos, Transform targetTransform, int damage, float speed)
     {
         if (!IsReady) return;
         IsReady = false;
@@ -92,7 +92,7 @@ public class BaseSkill : MonoBehaviour
             rb.isKinematic = true;
             rb.gravityScale = 0;
             rb.freezeRotation = true;
-            rb.velocity = rotatedDir * ArrowSpeed;
+            rb.velocity = rotatedDir * (ArrowSpeed + speed);
 
             // Arrow 초기화
             if (!arrowObj.TryGetComponent<Arrow>(out var arrowScript))
