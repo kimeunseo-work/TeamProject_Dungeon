@@ -17,6 +17,7 @@ public class StageManager : MonoBehaviour
             Instance = this;
             //DontDestroyOnLoad(gameObject);
         }
+    }
 
     [SerializeField] private Transform player;      
     [SerializeField] private Transform startPoint;
