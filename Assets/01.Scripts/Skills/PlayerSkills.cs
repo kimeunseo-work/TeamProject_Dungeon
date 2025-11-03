@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 public class PlayerSkills : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class PlayerSkills : MonoBehaviour
     private void Reset()
     {
         playerStatus = GetComponent<PlayerStatus>();
-        defaultSkill = GetComponent<BaseSkill>();
+        defaultSkill = GetComponentInChildren<BaseSkill>();
     }
 
     private void Start()
@@ -21,7 +22,7 @@ public class PlayerSkills : MonoBehaviour
         if (defaultSkill == null)
         {
             Debug.Log("[PlayerSkills] defaultSkill is NULL, Attached script <BaseSkill>");
-            defaultSkill = gameObject.AddComponent<BaseSkill>();
+            defaultSkill = gameObject.transform.GetChild(0).AddComponent<BaseSkill>();
         }
         defaultSkill.Init();
     }
