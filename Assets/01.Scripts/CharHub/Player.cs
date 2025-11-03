@@ -114,27 +114,6 @@ public class Player : Character
         skills.ActivateSkills(transform, TargetTransform, status.DungeonAtk, status.DungeonAttackSpeed);
     }
 
-    //private void FindNearestEnemy()
-    //{
-    //    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
-    //    Transform nearest = null;
-    //    float minDist = Mathf.Infinity;
-
-    //    foreach (var hit in hits)
-    //    {
-    //        if (hit.CompareTag("Enemy"))
-    //        {
-    //            float dist = Vector2.Distance(transform.position, hit.transform.position);
-    //            if (dist < minDist)
-    //            {
-    //                minDist = dist;
-    //                nearest = hit.transform;
-    //            }
-    //        }
-    //    }
-    //    TargetTransform = nearest;
-    //}
-
     /// <summary>
     /// 가장 가까운 적 찾는 로직
     /// </summary>
