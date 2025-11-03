@@ -12,24 +12,36 @@ public class AnimationHandler : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
     }
-
-    void Move(Vector2 obj)
+    bool HasParameter(int hash)
     {
+        for (int i = 0; animator.parameterCount > 0; i++)
+        {
+            if(animator.GetParameter(i).nameHash == hash)
+                return true;
+        }
+        return false;
+    }
+
+    public void Move(Vector2 obj)
+    {
+        if (!HasParameter(IsMoving)) return;
         bool ismoving = obj.magnitude > 0.1f;
         animator.SetBool(IsMoving, ismoving);
     }
 
-    void Damage()
+    public void Damage()
     {
+        if (!HasParameter(IsDamage)) return;
         animator.SetBool(IsDamage, true);
     }
-    void InvincibilityEnd()
+    public void InvincibilityEnd()
     {
         animator.SetBool(IsDamage, false);
     }
 
-    void Dead()
+    public void Dead()
     {
+        if (!HasParameter(IsDead)) return;
         animator.SetBool(IsDead, true);
     }
 }
