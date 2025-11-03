@@ -50,10 +50,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06e99a2e0b58b04aab463ef4acbfa4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
+  level: 1
   baseStatus:
-    Hp: 0
-    Atk: 0
+    Hp: 80
+    Atk: 20
 --- !u!114 &7887275919051160974
 MonoBehaviour:
   m_ObjectHideFlags: 0

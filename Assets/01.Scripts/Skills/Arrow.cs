@@ -2,55 +2,54 @@
 
 public class Arrow : MonoBehaviour
 {
-    public float lifetime = 5f;
-    public bool destroyOnHit = true;
-    public int pierceCount = 0;
+    private const float lifetime = 5f;
+    private float timer = 0f;
+    private bool canPierce = false;
+    private int pierceCount = 0;
+    private const int defaultDamage = 5;
+    private int damage = 0;
 
-    void Start()
+    public void Init(bool canPierce, int pierceCount, int damage)
     {
-        Destroy(gameObject, lifetime);
+        timer = 0f;
+        this.canPierce = canPierce;
+        this.pierceCount = pierceCount;
+        this.damage = defaultDamage + damage;
+    }
 
-        void Launch(Vector3 direction, float speed)
-        {
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
-                rb.velocity = direction.normalized * speed;
-            }
+    private void OnEnable()
+    {
+        transform.rotation = default;
+    }
 
-            // 화살 이미지가 화살촉이 앞으로 향하도록
-            transform.up = direction.normalized;
-
-            // Rigidbody 회전 고정
-            if (rb != null) rb.freezeRotation = true;
-        }
+    private void Update()
+    {
+        if(timer < lifetime)
+            timer += Time.deltaTime;
+        else
+            ObjectManager.Instance.ArrowPool.Release(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 이미 release를 진행한 경우 콜라이더 충돌 무시
         if (gameObject.activeSelf == false) return;
 
-        if (collision.CompareTag("Enemy"))
-        {
-            collision.GetComponent<Monster>().TakeDamage(10);
-        }
-
-        // 관통 옵션
-        if (!destroyOnHit) return;
-
-        // 플레이어 
         if (collision.CompareTag("Enemy") || collision.CompareTag("Wall"))
         {
+            if (collision.CompareTag("Enemy"))
+            {
+                collision.GetComponent<Monster>().TakeDamage(damage); // 하드 코딩
+
+                // 관통 옵션
+                if (canPierce && pierceCount > 0)
+                {
+                    pierceCount--;
+                    return;
+                }
+            }
 
             ObjectManager.Instance.ArrowPool.Release(gameObject);
         }
-
-        // 나중에 데미지 적용 담당자가 여기서 처리
-        //if (collision.CompareTag("Enemy"))
-        //{
-        //    collision.GetComponent<Monster>().TakeDamage(10);
-        //}
-        //// 관통
-        //if (!destroyOnHit) return;
     }
 }

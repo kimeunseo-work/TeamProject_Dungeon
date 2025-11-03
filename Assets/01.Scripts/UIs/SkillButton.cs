@@ -36,13 +36,13 @@ public class SkillButton : MonoBehaviour
         onClickAction = onClick;
 
         if (iconImage != null)
-            iconImage.sprite = skill.icon;
+            iconImage.sprite = skill.Icon;
 
         if (skillNameText != null)
             skillNameText.text = skill.name;
 
         if (skillDescriptionText != null)
-            skillDescriptionText.text = skill.skillDescription;
+            skillDescriptionText.text = skill.SkillDescription;
 
         if (onClickAction != null)
             button.onClick.AddListener(() => onClickAction.Invoke(skillData));

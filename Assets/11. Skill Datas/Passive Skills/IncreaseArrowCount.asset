@@ -12,9 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77b92f7f0843074582e5990cc24c7ea, type: 3}
   m_Name: IncreaseArrowCount
   m_EditorClassIdentifier: 
-  skillName: Increase Arrow Count
-  skillDescription: Increase Arrow + 1
-  icon: {fileID: 21300000, guid: e4b7b8c1a66f88c458f20c711992530a, type: 3}
-  skillPrefab: {fileID: 0}
-  type: 1
-  canStack: 1
+  SkillName: Increase Arrow Count
+  SkillDescription: Increase Arrow + 2
+  Icon: {fileID: 21300000, guid: e4b7b8c1a66f88c458f20c711992530a, type: 3}
+  Type: 0
+  SkillPrefab: {fileID: 0}
+  skillValue: 0
+  CanStack: 0
+  ActiveSkillType: 1
+  CoolDown: 0
+  Timer: 0
+  ArrowSpeed: 0
+  ArrowCount: 2
+  ExtraPierce: 0
+  SpreadAngle: 0
+  ShotInterval: 0
+  CanPierce: 0

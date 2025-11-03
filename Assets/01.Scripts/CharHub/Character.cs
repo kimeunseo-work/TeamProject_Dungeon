@@ -14,7 +14,10 @@ public abstract class Character : MonoBehaviour
     /// </summary>
     protected virtual void Update()
     {
-        if (CanAttack) Attack();
+        if (CanAttack && TargetTransform != null)
+        {
+            Attack();
+        }
     }
 
     /*외부 호출*/
