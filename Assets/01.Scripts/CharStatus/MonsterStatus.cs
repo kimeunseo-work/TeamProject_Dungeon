@@ -29,6 +29,6 @@ public class MonsterStatus : BaseStatus
     {
         var prevHp = DungeonHp;
         base.TakeDamage(amount);
-        Debug.Log($" [{nameof(MonsterStatus)}] monster takeDamage = {amount}. prevHp = {prevHp}, currentHp = {DungeonHp}");
+        //Debug.Log($" [{nameof(MonsterStatus)}] monster takeDamage = {amount}. prevHp = {prevHp}, currentHp = {DungeonHp}");
     }
 }

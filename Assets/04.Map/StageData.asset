@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ffe784ad6ad624393719284eeaaa56, type: 3}
   m_Name: StageData
   m_EditorClassIdentifier: 
+  stageNum: 1
   stageType: 0
   monsterPrefabs:
   - {fileID: 1095429283834799408, guid: 9d4aaee8e693d984982ad62e92430d7e, type: 3}

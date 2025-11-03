@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SkillManager : MonoBehaviour
@@ -71,8 +68,8 @@ public class SkillManager : MonoBehaviour
 
         List<SkillData> options = allSkills
             .Where(
-            s => s.canStack
-            || !playerSkills.acquiredSkills.Contains(s)
+            s => s.CanStack
+            || !playerSkills.AcquiredSkills.Contains(s)
             )
             .OrderBy(x => UnityEngine.Random.value)
             .Take(3)
@@ -90,13 +87,12 @@ public class SkillManager : MonoBehaviour
             btnObj.GetComponent<SkillButton>().Setup(skill, OnSkillSelected);
         }
 
-        void OnSkillSelected(SkillData seleted)
+        void OnSkillSelected(SkillData selected)
         {
-            // µ•¿Ã≈Õ µÓ∑œ
-            playerSkills.AddSkill(seleted);
+            playerSkills.AddSkill(selected);
 
             GameObject imgObj = Instantiate(acquiredSkillPrefab, acquiredSkillPanel);
-            imgObj.GetComponent<SkillIcon>().SetUp(seleted.icon);
+            imgObj.GetComponent<SkillIcon>().SetUp(selected.Icon);
 
             CloseSkillPanel();
             onComplete?.Invoke();
@@ -116,4 +112,6 @@ public class SkillManager : MonoBehaviour
 
         Time.timeScale = 1f;
     }
+
+    public SkillData GetInitSkill() => allSkills[0];
 }
