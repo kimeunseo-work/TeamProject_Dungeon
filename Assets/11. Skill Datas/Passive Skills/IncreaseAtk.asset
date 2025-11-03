@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: IncreaseAtk
   m_EditorClassIdentifier: 
   skillName: Increase Attack
-  skillDescription: Increase attack little
+  skillDescription: Increase attack +30
   icon: {fileID: 21300000, guid: e052f57dd6175b84e9c9fb8c5a9a31e3, type: 3}
   skillPrefab: {fileID: 0}
-  type: 2
+  skillType: 2
+  statusType: 0
   skillValue: 30
   canStack: 1

@@ -52,11 +52,16 @@ public class SkillButton : MonoBehaviour
 
     public void PlayDropAnimation(float distance = 50f, float duration = 0.5f)
     {
+        if (slotContainer == null || !gameObject.activeInHierarchy)
+            return;
+
         StartCoroutine(DropAnimation(distance, duration));
     }
 
     private IEnumerator DropAnimation(float distance, float duration)
     {
+        if (slotContainer == null) yield break;
+
         Vector3 startPos = slotContainer.localPosition + Vector3.up * distance;
         Vector3 endPos = slotContainer.localPosition;
         slotContainer.localPosition = startPos;
@@ -65,6 +70,9 @@ public class SkillButton : MonoBehaviour
 
         while (elapsed < duration)
         {
+            if (slotContainer == null || !gameObject.activeInHierarchy)
+                yield break;
+
             slotContainer.localPosition = Vector3.Lerp(startPos, endPos, elapsed / duration);
             elapsed += Time.unscaledDeltaTime;
             yield return null;

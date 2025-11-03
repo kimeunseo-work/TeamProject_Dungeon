@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
@@ -29,7 +30,7 @@ public class SkillManager : MonoBehaviour
     private PlayerSkills playerSkills;
 
     [Header("Slot Machine Effect")]
-    private float spinDuration = 0.5f;
+    private float spinDuration = 1.5f;
     private float delayBetweenStop = 0.4f;
     private float spinSpeed = 0.05f;
     private List<SlotButton> slotButtons = new();
@@ -55,7 +56,23 @@ public class SkillManager : MonoBehaviour
         waitForSecondsRealtimeToDelayBetweenStop = new WaitForSecondsRealtime(delayBetweenStop);
 
     }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
     #endregion
+
+    private void OnSceneUnloaded(Scene scene)
+    {
+        StopAllCoroutines();
+        slotButtons.Clear();
+    }
 
     public void Init(PlayerSkills playerSkills) => this.playerSkills = playerSkills;
 
@@ -126,6 +143,12 @@ public class SkillManager : MonoBehaviour
 
     private IEnumerator SlotMachineEffect(string howGetSkillStr, Action onComplete)
     {
+        if (selectSkillPanel == null || selectSkillPanel.Equals(null) ||
+    selectSkillPanel.parent == null || selectSkillPanel.parent.Equals(null))
+        {
+            yield break;
+        }
+
         isSelectingSkill = true;
         howGetSkillText.text = howGetSkillStr;
         UIManager.Instance.PushUI(selectSkillPanel.parent.gameObject);
@@ -146,16 +169,21 @@ public class SkillManager : MonoBehaviour
         }
 
         // slot spin
-        float elapsed = 0f;
-        while (elapsed < spinDuration)
+        float startTime = Time.realtimeSinceStartup;
+        while (Time.realtimeSinceStartup - startTime < spinDuration)
         {
+            if (selectSkillPanel == null || !selectSkillPanel.gameObject.activeInHierarchy)
+            {
+                Debug.Log("skill panel closed");
+                yield break;
+            }
+
             foreach (var slot in slotButtons)
             {
                 var randomSkill = allSkills[UnityEngine.Random.Range(0, allSkills.Count)];
                 slot.skillButton.Setup(randomSkill, null);
             }
 
-            elapsed += Time.unscaledDeltaTime;
             yield return waitForSecondsRealtimeToSpinSpeed;
         }
 
@@ -168,6 +196,12 @@ public class SkillManager : MonoBehaviour
         // stop spin
         for (int i = 0; i < slotButtons.Count; i++)
         {
+            if (selectSkillPanel == null || !selectSkillPanel.gameObject.activeInHierarchy)
+            {
+                Debug.Log("skill panel closed");
+                yield break;
+            }
+
             yield return waitForSecondsRealtimeToDelayBetweenStop;
 
             var slot = slotButtons[i];
@@ -193,6 +227,7 @@ public class SkillManager : MonoBehaviour
 
     private void CloseSkillPanel()
     {
+        StopAllCoroutines();
         UIManager.Instance.PopUI();
         isSelectingSkill = false;
 

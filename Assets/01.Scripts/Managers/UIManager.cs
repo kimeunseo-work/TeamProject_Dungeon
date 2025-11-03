@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour 
+public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
@@ -12,15 +12,18 @@ public class UIManager : MonoBehaviour
 
     private Coroutine sliderCoroutine;
 
-    public Image fadeImage;
-    public float fadeDuration = 0.5f;
+    [Header("Fade Settings")]
+    [SerializeField] private Image fadeImage;
+    [SerializeField] private float fadeDuration = 0.5f;
+
+    [SerializeField] private GameObject fixedUI;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            //SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
             Destroy(gameObject);
@@ -28,16 +31,27 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(FadeIn());
+        if (fadeImage != null)
+            StartCoroutine(FadeIn());
     }
 
-    private void Update()
-    {
-    }
-
+    #region UI Stack Management
     public void PushUI(GameObject ui)
     {
-        if (uiStack.Count > 0)
+        // destroyed object check
+        if (ui == null || ui.Equals(null)) return;
+
+        if (ui == fixedUI)
+        {
+            ui.SetActive(true);
+            return;
+        }
+
+        // clear stack
+        while (uiStack.Count > 0 && (uiStack.Peek() == null || uiStack.Peek().Equals(null)))
+            uiStack.Pop();
+
+        if (uiStack.Count > 0 && uiStack.Peek() != null)
             uiStack.Peek().SetActive(false);
 
         ui.SetActive(true);
@@ -46,54 +60,123 @@ public class UIManager : MonoBehaviour
 
     public void PopUI()
     {
-        if (uiStack.Count == 0)
-        {
-            Debug.Log("uiStack is empty");
+        if (uiStack == null || uiStack.Count == 0)
             return;
-        }
+
+        // clear null ui
+        while (uiStack.Count > 0 && (uiStack.Peek() == null || uiStack.Peek().Equals(null)))
+            uiStack.Pop();
+
+        if (uiStack.Count == 0)
+            return;
 
         GameObject topUI = uiStack.Pop();
-        topUI.SetActive(false);
+        if (topUI != null)
+            topUI.SetActive(false);
 
-        if (uiStack.Count > 0)
+        if (uiStack.Count > 0 && uiStack.Peek() != null)
             uiStack.Peek().SetActive(true);
     }
 
     public void ClearStack()
     {
         while (uiStack.Count > 0)
-            uiStack.Pop().SetActive(false);
+        {
+            var ui = uiStack.Pop();
+            if (ui != null) ui.SetActive(false);
+        }
+    }
+    #endregion
+
+    #region Scene Handling
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(HandleSceneLoaded(scene));
     }
 
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private IEnumerator HandleSceneLoaded(Scene scene)
     {
+        yield return null;
+
+        ClearStack();
+        fixedUI = null;
+
         switch (scene.name)
         {
             case nameof(GameManger.GameState.LobbyScene):
-                Debug.Log("load lobby scene");
-                LobbyUI lobbyUI = FindObjectOfType<LobbyUI>();
-
+                var lobbyUI = FindObjectOfType<LobbyUI>(true);
                 if (lobbyUI != null)
-                    uiStack.Push(lobbyUI.gameObject);
-
+                {
+                    fixedUI = lobbyUI.gameObject;
+                    fixedUI.SetActive(true);
+                }
                 break;
             case nameof(GameManger.GameState.DungeonScene):
-                Debug.Log("load dungeon scene");
-                StageUI stageUI = FindObjectOfType<StageUI>();
-
+                var stageUI = FindObjectOfType<StageUI>(true);
                 if (stageUI != null)
                 {
-                    Debug.Log("push stageUI");
-                    uiStack.Push(stageUI.gameObject);
+                    fixedUI = stageUI.gameObject;
+                    fixedUI.SetActive(true);
                 }
-
                 break;
         }
     }
+    #endregion
 
-    #region Effect
+    #region Fade
+    public IEnumerator FadeIn()
+    {
+        if (fadeImage == null) yield break;
+
+        fadeImage.gameObject.SetActive(true);
+        Color color = fadeImage.color;
+        color.a = 1f;
+        fadeImage.color = color;
+
+        yield return Fade(0f);
+        fadeImage.gameObject.SetActive(false);
+    }
+
+    public IEnumerator FadeOut()
+    {
+        if (fadeImage == null) yield break;
+
+        fadeImage.gameObject.SetActive(true);
+        Color color = fadeImage.color;
+        color.a = 0f;
+        fadeImage.color = color;
+
+        yield return Fade(1f);
+    }
+
+    private IEnumerator Fade(float targetAlpha)
+    {
+        if (fadeImage == null) yield break;
+
+        Color color = fadeImage.color;
+        float startAlpha = color.a;
+        float time = 0f;
+
+        while (time < fadeDuration)
+        {
+            time += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(time / fadeDuration);
+            color.a = Mathf.Lerp(startAlpha, targetAlpha, t);
+            fadeImage.color = color;
+
+            yield return null;
+        }
+
+        color.a = targetAlpha;
+        fadeImage.color = color;
+    }
+    #endregion
+
+    #region Slider Animation
     public void AnimateSlider(Slider slider, float targetValue, float duration = 0.4f)
     {
+        if (slider == null) return;
+
         if (sliderCoroutine != null)
             StopCoroutine(sliderCoroutine);
 
@@ -125,53 +208,8 @@ public class UIManager : MonoBehaviour
             sliderCoroutine = null;
         }
 
-        slider.value = 0f;
-    }
-
-    public IEnumerator FadeIn()
-    {
-        Color color = fadeImage.color;
-        color.a = 1f;
-        fadeImage.color = color;
-
-        yield return Fade(0);
-        fadeImage.gameObject.SetActive(false);
-    }
-
-    public IEnumerator FadeOut()
-    {
-        fadeImage.gameObject.SetActive(true);
-
-        Color color = fadeImage.color;
-        color.a = 0f;
-        fadeImage.color = color;
-
-        yield return Fade(1);
-    }
-
-    private IEnumerator Fade(float targetAlpha)
-    {
-        if (fadeImage == null)
-        {
-            Debug.Log("fade image is null");
-            yield break;
-        }
-
-        Color color = fadeImage.color;
-        float startAlpha = color.a;
-        float time = 0f;
-
-        while (time < fadeDuration) 
-        {
-            time += Time.deltaTime;
-            color.a = Mathf.Lerp(startAlpha, targetAlpha, time);
-            fadeImage.color = color;
-
-            yield return null;
-        }
-
-        color.a = targetAlpha;
-        fadeImage.color = color;
+        if (slider != null)
+            slider.value = 0f;
     }
     #endregion
 }

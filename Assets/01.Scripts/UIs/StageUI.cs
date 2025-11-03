@@ -14,6 +14,7 @@ public class StageUI : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject sellectSkillPanel;
+    [SerializeField] private GameObject gameOverPanel;
 
     [Header("Panels Content Transform")]
     [SerializeField] private Transform ContentAcquiredSkills;
@@ -37,22 +38,9 @@ public class StageUI : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         playerStatus.OnDungeonLevelChanged += OnLevelUp;
         playerStatus.OnDungeonExpChanged += UpdateExp;
+        playerStatus.OnDead += OpenGameOverUI;
 
         UpdateHUD();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OpenSelectSkillPanel("Stage Clear");
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("R");
-            playerStatus.IncreaseDungeonExp(7);
-        }
     }
 
     private void OnDestroy()
@@ -60,6 +48,7 @@ public class StageUI : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
         playerStatus.OnDungeonLevelChanged -= OnLevelUp;
         playerStatus.OnDungeonExpChanged -= UpdateExp;
+        playerStatus.OnDead -= OpenGameOverUI;
     }
     #endregion
 
@@ -118,4 +107,10 @@ public class StageUI : MonoBehaviour
         SkillManager.Instance.RequestOpenSkillPanel(howGetSkillStr);
     }
     #endregion
+
+    private void OpenGameOverUI()
+    {
+        Time.timeScale = 0f;
+        UIManager.Instance.PushUI(gameOverPanel);
+    }
 }

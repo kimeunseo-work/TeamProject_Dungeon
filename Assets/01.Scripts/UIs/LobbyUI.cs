@@ -22,7 +22,6 @@ public class LobbyUI : MonoBehaviour
 
     private void Start()
     {
-        UIManager.Instance.PushUI(gameObject);
         UpdateAllUIs();
 
         PlayerLobbyStatus.Instance.OnPointChanged += UpdateGoldUI;
