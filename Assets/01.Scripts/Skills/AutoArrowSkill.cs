@@ -68,7 +68,7 @@ public class AutoArrowSkill : Skill
             }
         }
 
-        Debug.Log($"{skillName} fired {arrowCount} arrows with {extraPierce} extra pierce.");
+        //Debug.Log($"{skillName} fired {arrowCount} arrows with {extraPierce} extra pierce.");
     }
 
     private IEnumerator ResetShotCooldown()
