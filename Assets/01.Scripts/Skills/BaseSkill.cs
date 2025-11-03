@@ -50,71 +50,28 @@ public class BaseSkill : MonoBehaviour
             IsReady = true;
     }
 
-    //public virtual void Activate(Transform launchPos, Transform direction)
-    //{
-    //    if (!IsReady) return;
-
-    //    // 화살 여러 발 퍼뜨리기
-    //    float angleStep = (ArrowCount > 1) ? SpreadAngle / (ArrowCount - 1) : 0f;
-    //    float startAngle = -SpreadAngle / 2;
-
-    //    for (int i = 0; i < ArrowCount; i++)
-    //    {
-    //        // 회전값 적용
-    //        float angleOffset = startAngle + angleStep * i;
-    //        Quaternion rotation = Quaternion.FromToRotation(Vector2.up, direction.position) * Quaternion.Euler(0, 0, angleOffset);
-
-    //        // 플레이어 위치 기준 앞쪽 발사
-    //        Vector2 spawnPos = launchPos.position + (direction.position * 0.5f);
-
-    //        var arrowPrefab = ObjectManager.Instance.ArrowPool.Get();
-    //        if (arrowPrefab == null)
-    //        {
-    //            Debug.LogWarning("arrowPrefab == null");
-    //            return;
-    //        }
-    //        arrowPrefab.transform.SetPositionAndRotation(spawnPos, rotation);
-
-    //        // 화살 속도 적용
-    //        if (!arrowPrefab.TryGetComponent<Rigidbody2D>(out var rb))
-    //        {
-    //            Debug.Log("[SkillLaunch] Rigidbody2D is NULL. Attached script <Arrow>");
-    //            rb = arrowPrefab.AddComponent<Rigidbody2D>();
-    //        }
-    //        rb.velocity =/* rotation * */direction.position * ArrowSpeed;
-
-    //        // 관통 수 적용
-    //        if (!arrowPrefab.TryGetComponent<Arrow>(out var arrowScript))
-    //        {
-    //            Debug.Log("[SkillLaunch] script <Arrow> is NULL. Attached script <Arrow>");
-    //            arrowScript = arrowPrefab.AddComponent<Arrow>();
-    //        }
-
-    //        arrowScript.Init(CanPierce, ExtraPierce);
-    //    }
-    //}
-
-    public virtual void Activate(Transform launchPos, Transform targetTransform)
+    public virtual void Activate(Transform launchPos, Transform targetTransform, int damage)
     {
         if (!IsReady) return;
         IsReady = false;
         Timer = 0f;
 
-        // 방향 벡터 계산
+        // 기본 발사 방향
         Vector2 dir = ((Vector2)targetTransform.position - (Vector2)launchPos.position).normalized;
-
-        // 화살 여러 발 퍼뜨리기
-        float angleStep = (ArrowCount > 1) ? SpreadAngle / (ArrowCount - 1) : 0f;
-        float startAngle = -SpreadAngle / 2;
 
         for (int i = 0; i < ArrowCount; i++)
         {
-            float angleOffset = startAngle + angleStep * i;
-            Quaternion rotation = Quaternion.Euler(0, 0, angleOffset);
+            // 균등한 각도 분포 계산 (-SpreadAngle/2 ~ +SpreadAngle/2)
+            float t = (ArrowCount == 1) ? 0.5f : (float)i / (ArrowCount - 1);
+            float angleOffset = Mathf.Lerp(-SpreadAngle / 2f, SpreadAngle / 2f, t);
 
-            // 3발사 위치
-            Vector2 spawnPos = (Vector2)launchPos.position + dir * 0.5f;
+            // dir 기준으로 angleOffset만큼 회전한 실제 발사 방향
+            Vector2 rotatedDir = Quaternion.AngleAxis(angleOffset, Vector3.forward) * dir;
 
+            // 모든 화살은 같은 시작 위치에서 나감
+            Vector2 spawnPos = (Vector2)launchPos.position;
+
+            // 풀에서 화살 꺼내기
             var arrowObj = ObjectManager.Instance.ArrowPool.Get();
             if (arrowObj == null)
             {
@@ -122,24 +79,27 @@ public class BaseSkill : MonoBehaviour
                 return;
             }
 
-            arrowObj.transform.SetPositionAndRotation(spawnPos, Quaternion.LookRotation(Vector3.forward, dir));
+            // 회전: 화살이 자신이 날아갈 방향을 바라보게 설정
+            arrowObj.transform.rotation = Quaternion.FromToRotation(Vector2.up, rotatedDir);
 
-            // 4️⃣ Rigidbody 설정
+            // 위치 지정
+            arrowObj.transform.position = spawnPos;
+
+            // Rigidbody2D 설정
             if (!arrowObj.TryGetComponent<Rigidbody2D>(out var rb))
                 rb = arrowObj.AddComponent<Rigidbody2D>();
 
             rb.isKinematic = true;
             rb.gravityScale = 0;
             rb.freezeRotation = true;
-
-            // 5속도 적용
-            rb.velocity = rotation * dir * ArrowSpeed;
+            rb.velocity = rotatedDir * ArrowSpeed;
 
             // Arrow 초기화
             if (!arrowObj.TryGetComponent<Arrow>(out var arrowScript))
                 arrowScript = arrowObj.AddComponent<Arrow>();
 
-            arrowScript.Init(CanPierce, ExtraPierce);
+            arrowScript.Init(CanPierce, ExtraPierce, damage);
         }
     }
+
 }

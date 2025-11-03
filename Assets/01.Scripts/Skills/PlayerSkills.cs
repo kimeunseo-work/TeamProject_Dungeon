@@ -59,9 +59,9 @@ public class PlayerSkills : MonoBehaviour
     /// </summary>
     /// <param name="launchPos"></param>
     /// <param name="direction"></param>
-    public void ActivateSkills(Transform launchPos, Transform direction)
+    public void ActivateSkills(Transform launchPos, Transform direction, int damage)
     {
-        defaultSkill.Activate(launchPos, direction);
+        defaultSkill.Activate(launchPos, direction, damage);
     }
 
     /*내부 로직*/
@@ -93,15 +93,15 @@ public class PlayerSkills : MonoBehaviour
         {
             case ActiveSkillType.ArrowCount:
                 defaultSkill.ArrowCount += skill.ArrowCount;
-                Debug.Log($"[PlayerSkills] {skill.SkillName}, 증가 화살 수:{skill.ArrowCount}, 현재 화살 수:{skill.ArrowCount}");
+                Debug.Log($"[PlayerSkills] {skill.SkillName}, 증가 화살 수:{skill.ArrowCount}, 현재 화살 수:{defaultSkill.ArrowCount}");
                 break;
             case ActiveSkillType.ExtraPierce:
                 defaultSkill.ExtraPierce += skill.ExtraPierce;
-                Debug.Log($"[PlayerSkills] {skill.SkillName}, 증가 관통 수:{skill.ExtraPierce}, 현재 관통 수:{skill.ExtraPierce}");
+                Debug.Log($"[PlayerSkills] {skill.SkillName}, 증가 관통 수:{skill.ExtraPierce}, 현재 관통 수:{defaultSkill.ExtraPierce}");
                 break;
             case ActiveSkillType.CoolDown:
                 defaultSkill.CoolDown -= skill.CoolDown;
-                Debug.Log($"[PlayerSkills] {skill.SkillName}, 감소 쿨 타임:{skill.CoolDown}, 현재 쿨 타임:{skill.CoolDown}");
+                Debug.Log($"[PlayerSkills] {skill.SkillName}, 감소 쿨 타임:{skill.CoolDown}, 현재 쿨 타임:{defaultSkill.CoolDown}");
                 break;
         }
     }

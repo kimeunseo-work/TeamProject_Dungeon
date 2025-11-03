@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "\uC6A9\uC0AC"
   Hp: 600
-  Atk: 100
+  Atk: 10

@@ -111,7 +111,7 @@ public class Player : Character
 
     protected override void Attack()
     {
-        skills.ActivateSkills(transform, TargetTransform);
+        skills.ActivateSkills(transform, TargetTransform, status.DungeonAtk);
     }
 
     //private void FindNearestEnemy()

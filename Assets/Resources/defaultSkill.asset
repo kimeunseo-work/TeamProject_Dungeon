@@ -25,6 +25,6 @@ MonoBehaviour:
   ArrowSpeed: 10
   ArrowCount: 1
   ExtraPierce: 0
-  SpreadAngle: 0
+  SpreadAngle: 120
   ShotInterval: 0
   CanPierce: 0

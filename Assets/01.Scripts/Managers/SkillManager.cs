@@ -82,7 +82,7 @@ public class SkillManager : MonoBehaviour
 
         foreach (var skill in options)
         {
-            Debug.Log(skill.name);
+            //Debug.Log(skill.name);
             GameObject btnObj = Instantiate(skillButtonPrefab, selectSkillPanel);
             btnObj.GetComponent<SkillButton>().Setup(skill, OnSkillSelected);
         }
