@@ -51,7 +51,7 @@ public class StageUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("R");
-            playerStatus.IncreaseDungeonExp(5);
+            playerStatus.IncreaseDungeonExp(7);
         }
     }
 
@@ -90,12 +90,14 @@ public class StageUI : MonoBehaviour
         else
             targetValue = (float)playerStatus.DungeonExp / playerStatus.RequiredDungeonExp;
 
-        expSlider.value = targetValue;
+        //expSlider.value = targetValue;
+        UIManager.Instance.AnimateSlider(expSlider, targetValue);
     }
 
     private void OnLevelUp()
     {
         Debug.Log("level up");
+        UIManager.Instance.ResetSlider(expSlider);
         UpdateLevel();
         OpenSelectSkillPanel("Level Up");
         UpdateExp();
