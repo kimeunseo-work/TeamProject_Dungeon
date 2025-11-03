@@ -14,13 +14,14 @@ public class StageUI : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject sellectSkillPanel;
-    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject StageEndingPanel;
 
     [Header("Panels Content Transform")]
     [SerializeField] private Transform ContentAcquiredSkills;
     [SerializeField] private Transform ContentRandomSkills;
 
     [SerializeField] private TextMeshProUGUI howGetSkillText;
+    [SerializeField] private StageEndingUI stageEndingUI;
 
     private PlayerStatus playerStatus;
 
@@ -41,6 +42,14 @@ public class StageUI : MonoBehaviour
         playerStatus.OnDead += OpenGameOverUI;
 
         UpdateHUD();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            OpenStageClearUI();
+        }
     }
 
     private void OnDestroy()
@@ -111,6 +120,13 @@ public class StageUI : MonoBehaviour
     private void OpenGameOverUI()
     {
         Time.timeScale = 0f;
-        UIManager.Instance.PushUI(gameOverPanel);
+        stageEndingUI.Init(false);
+        UIManager.Instance.PushUI(StageEndingPanel);
+    }
+
+    public void OpenStageClearUI()
+    {
+        stageEndingUI.Init(true);
+        UIManager.Instance.PushUI(StageEndingPanel);
     }
 }
