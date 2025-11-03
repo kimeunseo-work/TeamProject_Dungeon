@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : BaseController
 {
@@ -24,7 +24,7 @@ public class PlayerController : BaseController
 
     public override void Dead()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

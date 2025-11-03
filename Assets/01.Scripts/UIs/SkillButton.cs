@@ -15,9 +15,9 @@ public class SkillButton : MonoBehaviour
     {
         skilldata = skill;
         onClickAction = onClick;
-        iconImage.sprite = skill.icon;
+        iconImage.sprite = skill.Icon;
         skillNameText.text = skill.name;
-        skillDescriptionText.text = skill.skillDescription;
+        skillDescriptionText.text = skill.SkillDescription;
         GetComponent<Button>().onClick.AddListener(()=>onClickAction.Invoke(skilldata));
     }
 }

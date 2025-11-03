@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,8 +13,9 @@ public class PlayerStatus : BaseStatus
     private ExpData dungeonExpData;
 
     /*Skills*/
-    List<PassiveSkill> passiveSkills;
-    List<Skill> arrowSkills;
+    //List<PassiveSkill> passiveSkills;
+    //List<Skill> arrowSkills;
+    //BaseSkill defaultSkill = new();
 
     /*Events*/
     public event Action OnInitDungeonPlayerFinished;
@@ -26,7 +27,7 @@ public class PlayerStatus : BaseStatus
     public event Action OnDungeonExpChanged;
     public event Action OnRequiredDungeonExpChanged;
 
-    public event Action OnSkillsListChanged;
+    //public event Action OnSkillsListChanged;
 
     /*초기화 전용*/
     //=======================================//
@@ -50,8 +51,7 @@ public class PlayerStatus : BaseStatus
         DungeonAtk = dungeonStatus.Atk;
 
         /*Skill Init*/
-        passiveSkills = new(10);
-        arrowSkills = new(10);
+        //defaultSkill.Init(Resources.Load<SkillData>("defaultSkill"));
 
         OnInitDungeonPlayerFinished?.Invoke();
     }
@@ -77,8 +77,11 @@ public class PlayerStatus : BaseStatus
     public void IncreaseDungeonExp(int amount) => InternalIncreaseDungeonExp(amount);
 
     /*Skills*/
-    public void AddPassiveSkill(PassiveSkill skill) => InternalAddPassiveSkills(skill);
-    public void AddArrowSkill(Skill skill) => InternalAddSkills(skill);
+
+    //public void AddPassiveSkill(PassiveSkill skill) => InternalAddPassiveSkills(skill);
+    //public void AddArrowSkill(BaseSkill skill) => InternalAddSkill(skill);
+    //public void ActiveDefaultSkill(SkillData skill, Transform launchPos, Transform direction) => defaultSkill.Activate(skill, launchPos, direction);
+    //public void UpgradeSkill(SkillData skillData) => InternalUpgradeSkill(skillData);
 
 
 #if UNITY_EDITOR
@@ -95,8 +98,8 @@ public class PlayerStatus : BaseStatus
     public void EditorOnly_DecreaseDungeonLevel() => InternalDecreaseDungeonLevel();
 
     /*Skills*/
-    public void EditorOnly_RemovePassiveSkill(PassiveSkill skill) => InternalRemovePassiveSkill(skill);
-    public void EditorOnly_RemoveArrowSkill(Skill skill) => InternalRemoveSkill(skill);
+    //public void EditorOnly_RemovePassiveSkill(PassiveSkill skill) => InternalRemovePassiveSkill(skill);
+    //public void EditorOnly_RemoveArrowSkill(BaseSkill skill) => InternalRemoveSkill(skill);
 
 #endif
 
@@ -106,7 +109,9 @@ public class PlayerStatus : BaseStatus
     /*Status*/
     private void InternalIncreaseDungeonMaxHp(int amount)
     {
+        var ex = DungeonMaxHp;
         DungeonMaxHp += amount;
+        Debug.Log($"[PlayerStatus] Before MaxHp = {ex}, After MaxHp = {DungeonMaxHp}");
         OnDungeonMaxHpChanged?.Invoke();
     }
 
@@ -130,7 +135,9 @@ public class PlayerStatus : BaseStatus
 
     private void InternalIncreaseDungeonAtk(int amount)
     {
+        var ex = DungeonAtk;
         DungeonAtk += amount;
+        Debug.Log($"[PlayerStatus] Before MaxHp = {ex}, After MaxHp = {DungeonAtk}");
         OnDungeonAtkChanged?.Invoke();
     }
 
@@ -174,20 +181,29 @@ public class PlayerStatus : BaseStatus
     }
 
     /*Skills*/
-    private void InternalAddSkills(Skill skill)
-    {
-        arrowSkills.Add(skill);
-        OnSkillsListChanged?.Invoke();
 
-        Debug.Log($"[PlayerStatus] player gain arrowSkill: {skill.skillName}? {skill.name}");
-    }
-    private void InternalAddPassiveSkills(PassiveSkill skill)
-    {
-        passiveSkills.Add(skill);
-        OnSkillsListChanged?.Invoke();
+    //private void InternalAddSkill(BaseSkill skill)
+    //{
+    //    skills.Add(skill);
+    //    OnSkillsListChanged?.Invoke();
 
-        Debug.Log($"[PlayerStatus] player gain passiveSkill: {skill.skillName}? {skill.name}");
-    }
+    //    Debug.Log($"[PlayerStatus] player gain arrowSkill: {skill.SkillName}? {skill.name}");
+    //}
+    //private void InternalAddPassiveSkills(PassiveSkill skill)
+    //{
+    //    passiveSkills.Add(skill);
+    //    OnSkillsListChanged?.Invoke();
+
+    //    Debug.Log($"[PlayerStatus] player gain passiveSkill: {skill.skillName}? {skill.name}");
+    //}
+    //private void InternalUpgradeSkill(SkillData data)
+    //{
+    //    defaultSkill.ArrowCount += data.ArrowCount;
+    //    defaultSkill.ExtraPierce += data.ExtraPierce;
+    //    defaultSkill.CoolDown -= data.CoolDown;
+
+    //    OnSkillsListChanged?.Invoke();
+    //}
 
 #if UNITY_EDITOR
     /*Status*/
@@ -215,20 +231,20 @@ public class PlayerStatus : BaseStatus
     }
 
     /*Skills*/
-    private void InternalRemoveSkill(Skill skill)
-    {
-        arrowSkills.Remove(skill);
-        OnSkillsListChanged?.Invoke();
+    //private void InternalRemoveSkill(BaseSkill skill)
+    //{
+    //    skills.Remove(skill);
+    //    OnSkillsListChanged?.Invoke();
 
-        Debug.Log($"[PlayerStatus] player lose arrowSkill: {skill.skillName}? {skill.name}");
-    }
+    //    Debug.Log($"[PlayerStatus] player lose arrowSkill: {skill.SkillName}? {skill.name}");
+    //}
 
-    private void InternalRemovePassiveSkill(PassiveSkill skill)
-    {
-        passiveSkills.Remove(skill);
-        OnSkillsListChanged?.Invoke();
+    //private void InternalRemovePassiveSkill(PassiveSkill skill)
+    //{
+    //    passiveSkills.Remove(skill);
+    //    OnSkillsListChanged?.Invoke();
 
-        Debug.Log($"[PlayerStatus] player lose arrowSkill: {skill.skillName}? {skill.name}");
-    }
+    //    Debug.Log($"[PlayerStatus] player lose arrowSkill: {skill.skillName}? {skill.name}");
+    //}
 #endif
 }

@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using static StageData;
+using Random = UnityEngine.Random;
 
 public class StageManager : MonoBehaviour
 {
@@ -48,9 +49,6 @@ public class StageManager : MonoBehaviour
     {
         //stageNum = 1;
         //StartStage();
-
-
-
     }
 
     private void FixedUpdate()
@@ -61,8 +59,6 @@ public class StageManager : MonoBehaviour
     // 스테이지 시작 매서드
     public void StartStage()
     {
-
-
         isClear = false;
         exitCollider.enabled = false;
         PlacePlayerToStageStart();
@@ -90,6 +86,7 @@ public class StageManager : MonoBehaviour
 
         }
 
+        player.GetComponent<Player>().FindEnemy();
     }
 
     public void OnMonsterKilled()

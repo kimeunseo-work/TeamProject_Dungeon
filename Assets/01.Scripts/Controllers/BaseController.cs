@@ -99,8 +99,7 @@ public class BaseController : MonoBehaviour
     protected void CheckIsMoveChanged(Vector2 direction)
     {
         var currentMove = direction != default;
-
-        if(IsMove != currentMove)
+        if (IsMove != currentMove)
         {
             IsMove = currentMove;
             OnMoveChanged?.Invoke(IsMove);

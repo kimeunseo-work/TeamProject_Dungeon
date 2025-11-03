@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class Player : Character
 {
@@ -10,21 +12,25 @@ public class Player : Character
     // 플레이어
     [SerializeField] private PlayerStatus status;
     [SerializeField] private PlayerController controller;
-    [SerializeField] private AutoArrowSkill autoArrow;
+    [SerializeField] private PlayerSkills skills;
 
     /*Monsters*/
     private List<Transform> currentEnemyTrans = new(10);
     private List<MonsterStatus> currentEnemyStatus = new(10);
 
+    public float detectionRadius = 10f;
+
     /*Events*/
-    public event Action<bool> OnCanAttackChanged;
+    //public event Action<bool, SkillData, Transform, Transform> OnCanAttackChanged;
 
     /*생명 주기*/
     //=======================================//
 
+    #region
     private void Awake()
     {
         // 스탯 초기화
+        if (status == null) Debug.Log("status == Null");
         status.InitDungeon();
     }
 
@@ -32,6 +38,14 @@ public class Player : Character
     {
         status.OnDead += Status_OnDead;
         controller.OnMoveChanged += Controller_OnMoveChanged;
+    }
+
+
+    private void Reset()
+    {
+        //status = GetComponent<PlayerStatus>();
+        //controller = GetComponent<PlayerController>();
+        //skills = GetComponent<PlayerSkills>();
     }
 
     private void OnDisable()
@@ -42,14 +56,15 @@ public class Player : Character
 
     protected override void Update()
     {
+        FindNearEnemy();
+
         // Attack()
         base.Update();
 
         // 플레이어 입력 받기
         controller.HandleAction();
-        // 가까운 적 찾기
-        FindNearEnemy();
     }
+    #endregion
 
     /*외부 호출*/
     //=======================================//
@@ -81,7 +96,6 @@ public class Player : Character
     public void FindEnemy()
     {
         var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
         currentEnemyTrans.Clear();
         currentEnemyStatus.Clear();
 
@@ -97,8 +111,29 @@ public class Player : Character
 
     protected override void Attack()
     {
-
+        skills.ActivateSkills(transform, TargetTransform);
     }
+
+    //private void FindNearestEnemy()
+    //{
+    //    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+    //    Transform nearest = null;
+    //    float minDist = Mathf.Infinity;
+
+    //    foreach (var hit in hits)
+    //    {
+    //        if (hit.CompareTag("Enemy"))
+    //        {
+    //            float dist = Vector2.Distance(transform.position, hit.transform.position);
+    //            if (dist < minDist)
+    //            {
+    //                minDist = dist;
+    //                nearest = hit.transform;
+    //            }
+    //        }
+    //    }
+    //    TargetTransform = nearest;
+    //}
 
     /// <summary>
     /// 가장 가까운 적 찾는 로직
@@ -137,9 +172,5 @@ public class Player : Character
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
         Destroy(gameObject);
     }
-    private void Controller_OnMoveChanged(bool isMove)
-    {
-        CanAttack = !isMove;
-        OnCanAttackChanged?.Invoke(CanAttack);
-    }
+    private void Controller_OnMoveChanged(bool isMove) => CanAttack = !isMove;
 }
