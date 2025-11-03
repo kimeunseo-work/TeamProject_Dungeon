@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using static StageData;
 
 public class StageManager : MonoBehaviour
@@ -25,6 +26,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Transform startPoint;
     [SerializeField] private Collider2D exitCollider;
+    [SerializeField] private TilemapRenderer nextStage;
     [SerializeField] private bool testMode = true; // 테스트용 프리패스 치트키
 
     [SerializeField] List<Rect> spawnAreas;
@@ -65,6 +67,7 @@ public class StageManager : MonoBehaviour
 
         isClear = false;
         exitCollider.enabled = false;
+        nextStage.enabled = false;
         PlacePlayerToStageStart();
 
         //currentStageData = stageDatas.Find(x => x.stageNum == stageNum);
@@ -108,6 +111,7 @@ public class StageManager : MonoBehaviour
     {
         isClear = true;
         exitCollider.enabled = true;
+        nextStage.enabled = true;
         Debug.Log("Stage Clear! Exit is now active!");
         //GoToNextStage();
         stageNum++;
