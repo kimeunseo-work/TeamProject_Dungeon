@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 7566423321718599518}
   - component: {fileID: 7887275919051160974}
   - component: {fileID: 4073190698268531403}
-  - component: {fileID: 5540299452491880977}
+  - component: {fileID: 1601624326190399142}
   - component: {fileID: 8386697284813138138}
   - component: {fileID: 7233408040569929548}
   m_Layer: 0
   m_Name: Goblin
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
   shooterPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
   attackRange: 10
   speed: 1.5
---- !u!114 &5540299452491880977
+--- !u!114 &1601624326190399142
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

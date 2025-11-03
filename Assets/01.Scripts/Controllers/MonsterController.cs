@@ -94,17 +94,14 @@ public class MonsterController : BaseController
          _rigidbody.velocity = direction;
     }
 
-    public override void Dead()
-    {
-    }
 
     /*내부 로직*/
     //=======================================//
 
-    protected float DistanceToTarget() // Target(Player)�� ���� ��ġ ���� �Ÿ�
+    protected float DistanceToTarget() // Target(Player)
     {
         return Vector3.Distance(transform.position, target.position);
-        // �� ������ ���� �Ÿ�
+        
     }
 
     protected Vector2 DirectionToTarget()
