@@ -5,6 +5,18 @@ using static StageData;
 
 public class StageManager : MonoBehaviour 
 {
+    public static StageManager Instance;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject);
+        }
 
     [SerializeField] private Transform player;      
     [SerializeField] private Transform startPoint;
