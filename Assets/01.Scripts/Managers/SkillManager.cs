@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,7 +130,7 @@ public class SkillManager : MonoBehaviour
 
     //    void OnSkillSelected(SkillData seleted)
     //    {
-    //        // µ¥ÀÌÅÍ µî·Ï
+    //        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     //        playerSkills.AddSkill(seleted);
 
     //        GameObject imgObj = Instantiate(acquiredSkillPrefab, acquiredSkillPanel);
@@ -188,7 +188,7 @@ public class SkillManager : MonoBehaviour
         }
 
         var finalOptions = allSkills
-            .Where(s => s.canStack || !playerSkills.acquiredSkills.Contains(s))
+            .Where(s => s.CanStack || !playerSkills.AcquiredSkills.Contains(s))
             .OrderBy(x => UnityEngine.Random.value)
             .Take(3)
             .ToList();
@@ -205,7 +205,7 @@ public class SkillManager : MonoBehaviour
             yield return waitForSecondsRealtimeToDelayBetweenStop;
 
             var slot = slotButtons[i];
-            var skill = finalOptions[i];
+            var skill = finalOptions[i];// OUT OF RANGE
 
             slot.skillButton.Setup(skill, OnSkillSelected);
             slot.button.interactable = true;
@@ -214,11 +214,11 @@ public class SkillManager : MonoBehaviour
 
         void OnSkillSelected(SkillData seleted)
         {
-            // µ¥ÀÌÅÍ µî·Ï
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             playerSkills.AddSkill(seleted);
 
             GameObject imgObj = Instantiate(acquiredSkillPrefab, acquiredSkillPanel);
-            imgObj.GetComponent<SkillIcon>().SetUp(seleted.icon);
+            imgObj.GetComponent<SkillIcon>().SetUp(seleted.Icon);
 
             CloseSkillPanel();
             onComplete?.Invoke();
@@ -240,5 +240,4 @@ public class SkillManager : MonoBehaviour
         Time.timeScale = 1f;
     }
     #endregion
-
 }

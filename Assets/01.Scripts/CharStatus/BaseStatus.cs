@@ -67,7 +67,7 @@ public class BaseStatus : MonoBehaviour
         if (IsDead)
         {
             OnDead?.Invoke();
-            Debug.Log("사망");
+            //Debug.Log("사망");
         }
         else
         {
