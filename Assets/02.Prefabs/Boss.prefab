@@ -275,11 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29e6ed3854b49e47862ed181ff21311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 500
   patternCooldown: 2
-  dashSpeed: 10
-  dashDuration: 1
-  dashDamage: 20
   jumpHeight: 5
   jumpDuration: 1
   jumpDamage: 50
@@ -287,3 +283,7 @@ MonoBehaviour:
   bombSpawnRange: {x: 5, y: 5}
   bombCooldown: 5
   bombExplosionRadius: 5
+  bulletPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
+  bulletCount: 12
+  bulletSpeed: 6
+  spreadAngle: 120
