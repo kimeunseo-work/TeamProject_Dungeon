@@ -104,6 +104,6 @@ public class Monster : Character
         // 경험치 오브젝트 뿌리기
 
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
 }
