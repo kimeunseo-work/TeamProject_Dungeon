@@ -41,7 +41,7 @@ public class SettingsInDungeonUI : MonoBehaviour
 
     private void OnClickLoadLobby()
     {
-        GameManger.Instance.ChangeGameState(GameManger.GameState.LobbyScene);
+        GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
     }
     #endregion
 }

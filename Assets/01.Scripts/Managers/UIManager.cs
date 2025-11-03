@@ -103,7 +103,7 @@ public class UIManager : MonoBehaviour
 
         switch (scene.name)
         {
-            case nameof(GameManger.GameState.LobbyScene):
+            case nameof(GameManager.GameState.LobbyScene):
                 var lobbyUI = FindObjectOfType<LobbyUI>(true);
                 if (lobbyUI != null)
                 {
@@ -111,7 +111,7 @@ public class UIManager : MonoBehaviour
                     fixedUI.SetActive(true);
                 }
                 break;
-            case nameof(GameManger.GameState.DungeonScene):
+            case nameof(GameManager.GameState.DungeonScene):
                 var stageUI = FindObjectOfType<StageUI>(true);
                 if (stageUI != null)
                 {

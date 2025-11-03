@@ -8,7 +8,33 @@ using Random = UnityEngine.Random;
 
 public class StageManager : MonoBehaviour
 {
+    /*필드 & 프로퍼티*/
+    //=======================================// 
     public static StageManager Instance;
+
+    [SerializeField] private Transform player;
+    [SerializeField] private Transform startPoint;
+    [SerializeField] private Collider2D exitCollider;
+    [SerializeField] private TilemapRenderer nextStage;
+    [SerializeField] private bool testMode = true; // 테스트용 프리패스 치트키
+
+    [SerializeField] List<Rect> spawnAreas;
+    [SerializeField] private Color gizmoColor = new Color(1, 0, 0, .3f);
+    [SerializeField] private List<StageData> stageDatas;
+
+    private StageData currentStageData;
+
+    private int clearRequireNum; //스테이지 클리어가 되려면 몬스터가 0이어야함
+    private int stageNum;               //스테이지의 숫자
+
+    private bool isClear;       //클리어 확인여부의 불리언
+    private bool isStageProcessing;     //로딩중일때 입력키방지용
+
+    /*Events*/
+    public Action OnStageCleared;
+
+    /*생명 주기*/
+    //=======================================//
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -18,56 +44,23 @@ public class StageManager : MonoBehaviour
         else
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
 
         stageNum = 1;
         StartStage();
     }
 
-    [SerializeField] private Transform player;
-    [SerializeField] private Transform startPoint;
-    [SerializeField] private Collider2D exitCollider;
-    [SerializeField] private TilemapRenderer nextStage;
-    [SerializeField] private bool testMode = true; // 테스트용 프리패스 치트키
-
-    [SerializeField] List<Rect> spawnAreas;
-
-    [SerializeField] private Color gizmoColor = new Color(1, 0, 0, .3f);
-
-    private bool enemySpawnComplite;
-
-    [SerializeField] private List<StageData> stageDatas;
-    private StageData currentStageData;
-
-    private List<MonsterStatus> monsterStatuses;
-
-    private int clearRequireNum; //스테이지 클리어가 되려면 몬스터가 0이어야함
-    private int stageNum;               //스테이지의 숫자
-
-    private bool isClear;       //클리어 확인여부의 불리언
-    private bool isStageProcessing;     //로딩중일때 입력키방지용
-
-    private void FixedUpdate()
+    private void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SpawnRandomEnemyFromData();
+        }
     }
 
-    private StageType GetStageType(int stage)
-    {
-        if (stage % 10 == 0)
-            return StageType.Boss; 
-
-        if (stage % 5 == 0)
-            return StageType.Rest;
-
-        return StageType.Combat;
-    }
-
-    private StageData GetStageDataByType(StageType type)
-    {
-        return stageDatas.Find(x => x.stageType == type);
-    }
+    /*외부 호출*/
+    //=======================================//
 
     // 스테이지 시작 매서드
     public void StartStage()
@@ -100,6 +93,7 @@ public class StageManager : MonoBehaviour
                 break;
         }
 
+        // 스테이지 끝났을 때 호출
         player.GetComponent<Player>().FindEnemy();
     }
 
@@ -115,7 +109,22 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    public void StageClear()
+    public void GoToNextStage()
+    {
+        //stageNum++;
+        if (stageNum > 10)
+        {
+            GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
+            stageNum = 1;
+            return;
+        }
+        StartStage();
+    }
+
+    /*내부 로직*/
+    //=======================================//
+
+    private void StageClear()
     {
         isClear = true;
         exitCollider.enabled = true;
@@ -126,26 +135,20 @@ public class StageManager : MonoBehaviour
         SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
     }
 
-    public void GoToNextStage()
+    private StageType GetStageType(int stage)
     {
-        //stageNum++;
-        if (stageNum > 10)
-        {
-            GameManger.Instance.ChangeGameState(GameManger.GameState.LobbyScene);
-            stageNum = 1;
-            return;
-        }
-        StartStage();
+        if (stage % 10 == 0)
+            return StageType.Boss;
+
+        if (stage % 5 == 0)
+            return StageType.Rest;
+
+        return StageType.Combat;
     }
 
-
-
-    private void Update()
+    private StageData GetStageDataByType(StageType type)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpawnRandomEnemyFromData();
-        }
+        return stageDatas.Find(x => x.stageType == type);
     }
 
     private void PlacePlayerToStageStart()

@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_Sprite: {fileID: 21300000, guid: 5d9bf65cb20f82e4f87e3a299352eb01, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -123,10 +123,12 @@ MonoBehaviour:
   info:
     Name: EXP
     Amount: 1
-    Type: 1
   canMove: 0
   speed: 1
   acceleration: 6
+  moveDistance: 1
+  curveHeight: 0.5
+  duration: 0.5
 --- !u!58 &6791402843586390446
 CircleCollider2D:
   m_ObjectHideFlags: 0

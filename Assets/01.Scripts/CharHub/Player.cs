@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -26,26 +25,26 @@ public class Player : Character
     /*생명 주기*/
     //=======================================//
 
-    #region
     private void Awake()
     {
         // 스탯 초기화
-        if (status == null) Debug.Log("status == Null");
+        if (status == null)
+        {
+            Debug.Log("status == Null");
+        }
         status.InitDungeon();
     }
-
     private void OnEnable()
     {
         status.OnDead += Status_OnDead;
         controller.OnMoveChanged += Controller_OnMoveChanged;
     }
 
-
     private void Reset()
     {
-        //status = GetComponent<PlayerStatus>();
-        //controller = GetComponent<PlayerController>();
-        //skills = GetComponent<PlayerSkills>();
+        status = GetComponent<PlayerStatus>();
+        controller = GetComponent<PlayerController>();
+        skills = GetComponent<PlayerSkills>();
     }
 
     private void OnDisable()
@@ -58,13 +57,11 @@ public class Player : Character
     {
         FindNearEnemy();
 
-        // Attack()
         base.Update();
 
-        // 플레이어 입력 받기
+        // 플레이어 입력
         controller.HandleAction();
     }
-    #endregion
 
     /*외부 호출*/
     //=======================================//
@@ -151,5 +148,6 @@ public class Player : Character
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
         // Destroy(gameObject);
     }
+
     private void Controller_OnMoveChanged(bool isMove) => CanAttack = !isMove;
 }
