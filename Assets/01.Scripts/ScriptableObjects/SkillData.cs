@@ -6,8 +6,9 @@ public class SkillData : ScriptableObject
     public string SkillName;
     public string SkillDescription;
     public Sprite Icon;
-    public GameObject SkillPrefab;
     public SkillType Type;
+    public GameObject SkillPrefab;
+    public int skillValue;
     public bool CanStack = false;
 
     public ActiveSkillType ActiveSkillType;
@@ -24,12 +25,11 @@ public class SkillData : ScriptableObject
 public enum SkillType
 {
     Active,
-    Passive,
-}
-
+    Pasive,
+    Status,
 public enum ActiveSkillType
-{
     None,
+{
     ArrowCount,
     ExtraPierce,
     CoolDown

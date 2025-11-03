@@ -62,9 +62,14 @@ public class BaseController : MonoBehaviour
     public virtual void HandleAction()
     {
     }
+    public virtual void TakeDamage()
+    {
+        animationHandler.Damage();
+    }
 
     public virtual void Dead()
     {
+        animationHandler.Dead();
     }
 
     /*내부 로직*/
@@ -84,6 +89,8 @@ public class BaseController : MonoBehaviour
         }
 
         _rigidbody.velocity = direction;
+
+        animationHandler.Move(direction);
     }
 
     protected virtual void Rotate(Vector2 direction)

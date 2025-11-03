@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 54065966970516791}
   - component: {fileID: 131644761307821982}
   - component: {fileID: 9217014064239429329}
+  - component: {fileID: -8646360542089540847}
   - component: {fileID: 4850128457354543200}
-  - component: {fileID: 3940790007063878256}
-  - component: {fileID: 4152515874836686511}
+  - component: {fileID: 1554995175036869063}
   - component: {fileID: 2639280082948197486}
   - component: {fileID: 5400484485346051143}
   m_Layer: 0
@@ -54,8 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 9217014064239429329}
   controller: {fileID: 131644761307821982}
-  skills: {fileID: 4850128457354543200}
-  detectionRadius: 10
+  autoArrow: {fileID: -8646360542089540847}
 --- !u!114 &131644761307821982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +79,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c63925fdf3ad014590acf3a8c409786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8646360542089540847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342568766878510748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4820e9512f7b34c96c226823f849c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillName: New Skill
+  cooldown: 0.1
+  arrowPrefab: {fileID: 707792727986895017, guid: 89e7c145867c98d41bfb06a5b692b0d9, type: 3}
+  arrowSpeed: 10
+  detectionRadius: 10
+  arrowCount: 1
+  extraPierce: 0
+  spreadAngle: 0
+  shotInterval: 0.1
 --- !u!114 &4850128457354543200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,10 +112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b938483fe57c6e46b1e8f66bb0f81a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dungeonStatus: {fileID: 9217014064239429329}
-  defaultSkilldata: {fileID: 11400000, guid: 5df436b11615d874b99377b160c5d9a8, type: 2}
-  defaultSkill: {fileID: 4152515874836686511}
---- !u!114 &3940790007063878256
+  acquiredSkills: []
+  playerStatus: {fileID: 0}
+--- !u!114 &1554995175036869063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,22 +123,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 342568766878510748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73094d54b02515346b1158a47b6ab5d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a10ae8315963bf4abd1f050ec537a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4152515874836686511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342568766878510748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28f648d78a9bb7e4888b79b6270f609e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skill: {fileID: 11400000, guid: 5df436b11615d874b99377b160c5d9a8, type: 2}
 --- !u!50 &2639280082948197486
 Rigidbody2D:
   serializedVersion: 4

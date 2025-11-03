@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class AnimationHandler : MonoBehaviour 
 {
@@ -6,30 +7,77 @@ public class AnimationHandler : MonoBehaviour
     private static readonly int IsDamage = Animator.StringToHash("IsDamage");
     private static readonly int IsDead = Animator.StringToHash("IsDead");
 
+    private bool isDamage = false;
+    private bool isDead = false;
+
+    float time;
+    float destroyTime;
+
     protected Animator animator;
 
     protected virtual void Awake()
     {
         animator = GetComponentInChildren<Animator>();
     }
-
-    void Move(Vector2 obj)
+    bool HasParameter(int hash)
     {
+        for (int i = 0; animator.parameterCount > 0; i++)
+        {
+            if(animator.GetParameter(i).nameHash == hash)
+                return true;
+        }
+        return false;
+    }
+
+    private void Update()
+    {
+        if (isDamage)
+        {
+            time += Time.deltaTime;
+
+            if (time > 0.5f)
+            {
+                isDamage = false;
+                InvincibilityEnd();
+                time = 0f;
+            }
+        }
+        if (isDead)
+        {
+            destroyTime += Time.deltaTime;
+            if (destroyTime > 0.8f)
+            {
+                isDead = false;
+                animator.SetBool(IsDead, isDead);
+                time = 0f;
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    public void Move(Vector2 obj)
+    {
+        if (!HasParameter(IsMoving)) return;
         bool ismoving = obj.magnitude > 0.1f;
         animator.SetBool(IsMoving, ismoving);
     }
 
-    void Damage()
+    public void Damage()
     {
-        animator.SetBool(IsDamage, true);
+        if (!HasParameter(IsDamage)) return;
+        isDamage = true;
+        animator.SetBool(IsDamage, isDamage);
     }
-    void InvincibilityEnd()
+
+    public void InvincibilityEnd()
     {
         animator.SetBool(IsDamage, false);
     }
 
-    void Dead()
+    public void Dead()
     {
-        animator.SetBool(IsDead, true);
+        if (!HasParameter(IsDead)) return;
+        isDead = true;
+        animator.SetBool(IsDead, isDead);
     }
 }

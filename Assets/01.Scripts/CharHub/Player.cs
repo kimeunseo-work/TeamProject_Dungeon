@@ -77,7 +77,7 @@ public class Player : Character
         // 데이터
         status.TakeDamage(amount);
         // 피격 액션
-        //controller.TakeDamage(amount);
+        controller.TakeDamage();
     }
 
     /// <summary>
@@ -167,10 +167,10 @@ public class Player : Character
     protected override void Status_OnDead()
     {
         // 사망 액션
-        //controller.Dead(amount);
+        controller.Dead();
         
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
     private void Controller_OnMoveChanged(bool isMove) => CanAttack = !isMove;
 }

@@ -2,20 +2,27 @@
 using UnityEngine;
 public class PlayerSkills : MonoBehaviour
 {
+    [SerializeField] public List<SkillData> acquiredSkills = new List<SkillData>();
+    [SerializeField] private PlayerStatus playerStatus;
     public static PlayerSkills Instance;
-    [SerializeField] private PlayerStatus dungeonStatus;
     [SerializeField] private SkillData defaultSkilldata;
     [SerializeField] private BaseSkill defaultSkill;
 
-    private void Awake()
+    private void Start()
     {
-        Instance = this;
+        SkillManager.Instance.Init(this);
     }
 
     private void Reset()
     {
         dungeonStatus = GetComponent<PlayerStatus>();
         defaultSkill = GetComponent<BaseSkill>();
+    private void Update()
+    {
+        {
+        if (Input.GetKeyDown(KeyCode.G))
+            playerStatus.IncreaseDungeonExp(1);
+        }
     }
 
     private void Start()
