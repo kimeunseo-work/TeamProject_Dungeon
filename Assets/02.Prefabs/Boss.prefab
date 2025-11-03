@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 90
   m_Sprite: {fileID: 21300000, guid: fe09f9483c41c0949b62031df75942de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -120,9 +120,10 @@ GameObject:
   - component: {fileID: 6587117061225380850}
   - component: {fileID: -6992224698652151698}
   - component: {fileID: 1369876958398767507}
+  - component: {fileID: 4162123899362261859}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,8 +158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 0
   baseStatus:
-    Hp: 0
-    Atk: 0
+    Hp: 99999
+    Atk: 9
 --- !u!114 &507785969646755775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  shooterPrefab: {fileID: 0}
+  shooterPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
   attackRange: 0.8
   speed: 1
 --- !u!70 &-6992224698652151698
@@ -249,3 +250,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4162123899362261859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610769567903503749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29e6ed3854b49e47862ed181ff21311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 500
+  attackCooldown: 2
+  dashSpeed: 10
+  dashDuration: 1
+  dashDamage: 20
+  bombPrefab: {fileID: 6892321934412946387, guid: 6dcf6fefdea99174ba8f7015891bb0a4, type: 3}
+  bombSpawnRange: {x: 5, y: 5}
+  bombCooldown: 5
+  bombExplosionRadius: 5
+  jumpHeight: 5
+  jumpDuration: 1
+  jumpDamage: 50
