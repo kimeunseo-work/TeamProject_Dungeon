@@ -10,39 +10,28 @@ public class PlayerSkills : MonoBehaviour
         SkillManager.Instance.Init(this);
     }
 
-    private void Update()
+    public void AddSkill(SkillData skillData)
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            playerStatus.IncreaseDungeonExp(1);
-        }
-    }
-
-    public void AddSkill(SkillData skill)
-    {
-        if (!skill.canStack && acquiredSkills.Contains(skill))
+        if (!skillData.canStack && acquiredSkills.Contains(skillData))
             return;
 
-        acquiredSkills.Add(skill);
+        acquiredSkills.Add(skillData);
 
-        if (skill.type == SkillType.Pasive)
-            ApplyPassiveSkill(skill);
+        if (skillData.skillType == SkillType.Pasive)
+            ApplyPassiveSkill(skillData);
     }
 
-    private void ApplyPassiveSkill(SkillData skill)
+    private void ApplyPassiveSkill(SkillData skillData)
     {
-        switch(skill.skillName)
+        switch (skillData.statusType)
         {
-            case "Increase Attack":
-                // increase dungeon attack
-                PlayerLobbyStatus.Instance.IncreaseBaseAtk();
+            case StatusType.MaxHp:
+                playerStatus.IncreaseDungeonHp(skillData.skillValue);
                 break;
-            case "Increase Hp":
-                // increase dungeon hp
-                PlayerLobbyStatus.Instance.IncreaseBaseHp();
+            case StatusType.Attack:
+                playerStatus.IncreaseDungeonAtk(skillData.skillValue);
                 break;
-            case "Increase Attack Speed":
-                // increase dungeon attack Speed
+            default:
                 break;
         }
     }
