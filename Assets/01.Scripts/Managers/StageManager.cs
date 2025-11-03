@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -135,10 +136,21 @@ public class StageManager : MonoBehaviour
             stageNum = 1;
             return;
         }
-        StartStage();
+
+        Time.timeScale = 0f;
+        StartCoroutine(LoadNextStage());
+        //StartStage();
     }
 
+    private IEnumerator LoadNextStage()
+    {
+        yield return UIManager.Instance.FadeOut();
 
+        StartStage();
+
+        Time.timeScale = 1f;
+        yield return UIManager.Instance.FadeIn();
+    }
 
     private void Update()
     {
