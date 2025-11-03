@@ -27,15 +27,21 @@ public class SkillManager : MonoBehaviour
     private bool isSelectingSkill = false;
     private Queue<Action> skillSelectQueue = new Queue<Action>();
 
+    private PlayerSkills playerSkills;
+
+    #region Life Cycle
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
         else
             Destroy(gameObject);
+    }
+    #endregion
+
+    public void Init(PlayerSkills playerSkills)
+    {
+        this.playerSkills = playerSkills;
     }
 
     public void Init(Transform selectSkillPanel, Transform acquiredSkillPanel, TextMeshProUGUI howGetSkillText)
@@ -47,13 +53,15 @@ public class SkillManager : MonoBehaviour
 
     public void RequestOpenSkillPanel(string howGetSkillStr, Action onComplete = null)
     {
+        Time.timeScale = 0f;
+
         if (isSelectingSkill)
         {
             skillSelectQueue.Enqueue(() => OpenSelectSkillPanel(howGetSkillStr, onComplete));
             return;
         }
 
-        OpenSelectSkillPanel(howGetSkillStr,onComplete);
+        OpenSelectSkillPanel(howGetSkillStr, onComplete);
     }
 
     public void OpenSelectSkillPanel(string howGetSkillStr, Action onComplete)
@@ -61,11 +69,10 @@ public class SkillManager : MonoBehaviour
         isSelectingSkill = true;
         UIManager.Instance.PushUI(selectSkillPanel.parent.gameObject);
 
-
         List<SkillData> options = allSkills
             .Where(
             s => s.canStack
-            || !PlayerSkills.Instance.acquiredSkills.Contains(s)
+            || !playerSkills.acquiredSkills.Contains(s)
             )
             .OrderBy(x => UnityEngine.Random.value)
             .Take(3)
@@ -86,7 +93,7 @@ public class SkillManager : MonoBehaviour
         void OnSkillSelected(SkillData seleted)
         {
             // 데이터 등록
-            PlayerSkills.Instance.AddSkill(seleted);
+            playerSkills.AddSkill(seleted);
 
             GameObject imgObj = Instantiate(acquiredSkillPrefab, acquiredSkillPanel);
             imgObj.GetComponent<SkillIcon>().SetUp(seleted.icon);
@@ -106,5 +113,7 @@ public class SkillManager : MonoBehaviour
             var next = skillSelectQueue.Dequeue();
             next?.Invoke();
         }
+
+        Time.timeScale = 1f;
     }
 }

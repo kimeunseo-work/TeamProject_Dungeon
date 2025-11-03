@@ -16,5 +16,6 @@ MonoBehaviour:
   skillDescription: Increase Hp little
   icon: {fileID: 21300000, guid: fcf9331350749474fa4fb330c83c5c39, type: 3}
   skillPrefab: {fileID: 0}
-  type: 1
+  type: 2
+  skillValue: 30
   canStack: 1

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManger : MonoBehaviour
@@ -36,13 +37,15 @@ public class GameManger : MonoBehaviour
         if (state == CurrentState) return;
 
         CurrentState = state;
-        LoadScene();
+        StartCoroutine(LoadScene());
     }
 
     /*내부 로직*/
     //=======================================//
-    private void LoadScene()
+    private IEnumerator LoadScene()
     {
+        yield return UIManager.Instance.FadeOut();
+
         if(CurrentState == GameState.LobbyScene)
         {
             SceneManager.LoadScene(nameof(GameState.LobbyScene));
@@ -51,5 +54,7 @@ public class GameManger : MonoBehaviour
         {
             SceneManager.LoadScene(nameof(GameState.DungeonScene));
         }
+
+        yield return UIManager.Instance.FadeIn();
     }
 }
