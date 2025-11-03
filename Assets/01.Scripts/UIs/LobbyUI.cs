@@ -6,7 +6,7 @@ public class LobbyUI : MonoBehaviour
 {
     [Header("Level & Exp")]
     [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private RectTransform expFill;
+    [SerializeField] private Slider expSlider;
     [SerializeField] private TextMeshProUGUI expPercentageText;
 
     [Header("Gold")]
@@ -40,6 +40,14 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            PlayerLobbyStatus.Instance.IncreaseBaseExp(10);
+        }
+    }
+
     private void UpdateAllUIs()
     {
         UpdateGoldUI();
@@ -54,11 +62,14 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateExpUI()
     {
-        float percentage = (float)(PlayerLobbyStatus.Instance.BaseExp) / PlayerLobbyStatus.Instance.RequiredBaseExp;
-        expFill.localScale = new Vector3(percentage, 1.0f, 1.0f);
-        //expFill.DOScaleX(percentage, 0.4f);
-        int intPercentage = (int)(percentage * 100);
-        expPercentageText.text = $"{intPercentage}%";
+        float targetValue;
+        if (PlayerLobbyStatus.Instance.RequiredBaseExp == 0)
+            targetValue = (float)PlayerLobbyStatus.Instance.BaseExp / 1;
+        else
+            targetValue = (float)PlayerLobbyStatus.Instance.BaseExp/ PlayerLobbyStatus.Instance.RequiredBaseExp;
+        UIManager.Instance.AnimateSlider(expSlider, targetValue);
+
+        expPercentageText.text = $"{(int)(targetValue * 100)}%";
     }
 
     private void UpdateLevelUI()
@@ -69,7 +80,6 @@ public class LobbyUI : MonoBehaviour
 
     private void OnClickPlay()
     {
-        UIManager.Instance.PopUI();
         GameManger.Instance.ChangeGameState(GameManger.GameState.DungeonScene);
     }
 }

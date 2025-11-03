@@ -46,6 +46,8 @@ public class GameManger : MonoBehaviour
     {
         yield return UIManager.Instance.FadeOut();
 
+        UIManager.Instance.PopUI();
+
         if(CurrentState == GameState.LobbyScene)
         {
             SceneManager.LoadScene(nameof(GameState.LobbyScene));

@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
@@ -29,6 +28,21 @@ public class SkillManager : MonoBehaviour
 
     private PlayerSkills playerSkills;
 
+    [Header("Slot Machine Effect")]
+    private float spinDuration = 0.5f;
+    private float delayBetweenStop = 0.4f;
+    private float spinSpeed = 0.05f;
+    private List<SlotButton> slotButtons = new();
+
+    WaitForSecondsRealtime waitForSecondsRealtimeToSpinSpeed;
+    WaitForSecondsRealtime waitForSecondsRealtimeToDelayBetweenStop;
+
+    private class SlotButton
+    {
+        public SkillButton skillButton;
+        public Button button;
+    }
+
     #region Life Cycle
     private void Awake()
     {
@@ -36,13 +50,14 @@ public class SkillManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+        waitForSecondsRealtimeToSpinSpeed = new WaitForSecondsRealtime(spinSpeed);
+        waitForSecondsRealtimeToDelayBetweenStop = new WaitForSecondsRealtime(delayBetweenStop);
+
     }
     #endregion
 
-    public void Init(PlayerSkills playerSkills)
-    {
-        this.playerSkills = playerSkills;
-    }
+    public void Init(PlayerSkills playerSkills) => this.playerSkills = playerSkills;
 
     public void Init(Transform selectSkillPanel, Transform acquiredSkillPanel, TextMeshProUGUI howGetSkillText)
     {
@@ -51,43 +66,116 @@ public class SkillManager : MonoBehaviour
         this.howGetSkillText = howGetSkillText;
     }
 
+    #region Selecting Skill
     public void RequestOpenSkillPanel(string howGetSkillStr, Action onComplete = null)
     {
         Time.timeScale = 0f;
 
         if (isSelectingSkill)
         {
-            skillSelectQueue.Enqueue(() => OpenSelectSkillPanel(howGetSkillStr, onComplete));
+            //skillSelectQueue.Enqueue(() => OpenSelectSkillPanel(howGetSkillStr, onComplete));
+            skillSelectQueue.Enqueue(() => StartCoroutine(SlotMachineEffect(howGetSkillStr, onComplete)));
             return;
         }
 
-        OpenSelectSkillPanel(howGetSkillStr, onComplete);
+        //OpenSelectSkillPanel(howGetSkillStr, onComplete);
+        StartCoroutine(SlotMachineEffect(howGetSkillStr, onComplete));
     }
 
-    public void OpenSelectSkillPanel(string howGetSkillStr, Action onComplete)
+    // no animation
+    //public void OpenSelectSkillPanel(string howGetSkillStr, Action onComplete)
+    //{
+    //    isSelectingSkill = true;
+    //    UIManager.Instance.PushUI(selectSkillPanel.parent.gameObject);
+
+    //    List<SkillData> options = allSkills
+    //        .Where(
+    //        s => s.canStack
+    //        || !playerSkills.acquiredSkills.Contains(s)
+    //        )
+    //        .OrderBy(x => UnityEngine.Random.value)
+    //        .Take(3)
+    //        .ToList();
+
+    //    foreach (Transform child in selectSkillPanel)
+    //        Destroy(child.gameObject);
+
+    //    this.howGetSkillText.text = howGetSkillStr;
+
+    //    // slot machine effect
+
+    //    foreach (var skill in options)
+    //    {
+    //        Debug.Log(skill.name);
+    //        GameObject btnObj = Instantiate(skillButtonPrefab, selectSkillPanel);
+    //        btnObj.GetComponent<SkillButton>().Setup(skill, OnSkillSelected);
+    //    }
+
+    //    void OnSkillSelected(SkillData seleted)
+    //    {
+    //        // 데이터 등록
+    //        playerSkills.AddSkill(seleted);
+
+    //        GameObject imgObj = Instantiate(acquiredSkillPrefab, acquiredSkillPanel);
+    //        imgObj.GetComponent<SkillIcon>().SetUp(seleted.icon);
+
+    //        CloseSkillPanel();
+    //        onComplete?.Invoke();
+    //    }
+    //}
+
+    private IEnumerator SlotMachineEffect(string howGetSkillStr, Action onComplete)
     {
         isSelectingSkill = true;
+        howGetSkillText.text = howGetSkillStr;
         UIManager.Instance.PushUI(selectSkillPanel.parent.gameObject);
-
-        List<SkillData> options = allSkills
-            .Where(
-            s => s.canStack
-            || !playerSkills.acquiredSkills.Contains(s)
-            )
-            .OrderBy(x => UnityEngine.Random.value)
-            .Take(3)
-            .ToList();
 
         foreach (Transform child in selectSkillPanel)
             Destroy(child.gameObject);
 
-        this.howGetSkillText.text = howGetSkillStr;
+        slotButtons.Clear();
 
-        foreach (var skill in options)
+        for (int i = 0; i < 3; i++)
         {
-            Debug.Log(skill.name);
-            GameObject btnObj = Instantiate(skillButtonPrefab, selectSkillPanel);
-            btnObj.GetComponent<SkillButton>().Setup(skill, OnSkillSelected);
+            GameObject btn = Instantiate(skillButtonPrefab, selectSkillPanel);
+            var skillButton = btn.GetComponent<SkillButton>();
+            var button = btn.GetComponent<Button>();
+
+            button.interactable = false;
+            slotButtons.Add(new SlotButton { skillButton = skillButton, button = button });
+        }
+
+        // slot spin
+        float elapsed = 0f;
+        while (elapsed < spinDuration)
+        {
+            foreach (var slot in slotButtons)
+            {
+                var randomSkill = allSkills[UnityEngine.Random.Range(0, allSkills.Count)];
+                slot.skillButton.Setup(randomSkill, null);
+            }
+
+            elapsed += Time.unscaledDeltaTime;
+            yield return waitForSecondsRealtimeToSpinSpeed;
+        }
+
+        var finalOptions = allSkills
+            .Where(s => s.canStack || !playerSkills.acquiredSkills.Contains(s))
+            .OrderBy(x => UnityEngine.Random.value)
+            .Take(3)
+            .ToList();
+
+        // stop spin
+        for (int i = 0; i < slotButtons.Count; i++)
+        {
+            yield return waitForSecondsRealtimeToDelayBetweenStop;
+
+            var slot = slotButtons[i];
+            var skill = finalOptions[i];
+
+            slot.skillButton.Setup(skill, OnSkillSelected);
+            slot.button.interactable = true;
+            slot.skillButton.PlayDropAnimation();
         }
 
         void OnSkillSelected(SkillData seleted)
@@ -116,4 +204,6 @@ public class SkillManager : MonoBehaviour
 
         Time.timeScale = 1f;
     }
+    #endregion
+
 }
