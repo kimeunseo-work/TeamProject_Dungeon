@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject fixedUI;
 
+    #region Life Cycle
     private void Awake()
     {
         if (Instance == null)
@@ -34,6 +35,7 @@ public class UIManager : MonoBehaviour
         if (fadeImage != null)
             StartCoroutine(FadeIn());
     }
+    #endregion
 
     #region UI Stack Management
     public void PushUI(GameObject ui)

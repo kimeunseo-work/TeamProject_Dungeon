@@ -10,6 +10,7 @@ public class StageUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Slider expSlider;
     [SerializeField] private Button settingsButton;
+    [SerializeField] private TextMeshProUGUI currentStageText;
 
     [Header("Panels")]
     [SerializeField] private GameObject settingsPanel;
@@ -42,6 +43,7 @@ public class StageUI : MonoBehaviour
         playerStatus.OnDead += OpenGameOverUI;
 
         StageManager.Instance.OnAllStageCleared += OpenStageClearUI;
+        StageManager.Instance.OnStageChanged += UpdateCurrentStage;
 
         UpdateHUD();
     }
@@ -94,6 +96,12 @@ public class StageUI : MonoBehaviour
         UpdateLevel();
         OpenSelectSkillPanel("Level Up");
         UpdateExp();
+    }
+
+    private void UpdateCurrentStage()
+    {
+        //currentStageText.text = currentStage.ToString();
+        currentStageText.text = StageManager.Instance.GetCurrentStage().ToString();
     }
     #endregion
 
