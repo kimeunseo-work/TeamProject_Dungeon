@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: e9a4a9e9f7265ae42a7e69b1003e1c5e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2020,6 +2020,9 @@ MonoBehaviour:
   expPercentageText: {fileID: 919447036}
   goldText: {fileID: 1781543034200227515}
   playButton: {fileID: 8669083513913318881}
+  doorImage: {fileID: 1981170064405867788}
+  doorCloseSprite: {fileID: 21300000, guid: e9a4a9e9f7265ae42a7e69b1003e1c5e, type: 3}
+  doorOpenSprite: {fileID: 21300000, guid: c5ea1215e2c364a4b97ec3104d3859df, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
