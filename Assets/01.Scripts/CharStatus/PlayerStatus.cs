@@ -138,7 +138,7 @@ public class PlayerStatus : BaseStatus
     {
         var ex = DungeonAtk;
         DungeonAtk += amount;
-        Debug.Log($"[PlayerStatus] Before MaxHp = {ex}, After MaxHp = {DungeonAtk}");
+        Debug.Log($"[PlayerStatus] Before Atk = {ex}, After Atk = {DungeonAtk}");
         OnDungeonAtkChanged?.Invoke();
     }
 

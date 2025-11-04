@@ -90,4 +90,9 @@ public class AudioManager : MonoBehaviour
     {
         audioSource.PlayOneShot(clickSFX);
     }
+
+    public void Mute(bool isMute)
+    {
+        audioSource.mute = isMute;
+    }
 }

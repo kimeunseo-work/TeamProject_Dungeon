@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -25,18 +25,18 @@ public class StageEndingUI : MonoBehaviour
     {
         if (isClear)
         {
-            endStageTitle.text = gameOverTitleStr;
-            endStageText.text = gameOverStr;
+            endStageTitle.text = clearTitleStr;
+            endStageText.text = clearStr;
         }
         else
         {
-            endStageTitle.text = clearTitleStr;
-            endStageText.text = clearStr;
+            endStageTitle.text = gameOverTitleStr;
+            endStageText.text = gameOverStr;
         }
     }
 
     private void OnClickLoadLobby()
     {
-        GameManger.Instance.ChangeGameState(GameManger.GameState.LobbyScene);
+        GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
     }
 }

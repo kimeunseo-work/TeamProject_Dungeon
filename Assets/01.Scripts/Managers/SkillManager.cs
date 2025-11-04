@@ -64,6 +64,7 @@ public class SkillManager : MonoBehaviour
 
     private void OnDisable()
     {
+        StopAllCoroutines();
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
     #endregion

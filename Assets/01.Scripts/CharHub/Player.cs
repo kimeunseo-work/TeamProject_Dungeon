@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 public class Player : Character
@@ -20,32 +21,37 @@ public class Player : Character
 
     public float detectionRadius = 10f;
 
+    [Header("Hp Bar")]
+    [SerializeField] Slider hpSlider;
+    [SerializeField] TextMeshProUGUI hpText;
+
     /*Events*/
     //public event Action<bool, SkillData, Transform, Transform> OnCanAttackChanged;
 
     /*생명 주기*/
     //=======================================//
 
-    #region
     private void Awake()
     {
         // 스탯 초기화
-        if (status == null) Debug.Log("status == Null");
+        if (status == null)
+        {
+            Debug.Log("status == Null");
+        }
         status.InitDungeon();
     }
-
     private void OnEnable()
     {
+        UpdateHpbar();
         status.OnDead += Status_OnDead;
         controller.OnMoveChanged += Controller_OnMoveChanged;
     }
 
-
     private void Reset()
     {
-        //status = GetComponent<PlayerStatus>();
-        //controller = GetComponent<PlayerController>();
-        //skills = GetComponent<PlayerSkills>();
+        status = GetComponent<PlayerStatus>();
+        controller = GetComponent<PlayerController>();
+        skills = GetComponent<PlayerSkills>();
     }
 
     private void OnDisable()
@@ -58,13 +64,11 @@ public class Player : Character
     {
         FindNearEnemy();
 
-        // Attack()
         base.Update();
 
-        // 플레이어 입력 받기
+        // 플레이어 입력
         controller.HandleAction();
     }
-    #endregion
 
     /*외부 호출*/
     //=======================================//
@@ -78,6 +82,7 @@ public class Player : Character
         status.TakeDamage(amount);
         // 피격 액션
         controller.TakeDamage();
+        UpdateHpbar();
     }
 
     /// <summary>
@@ -151,5 +156,13 @@ public class Player : Character
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
         // Destroy(gameObject);
     }
+
     private void Controller_OnMoveChanged(bool isMove) => CanAttack = !isMove;
+
+    private void UpdateHpbar()
+    {
+        float targetValue = (float)status.DungeonHp / status.DungeonMaxHp;
+        hpText.text = status.DungeonHp.ToString();
+        UIManager.Instance.AnimateSlider(hpSlider, targetValue);
+    }
 }

@@ -19,5 +19,9 @@ public class ExpPool : MonoBehaviour
     }
 
     public GameObject Get() => pool.Get();
-    public void Release(GameObject obj) => pool.Release(obj);
+    public void Release(GameObject obj)
+    {
+        obj.transform.parent = gameObject.transform;
+        pool.Release(obj);
+    }
 }
