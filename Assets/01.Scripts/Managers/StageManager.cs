@@ -31,7 +31,7 @@ public class StageManager : MonoBehaviour
     private bool isStageProcessing;     //로딩중일때 입력키방지용
 
     /*Events*/
-    public Action OnStageCleared;
+    public Action OnAllStageCleared;
 
     /*생명 주기*/
     //=======================================//
@@ -114,7 +114,8 @@ public class StageManager : MonoBehaviour
         //stageNum++;
         if (stageNum > 10)
         {
-            GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
+            //GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
+            OnAllStageCleared?.Invoke();
             stageNum = 1;
             return;
         }

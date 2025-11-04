@@ -8286,6 +8286,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 1943742138110780133, guid: 76f9be8b8e7c09d46b7490f68a288a2d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1943742138110780133, guid: 76f9be8b8e7c09d46b7490f68a288a2d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2639280082948197486, guid: 76f9be8b8e7c09d46b7490f68a288a2d, type: 3}
       propertyPath: m_Constraints
       value: 4
