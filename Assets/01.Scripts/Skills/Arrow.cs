@@ -9,6 +9,8 @@ public class Arrow : MonoBehaviour
     private const int defaultDamage = 5;
     private int damage = 0;
 
+    [SerializeField] ParticleSystem particle;
+
     public void Init(bool canPierce, int pierceCount, int damage)
     {
         timer = 0f;
@@ -40,6 +42,7 @@ public class Arrow : MonoBehaviour
             if (collision.CompareTag("Enemy"))
             {
                 collision.GetComponent<Monster>().TakeDamage(damage); // 하드 코딩
+                
                 AudioManager.instance.ArrowHit();
                 // 관통 옵션
                 if (canPierce && pierceCount > 0)
@@ -48,8 +51,23 @@ public class Arrow : MonoBehaviour
                     return;
                 }
             }
-
+            SpawnParticle();
             ObjectManager.Instance.ArrowPool.Release(gameObject);
+        }
+    }
+    private void SpawnParticle()
+    {
+        if (particle != null)
+        {
+            ParticleSystem instance = Instantiate(
+                particle,
+                transform.position,   // 현재 총알 위치
+                Quaternion.identity   // 회전 없음
+            );
+
+            instance.transform.parent = null;
+            instance.Play();
+            Destroy(instance.gameObject, instance.main.duration);
         }
     }
 }
