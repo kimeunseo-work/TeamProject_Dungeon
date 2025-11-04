@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 0
   baseStatus:
-    Hp: 99999
+    Hp: 999
     Atk: 9
   hpSlider: {fileID: 5771313717417268174}
   hpText: {fileID: 3298318509852019440}
