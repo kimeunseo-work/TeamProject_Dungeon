@@ -5,6 +5,8 @@ using UnityEngine;
 public class Shot : MonoBehaviour
 {
     public float lifeTime = 10f;
+    [SerializeField] int damage;
+
     private void Start()
     {
         Destroy(gameObject, lifeTime);
@@ -15,6 +17,7 @@ public class Shot : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             // 데미지 처리
+            collision.GetComponent<Player>().TakeDamage(damage);
             Destroy(gameObject);
         }
     }

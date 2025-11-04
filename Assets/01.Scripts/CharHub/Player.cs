@@ -44,6 +44,8 @@ public class Player : Character
     {
         UpdateHpbar();
         status.OnDead += Status_OnDead;
+        status.OnDungeonHpChanged += UpdateHpbar;
+        status.OnDungeonMaxHpChanged += UpdateHpbar;
         controller.OnMoveChanged += Controller_OnMoveChanged;
     }
 
@@ -58,6 +60,8 @@ public class Player : Character
     {
         status.OnDead -= Status_OnDead;
         controller.OnMoveChanged -= Controller_OnMoveChanged;
+        status.OnDungeonHpChanged -= UpdateHpbar;
+        status.OnDungeonMaxHpChanged -= UpdateHpbar;
     }
 
     protected override void Update()
@@ -82,7 +86,7 @@ public class Player : Character
         status.TakeDamage(amount);
         // 피격 액션
         controller.TakeDamage();
-        UpdateHpbar();
+        Debug.Log($"damage:{amount}, nowhp:{status.DungeonHp}");
     }
 
     /// <summary>
