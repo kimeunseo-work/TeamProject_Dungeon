@@ -55,7 +55,7 @@ public class DropItem : MonoBehaviour
 
     private void Update()
     {
-        if(timer < cool)
+        if (timer < cool)
         {
             timer += Time.deltaTime;
         }
@@ -97,6 +97,14 @@ public class DropItem : MonoBehaviour
     {
         // 속도 증가
         speed += acceleration * Time.deltaTime;
+
+        if (targetData == null || targetPos == null)
+        {
+            var go = GameObject.FindWithTag("Player");
+            targetData = go.GetComponent<Player>();
+            targetPos = go.GetComponent<Transform>();
+        }
+
         // 방향 도출
         Vector2 direction = (targetPos.position - transform.position).normalized;
         // 이동
