@@ -16,6 +16,7 @@ public class Monster : Character
     private MonsterStatus status;
     private MonsterController controller;
 
+    [Header("Hp Bar")]
     [SerializeField] Slider hpSlider;
     [SerializeField] TextMeshProUGUI hpText;
 
