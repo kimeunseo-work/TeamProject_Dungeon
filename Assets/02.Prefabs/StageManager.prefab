@@ -80,6 +80,7 @@ MonoBehaviour:
   startPoint: {fileID: 8713343086984449136}
   exitCollider: {fileID: 0}
   nextStage: {fileID: 0}
+  onLoadedMonsters: {fileID: 963799692061708844, guid: e3ad4521852ca7c42801d752e5f6ea5a, type: 3}
   testMode: 0
   spawnAreas:
   - serializedVersion: 2
@@ -89,6 +90,7 @@ MonoBehaviour:
     height: 6
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
   stageDatas:
-  - {fileID: 11400000, guid: 986ea8e3d0a27334bbb9b8d2a76c9201, type: 2}
+  - {fileID: 11400000, guid: 61b95393d02cbcc4dbf47b34abfeb9ad, type: 2}
   - {fileID: 11400000, guid: 7ffdf29684ebaf84ea2c6191a28a2865, type: 2}
   - {fileID: 11400000, guid: 9a4d81b53a37a024295340dc8e79fe04, type: 2}
+  angelPrefab: {fileID: 0}

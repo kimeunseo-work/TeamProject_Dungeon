@@ -5,11 +5,11 @@ public class Shot : MonoBehaviour
 {
     public float lifeTime = 10f;
     [SerializeField] int damage;
-    [SerializeField] ParticleSystem particle;
-    private void Start()
-    {
-        Destroy(gameObject, lifeTime);
-    }
+
+    //private void Start()
+    //{
+    //    Destroy(gameObject, lifeTime);
+    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

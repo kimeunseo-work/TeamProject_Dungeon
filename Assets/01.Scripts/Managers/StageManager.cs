@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static StageData;
@@ -16,6 +17,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Transform startPoint;
     [SerializeField] private Collider2D exitCollider;
     [SerializeField] private TilemapRenderer nextStage;
+    [SerializeField] private GameObject onLoadedMonsters;
     [SerializeField] private bool testMode = true; // 테스트용 프리패스 치트키
 
     [SerializeField] List<Rect> spawnAreas;
@@ -68,6 +70,13 @@ public class StageManager : MonoBehaviour
     // 스테이지 시작 매서드
     public void StartStage()
     {
+        var objs = onLoadedMonsters.GetComponentsInChildren<Transform>().ToList();
+        objs.RemoveAt(0);
+        foreach(var obj in objs)
+        {
+            Destroy(obj.gameObject);
+        }
+
         OnStageChanged?.Invoke(stageNum);
 
         isClear = false;
@@ -229,7 +238,8 @@ public class StageManager : MonoBehaviour
             Random.Range(area.yMin, area.yMax)
         );
 
-        Instantiate(prefab, pos, Quaternion.identity);
+        var mon = Instantiate(prefab, pos, Quaternion.identity);
+        mon.transform.parent = onLoadedMonsters.transform;
         //monsterStatuses.Add(monster.GetComponent<MonsterStatus>());
     }
 
