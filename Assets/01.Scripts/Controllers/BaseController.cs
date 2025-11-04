@@ -42,9 +42,9 @@ public class BaseController : MonoBehaviour
         animationHandler = GetComponent<AnimationHandler>();
     }
 
-    protected virtual void Start()
-    {
-    }
+    //protected virtual void Start()
+    //{
+    //}
 
     protected virtual void Update()
     {
@@ -75,10 +75,10 @@ public class BaseController : MonoBehaviour
     {
         animationHandler.Dead();
     }
-    public virtual void Attack()
-    {
-        animationHandler.Attack();
-    }
+    //public virtual void Attack()
+    //{
+    //    animationHandler.Attack();
+    //}
 
     /*내부 로직*/
     //=======================================//
