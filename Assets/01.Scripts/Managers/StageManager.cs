@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,9 +79,11 @@ public class StageManager : MonoBehaviour
         switch (stageType)
         {
             case StageType.Combat:
+                AudioManager.instance.PlayNormalBGM();
                 SpawnFromStageData();
                 break;
             case StageType.Rest:
+                AudioManager.instance.PlayRestBGM();
                 SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
                 Debug.Log("휴식의시간");
                 stageNum++;
@@ -89,6 +91,7 @@ public class StageManager : MonoBehaviour
                 exitCollider.enabled = true;
                 break;
             case StageType.Boss:
+                AudioManager.instance.PlayBossBGM();
                 SpawnFromStageData();
                 Debug.Log("보스 전투 시작!");
                 break;
@@ -106,6 +109,7 @@ public class StageManager : MonoBehaviour
 
         if (clearRequireNum <= 0)
         {
+            
             StageClear();
         }
     }
@@ -140,6 +144,7 @@ public class StageManager : MonoBehaviour
 
     private void StageClear()
     {
+        AudioManager.instance.PlayClearBGM();
         isClear = true;
         exitCollider.enabled = true;
         nextStage.enabled = true;
