@@ -96,7 +96,7 @@ public class Monster : Character
 
     /*내부 로직*/
     //=======================================//
-    
+
     protected override void Attack()
     {
         // 내부 타이머 돌려서 공격 못하는 상태면 그냥 리턴
@@ -123,7 +123,7 @@ public class Monster : Character
 
     /*이벤트 구독*/
     //=======================================//
-    
+
     protected override void Status_OnDead()
     {
         // 사망 액션

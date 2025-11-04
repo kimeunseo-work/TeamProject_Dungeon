@@ -8,7 +8,7 @@ public struct Status
     public int Atk;
 }
 
-public class BaseStatus : MonoBehaviour 
+public class BaseStatus : MonoBehaviour
 {
     /*필드 & 프로퍼티*/
     //=======================================//

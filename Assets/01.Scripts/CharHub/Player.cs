@@ -8,7 +8,7 @@ public class Player : Character
 {
     /*필드 & 프로퍼티*/
     //=======================================// 
-    public bool IsInvincible {  get; private set; }
+    public bool IsInvincible { get; private set; }
     private float invincibleDuration = 2f;
 
     // 플레이어
@@ -17,8 +17,8 @@ public class Player : Character
     [SerializeField] private PlayerSkills skills;
 
     /*Monsters*/
-    private List<Transform> currentEnemyTrans = new(10);
-    private List<MonsterStatus> currentEnemyStatus = new(10);
+    private readonly List<Transform> currentEnemyTrans = new(10);
+    private readonly List<MonsterStatus> currentEnemyStatus = new(10);
 
     //public float detectionRadius = 10f;
 
@@ -155,7 +155,7 @@ public class Player : Character
             if (status == null || status.IsDead) continue;
 
             float dist = Vector2.Distance(thisPos, currentEnemyTrans[i].position);
-            
+
             if (dist < minDist)
             {
                 minDist = dist;
@@ -173,7 +173,7 @@ public class Player : Character
     {
         // 사망 액션
         controller.Dead();
-        AudioManager.instance.PlayHit();
+        AudioManager.Instance.PlayHit();
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
         // Destroy(gameObject);
     }

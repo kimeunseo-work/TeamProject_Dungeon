@@ -72,7 +72,7 @@ public class StageManager : MonoBehaviour
     {
         var objs = onLoadedMonsters.GetComponentsInChildren<Transform>().ToList();
         objs.RemoveAt(0);
-        foreach(var obj in objs)
+        foreach (var obj in objs)
         {
             Destroy(obj.gameObject);
         }
@@ -92,11 +92,11 @@ public class StageManager : MonoBehaviour
         switch (stageType)
         {
             case StageType.Combat:
-                AudioManager.instance.PlayNormalBGM();
+                AudioManager.Instance.PlayNormalBGM();
                 SpawnFromStageData();
                 break;
             case StageType.Rest:
-                AudioManager.instance.PlayRestBGM();
+                AudioManager.Instance.PlayRestBGM();
                 Instantiate(angelPrefab);
                 Debug.Log("휴식의시간");
                 stageNum++;
@@ -105,7 +105,7 @@ public class StageManager : MonoBehaviour
                 //천사 생성
                 break;
             case StageType.Boss:
-                AudioManager.instance.PlayBossBGM();
+                AudioManager.Instance.PlayBossBGM();
                 SpawnFromStageData();
                 Debug.Log("보스 전투 시작!");
                 break;
@@ -123,7 +123,7 @@ public class StageManager : MonoBehaviour
 
         if (clearRequireNum <= 0)
         {
-            
+
             StageClear();
         }
     }
@@ -159,7 +159,7 @@ public class StageManager : MonoBehaviour
 
     private void StageClear()
     {
-        AudioManager.instance.PlayClearBGM();
+        AudioManager.Instance.PlayClearBGM();
         isClear = true;
         exitCollider.enabled = true;
         nextStage.enabled = true;

@@ -2,14 +2,6 @@
 
 public class PlayerController : BaseController
 {
-    /*생명 주기*/
-    //=======================================//
-
-    //protected override void Start()
-    //{
-    //    base.Start();
-    //}
-
     /*외부 호출용*/
     //=======================================//
 
@@ -21,10 +13,6 @@ public class PlayerController : BaseController
 
         CheckIsMoveChanged(movementDirection);
     }
-    //public override void Attack()
-    //{
-    //    base.Attack();
-    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

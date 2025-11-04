@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
 
-public class ExpPool : MonoBehaviour 
+public class ExpPool : MonoBehaviour
 {
     [SerializeField] private GameObject expPrefab;
     private ObjectPool<GameObject> pool;

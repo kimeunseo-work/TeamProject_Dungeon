@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CustomEditor(typeof(ExpPool))]
-public class ExpPoolEditor : Editor 
+public class ExpPoolEditor : Editor
 {
     public override void OnInspectorGUI()
     {

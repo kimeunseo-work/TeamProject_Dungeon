@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class BaseController : MonoBehaviour
 {
@@ -14,6 +13,7 @@ public class BaseController : MonoBehaviour
     //private Transform WeaponPivot;
     //[SerializeField] private SpriteRenderer CharRenderer;
     //[SerializeField] private Transform WeaponPivot;
+
     [SerializeField] private Transform weaponTransform; // 무기(활) 오브젝트
     [SerializeField] private float detectionRadius = 10f;
     private Vector2 lastMoveDirection = Vector2.right;
@@ -28,6 +28,7 @@ public class BaseController : MonoBehaviour
     public Vector2 LookDirection { get { return lookDirection; } }
 
     protected float Speed = 5f;
+
     public event Action<bool> OnMoveChanged;
     public bool IsMove { get; protected set; } = false;
 
@@ -41,10 +42,6 @@ public class BaseController : MonoBehaviour
         charRenderer = GetComponentInChildren<SpriteRenderer>();
         animationHandler = GetComponent<AnimationHandler>();
     }
-
-    //protected virtual void Start()
-    //{
-    //}
 
     protected virtual void Update()
     {
@@ -75,10 +72,6 @@ public class BaseController : MonoBehaviour
     {
         animationHandler.Dead();
     }
-    //public virtual void Attack()
-    //{
-    //    animationHandler.Attack();
-    //}
 
     /*내부 로직*/
     //=======================================//
@@ -100,7 +93,6 @@ public class BaseController : MonoBehaviour
 
         animationHandler.Move(direction);
     }
-    
 
     protected virtual void Rotate(Vector2 direction)
     {
@@ -130,10 +122,11 @@ public class BaseController : MonoBehaviour
 
                 // 원 위의 위치 계산
                 Vector2 offset = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)) * radius;
-                weaponTransform.position = transform.position + ((Vector3)offset * 0.3f);
 
                 // 무기 회전 (적 방향)
-                weaponTransform.rotation = Quaternion.Euler(0f, 0f, angleDeg);
+                weaponTransform.SetPositionAndRotation(transform.position + ((Vector3)offset * 0.3f),
+                    Quaternion.Euler(0f, 0f, angleDeg)
+                );
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
 
-public class ArrowPool : MonoBehaviour 
+public class ArrowPool : MonoBehaviour
 {
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private readonly int defaultCapacity = 5;

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CustomEditor(typeof(ZombiePool))]
-public class ZombiePoolEditor : Editor 
+public class ZombiePoolEditor : Editor
 {
     public override void OnInspectorGUI()
     {
