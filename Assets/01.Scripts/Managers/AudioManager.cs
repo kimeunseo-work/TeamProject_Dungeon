@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
@@ -48,12 +48,13 @@ public class AudioManager : MonoBehaviour
     }
 
     //BGM 컨트롤
-    public void PlayBGM(AudioClip clip)
+    public void PlayBGM(AudioClip clip, float volume = 1.0f)
     {
         if (clip == null) return;
         if (audioSource.clip == clip) return;
 
         audioSource.clip = clip;
+        audioSource.volume = volume;
         audioSource.loop = true;
         audioSource.Play();
     }
@@ -72,13 +73,12 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayBossBGM()
     {
-        PlayBGM(bossBGM);
+        PlayBGM(bossBGM, 0.5f);
     }
 
     public void PlayClearBGM()
     {
         audioSource.PlayOneShot(clearBGM);
-
     }
 
     public void PlayFailBGM()
