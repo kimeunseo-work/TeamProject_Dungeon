@@ -20,8 +20,8 @@ public class BossMonster : Character
 
     [Header("∆¯≈∫ ∆–≈œ")]
     public GameObject bombPrefab;
-    public Vector2 bombSpawnRange = new Vector2(5f, 5f);
-    public float bombCooldown = 5f;
+    public Vector2 bombSpawnRange = new Vector2(2f, 2f);
+    public float bombCooldown = 3f;
     private float bombTimer = 0f;
     public float bombExplosionRadius = 2f;
 
@@ -43,7 +43,7 @@ public class BossMonster : Character
         rb = GetComponent<Rigidbody2D>();
         status = GetComponent<MonsterStatus>();
 
-        var baseStatus = new Status { Hp = 500, Atk = 50 };
+        var baseStatus = new Status { Hp = 10000, Atk = 30 }; // ∫∏Ω∫ ±‚∫ª Ω∫≈» º≥¡§
         status.InitDungeon(baseStatus, 1);
     }
 
