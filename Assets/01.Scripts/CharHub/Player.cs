@@ -184,7 +184,7 @@ public class Player : Character
     private void UpdateHpbar()
     {
         float targetValue = (float)status.DungeonHp / status.DungeonMaxHp;
-        hpText.text = status.DungeonHp.ToString();
+        hpText.text = $"{status.DungeonHp}/{status.DungeonMaxHp}";
         UIManager.Instance.AnimateSlider(hpSlider, targetValue);
     }
 }
