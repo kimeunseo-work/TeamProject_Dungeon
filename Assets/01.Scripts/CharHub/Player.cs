@@ -8,7 +8,7 @@ public class Player : Character
 {
     /*필드 & 프로퍼티*/
     //=======================================// 
-    public bool IsInvincible {  get; private set; }
+    public bool IsInvincible { get; private set; }
     private float invincibleDuration = 2f;
 
     // 플레이어
@@ -65,11 +65,14 @@ public class Player : Character
         status.OnDungeonMaxHpChanged -= UpdateHpbar;
     }
 
-    protected override void Update()
+    private void Update()
     {
         FindNearEnemy();
 
-        base.Update();
+        if (CanAttack && TargetTransform != null)
+        {
+            Attack();
+        }
 
         // 플레이어 입력
         controller.HandleAction();
@@ -155,7 +158,7 @@ public class Player : Character
             if (status == null || status.IsDead) continue;
 
             float dist = Vector2.Distance(thisPos, currentEnemyTrans[i].position);
-            
+
             if (dist < minDist)
             {
                 minDist = dist;

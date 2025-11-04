@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,30 +8,30 @@ public class BossMonster : Character
     private Player target;
     private Rigidbody2D rb;
 
-    [Header("°ø°İ ÄğÅ¸ÀÓ")]
+    [Header("ê³µê²© ì¿¨íƒ€ì„")]
     public float patternCooldown = 2f;
     private float patternTimer = 0f;
 
-    [Header("Á¡ÇÁ ÆĞÅÏ")]
+    [Header("ì í”„ íŒ¨í„´")]
     public float jumpHeight = 5f;
     public float jumpDuration = 1f;
     public int jumpDamage = 50;
     private bool isJumping = false;
 
-    [Header("ÆøÅº ÆĞÅÏ")]
+    [Header("í­íƒ„ íŒ¨í„´")]
     public GameObject bombPrefab;
     public Vector2 bombSpawnRange = new Vector2(2f, 2f);
     public float bombCooldown = 3f;
     private float bombTimer = 0f;
     public float bombExplosionRadius = 2f;
 
-    [Header("Åº¸· ÆĞÅÏ")]
+    [Header("íƒ„ë§‰ íŒ¨í„´")]
     public GameObject bulletPrefab;
     public int bulletCount = 12;
     public float bulletSpeed = 6f;
     public float spreadAngle = 120f;
 
-    [Header("Á¢ÃË µ¥¹ÌÁö")]
+    [Header("ì ‘ì´‰ ë°ë¯¸ì§€")]
     public int contactDamage = 10;
     public float contactDamageCooldown = 1f;
 
@@ -43,13 +43,12 @@ public class BossMonster : Character
         rb = GetComponent<Rigidbody2D>();
         status = GetComponent<MonsterStatus>();
 
-        var baseStatus = new Status { Hp = 10000, Atk = 30 }; // º¸½º ±âº» ½ºÅÈ ¼³Á¤
+        var baseStatus = new Status { Hp = 10000, Atk = 30 }; // ë³´ìŠ¤ ê¸°ë³¸ ìŠ¤íƒ¯ ì„¤ì •
         status.InitDungeon(baseStatus, 1);
     }
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
         if (target == null) return;
 
         bombTimer += Time.deltaTime;
@@ -74,7 +73,7 @@ public class BossMonster : Character
 
     private void ChoosePattern()
     {
-        int pattern = Random.Range(0, 2); // 0: Á¡ÇÁ, 1: Åº¸·
+        int pattern = Random.Range(0, 2); // 0: ì í”„, 1: íƒ„ë§‰
         switch (pattern)
         {
             case 0:
@@ -123,18 +122,18 @@ public class BossMonster : Character
             if (p != null)
             {
                 p.TakeDamage(jumpDamage);
-                Debug.Log($"Á¡ÇÁ ÂøÁö °ø°İ! {jumpDamage} µ¥¹ÌÁö");
+                Debug.Log($"ì í”„ ì°©ì§€ ê³µê²©! {jumpDamage} ë°ë¯¸ì§€");
             }
         }
     }
 
     private IEnumerator BarrageAttack()
     {
-        Debug.Log("º¸½º ÆĞÅÏ: Åº¸· ¹ß»ç");
+        Debug.Log("ë³´ìŠ¤ íŒ¨í„´: íƒ„ë§‰ ë°œì‚¬");
 
         if (bulletPrefab == null || target == null)
         {
-            Debug.LogWarning("bulletPrefab ¶Ç´Â targetÀÌ ¼³Á¤µÇÁö ¾ÊÀ½!");
+            Debug.LogWarning("bulletPrefab ë˜ëŠ” targetì´ ì„¤ì •ë˜ì§€ ì•ŠìŒ!");
             yield break;
         }
 
@@ -200,7 +199,7 @@ public class BossMonster : Character
 
     protected override void Status_OnDead()
     {
-        Debug.Log("º¸½º »ç¸Á!");
+        Debug.Log("ë³´ìŠ¤ ì‚¬ë§!");
         Destroy(gameObject);
     }
 
@@ -224,7 +223,7 @@ public class BossMonster : Character
             return;
 
         player.TakeDamage(contactDamage);
-        Debug.Log($"º¸½º Á¢ÃË ÇÇÇØ: {contactDamage}");
+        Debug.Log($"ë³´ìŠ¤ ì ‘ì´‰ í”¼í•´: {contactDamage}");
 
         contactCooldowns[player] = contactDamageCooldown;
     }

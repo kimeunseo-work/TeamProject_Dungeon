@@ -2,14 +2,6 @@
 
 public class PlayerController : BaseController
 {
-    /*생명 주기*/
-    //=======================================//
-
-    //protected override void Start()
-    //{
-    //    base.Start();
-    //}
-
     /*외부 호출용*/
     //=======================================//
 

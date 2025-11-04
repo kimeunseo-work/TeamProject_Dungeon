@@ -9,9 +9,12 @@ public class Monster : Character
 
     private Player target;
 
-    // 나중에 데이터화
+    [Header("몬스터 스탯")]
     [SerializeField] private int level;
+    [SerializeField] private int attackSpeed;
     [SerializeField] private Status baseStatus;
+
+    private float timer;
 
     private MonsterStatus status;
     private MonsterController controller;
@@ -53,9 +56,23 @@ public class Monster : Character
         SpreadExp(5);
     }
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
+        if (!CanAttack)
+        {
+            timer = Time.deltaTime;
+
+            if(timer >= attackSpeed)
+            {
+                CanAttack = true;
+            }
+        }
+
+        if (CanAttack && TargetTransform != null 
+            && controller.Type == MonsterController.MonsterType.Melee)
+        {
+            Attack();
+        }
 
         controller.HandleAction();
     }
@@ -65,10 +82,7 @@ public class Monster : Character
 
     public override void TakeDamage(int amount)
     {
-        // 데이터
         status.TakeDamage(amount);
-        // 피격 액션
-        // controller.TakeDamage(amount);
 
         UpdateHpbar();
     }
@@ -99,11 +113,10 @@ public class Monster : Character
     
     protected override void Attack()
     {
-        // 내부 타이머 돌려서 공격 못하는 상태면 그냥 리턴
-        // 데이터
+        if (!CanAttack) return;
+
         target.TakeDamage(status.DungeonAtk);
-        // 공격 액션
-        // controller.TakeDamage(amount);
+        CanAttack = false;
     }
 
     private void SpreadExp(int amount)
