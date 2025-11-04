@@ -1,9 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BossMonster : Character
 {
-    private MonsterStatus status;   // 체력, 공격력 관리
+    private MonsterStatus status;
     private Player target;
     private Rigidbody2D rb;
 
@@ -19,16 +20,22 @@ public class BossMonster : Character
 
     [Header("폭탄 패턴")]
     public GameObject bombPrefab;
-    public Vector2 bombSpawnRange = new Vector2(5f, 5f);
-    public float bombCooldown = 5f;
+    public Vector2 bombSpawnRange = new Vector2(2f, 2f);
+    public float bombCooldown = 3f;
     private float bombTimer = 0f;
     public float bombExplosionRadius = 2f;
 
     [Header("탄막 패턴")]
-    public GameObject bulletPrefab;     // 탄막용 투사체 프리팹
-    public int bulletCount = 12;        // 발사할 탄 수
-    public float bulletSpeed = 6f;      // 탄속
-    public float spreadAngle = 120f;    // 퍼지는 각도
+    public GameObject bulletPrefab;
+    public int bulletCount = 12;
+    public float bulletSpeed = 6f;
+    public float spreadAngle = 120f;
+
+    [Header("접촉 데미지")]
+    public int contactDamage = 10;
+    public float contactDamageCooldown = 1f;
+
+    private Dictionary<Player, float> contactCooldowns = new Dictionary<Player, float>();
 
     private void Awake()
     {
@@ -36,8 +43,7 @@ public class BossMonster : Character
         rb = GetComponent<Rigidbody2D>();
         status = GetComponent<MonsterStatus>();
 
-        // 스탯 초기화
-        var baseStatus = new Status { Hp = 500, Atk = 50 };  // 예시 값
+        var baseStatus = new Status { Hp = 10000, Atk = 30 }; // 보스 기본 스탯 설정
         status.InitDungeon(baseStatus, 1);
     }
 
@@ -46,7 +52,6 @@ public class BossMonster : Character
         base.Update();
         if (target == null) return;
 
-        // 폭탄 쿨타임 관리
         bombTimer += Time.deltaTime;
         if (bombTimer >= bombCooldown)
         {
@@ -54,7 +59,6 @@ public class BossMonster : Character
             bombTimer = 0f;
         }
 
-        // 패턴 쿨타임 관리
         if (!isJumping)
         {
             patternTimer += Time.deltaTime;
@@ -64,6 +68,8 @@ public class BossMonster : Character
                 ChoosePattern();
             }
         }
+
+        UpdateContactCooldowns();
     }
 
     private void ChoosePattern()
@@ -87,6 +93,7 @@ public class BossMonster : Character
         Vector3 apex = startPos + Vector3.up * jumpHeight;
 
         float elapsed = 0f;
+
         while (elapsed < jumpDuration / 2f)
         {
             elapsed += Time.deltaTime;
@@ -103,14 +110,22 @@ public class BossMonster : Character
             yield return null;
         }
 
-        Collider2D hit = Physics2D.OverlapCircle(transform.position, 1.2f, LayerMask.GetMask("Player"));
-        if (hit != null)
+        DealJumpDamage();
+        isJumping = false;
+    }
+
+    private void DealJumpDamage()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1.2f, LayerMask.GetMask("Player"));
+        foreach (var hit in hits)
         {
             Player p = hit.GetComponent<Player>();
-            if (p != null) p.TakeDamage(jumpDamage);
+            if (p != null)
+            {
+                p.TakeDamage(jumpDamage);
+                Debug.Log($"점프 착지 공격! {jumpDamage} 데미지");
+            }
         }
-
-        isJumping = false;
     }
 
     private IEnumerator BarrageAttack()
@@ -126,7 +141,6 @@ public class BossMonster : Character
         Vector2 directionToPlayer = (target.transform.position - transform.position).normalized;
         float baseAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-        // 탄막 발사
         for (int i = 0; i < bulletCount; i++)
         {
             float angleOffset = -spreadAngle / 2 + (spreadAngle / (bulletCount - 1)) * i;
@@ -191,4 +205,38 @@ public class BossMonster : Character
     }
 
     protected override void Attack() { }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        TryDealContactDamage(other.GetComponent<Player>());
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        TryDealContactDamage(other.GetComponent<Player>());
+    }
+
+    private void TryDealContactDamage(Player player)
+    {
+        if (player == null) return;
+
+        if (contactCooldowns.ContainsKey(player) && contactCooldowns[player] > 0f)
+            return;
+
+        player.TakeDamage(contactDamage);
+        Debug.Log($"보스 접촉 피해: {contactDamage}");
+
+        contactCooldowns[player] = contactDamageCooldown;
+    }
+
+    private void UpdateContactCooldowns()
+    {
+        var keys = new List<Player>(contactCooldowns.Keys);
+        foreach (var player in keys)
+        {
+            contactCooldowns[player] -= Time.deltaTime;
+            if (contactCooldowns[player] <= 0)
+                contactCooldowns.Remove(player);
+        }
+    }
 }

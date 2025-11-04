@@ -9,6 +9,8 @@ public class Player : Character
 {
     /*필드 & 프로퍼티*/
     //=======================================// 
+    public bool IsInvincible {  get; private set; }
+    private float invincibleDuration = 2f;
 
     // 플레이어
     [SerializeField] private PlayerStatus status;
@@ -44,6 +46,8 @@ public class Player : Character
     {
         UpdateHpbar();
         status.OnDead += Status_OnDead;
+        status.OnDungeonHpChanged += UpdateHpbar;
+        status.OnDungeonMaxHpChanged += UpdateHpbar;
         controller.OnMoveChanged += Controller_OnMoveChanged;
     }
 
@@ -58,6 +62,8 @@ public class Player : Character
     {
         status.OnDead -= Status_OnDead;
         controller.OnMoveChanged -= Controller_OnMoveChanged;
+        status.OnDungeonHpChanged -= UpdateHpbar;
+        status.OnDungeonMaxHpChanged -= UpdateHpbar;
     }
 
     protected override void Update()
@@ -68,6 +74,16 @@ public class Player : Character
 
         // 플레이어 입력
         controller.HandleAction();
+
+        if (invincibleDuration > 0f)
+        {
+            invincibleDuration -= Time.deltaTime;
+        }
+        else
+        {
+            SetInvincible(false);
+            invincibleDuration = 2.0f;
+        }
     }
 
     /*외부 호출*/
@@ -78,11 +94,17 @@ public class Player : Character
     /// </summary>
     public override void TakeDamage(int amount)
     {
+        if (IsInvincible) return;
         // 데이터
         status.TakeDamage(amount);
         // 피격 액션
         controller.TakeDamage();
-        UpdateHpbar();
+        SetInvincible(true);
+        Debug.Log($"damage:{amount}, nowhp:{status.DungeonHp}");
+    }
+    public void SetInvincible(bool value)
+    {
+        IsInvincible = value;
     }
 
     /// <summary>
@@ -162,7 +184,7 @@ public class Player : Character
     private void UpdateHpbar()
     {
         float targetValue = (float)status.DungeonHp / status.DungeonMaxHp;
-        hpText.text = status.DungeonHp.ToString();
+        hpText.text = $"{status.DungeonHp}/{status.DungeonMaxHp}";
         UIManager.Instance.AnimateSlider(hpSlider, targetValue);
     }
 }

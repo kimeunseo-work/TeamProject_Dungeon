@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using static StageData;
 using Random = UnityEngine.Random;
@@ -32,7 +31,7 @@ public class StageManager : MonoBehaviour
     private bool isStageProcessing;     //로딩중일때 입력키방지용
 
     /*Events*/
-    public Action OnStageCleared;
+    public Action OnAllStageCleared;
 
     /*생명 주기*/
     //=======================================//
@@ -45,7 +44,7 @@ public class StageManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
 
         stageNum = 1;
@@ -119,7 +118,8 @@ public class StageManager : MonoBehaviour
         //stageNum++;
         if (stageNum > 10)
         {
-            GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
+            //GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
+            OnAllStageCleared?.Invoke();
             stageNum = 1;
             return;
         }
@@ -175,7 +175,7 @@ public class StageManager : MonoBehaviour
         if (player == null || startPoint == null)
         {
             Debug.LogError("Player 또는 StartPoint가 지정되지 않았습니다!");
-            return;
+            player = GameObject.FindWithTag("Player").transform;
         }
 
         // 위치 리셋

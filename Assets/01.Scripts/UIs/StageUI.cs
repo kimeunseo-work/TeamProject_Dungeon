@@ -41,15 +41,9 @@ public class StageUI : MonoBehaviour
         playerStatus.OnDungeonExpChanged += UpdateExp;
         playerStatus.OnDead += OpenGameOverUI;
 
-        UpdateHUD();
-    }
+        StageManager.Instance.OnAllStageCleared += OpenStageClearUI;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            OpenStageClearUI();
-        }
+        UpdateHUD();
     }
 
     private void OnDestroy()
@@ -58,6 +52,7 @@ public class StageUI : MonoBehaviour
         playerStatus.OnDungeonLevelChanged -= OnLevelUp;
         playerStatus.OnDungeonExpChanged -= UpdateExp;
         playerStatus.OnDead -= OpenGameOverUI;
+        StageManager.Instance.OnAllStageCleared -= OpenStageClearUI;
     }
     #endregion
 
@@ -117,6 +112,7 @@ public class StageUI : MonoBehaviour
     }
     #endregion
 
+    #region Stage Ending UI
     private void OpenGameOverUI()
     {
         Time.timeScale = 0f;
@@ -126,7 +122,9 @@ public class StageUI : MonoBehaviour
 
     public void OpenStageClearUI()
     {
+        Time.timeScale = 0f;
         stageEndingUI.Init(true);
         UIManager.Instance.PushUI(StageEndingPanel);
     }
+    #endregion
 }

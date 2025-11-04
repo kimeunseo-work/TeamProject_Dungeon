@@ -130,7 +130,7 @@ public class BaseController : MonoBehaviour
 
                 // 원 위의 위치 계산
                 Vector2 offset = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)) * radius;
-                weaponTransform.position = transform.position + (Vector3)offset;
+                weaponTransform.position = transform.position + ((Vector3)offset * 0.3f);
 
                 // 무기 회전 (적 방향)
                 weaponTransform.rotation = Quaternion.Euler(0f, 0f, angleDeg);
