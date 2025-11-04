@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +32,6 @@ public class StageManager : MonoBehaviour
 
     /*Events*/
     public Action OnAllStageCleared;
-    public Action OnStageChanged;
 
     /*생명 주기*/
     //=======================================//
@@ -66,7 +65,6 @@ public class StageManager : MonoBehaviour
     // 스테이지 시작 매서드
     public void StartStage()
     {
-        OnStageChanged?.Invoke();
         isClear = false;
         exitCollider.enabled = false;
         nextStage.enabled = false;
@@ -80,16 +78,19 @@ public class StageManager : MonoBehaviour
         switch (stageType)
         {
             case StageType.Combat:
+                AudioManager.instance.PlayNormalBGM();
                 SpawnFromStageData();
                 break;
             case StageType.Rest:
-                SkillManager.Instance.RequestOpenSkillPanel("Stage Clear"); // if angel developed, earase this line
+                AudioManager.instance.PlayRestBGM();
+                SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
                 Debug.Log("휴식의시간");
                 stageNum++;
                 isClear = true;
                 exitCollider.enabled = true;
                 break;
             case StageType.Boss:
+                AudioManager.instance.PlayBossBGM();
                 SpawnFromStageData();
                 Debug.Log("보스 전투 시작!");
                 break;
@@ -107,6 +108,7 @@ public class StageManager : MonoBehaviour
 
         if (clearRequireNum <= 0)
         {
+            
             StageClear();
         }
     }
@@ -142,15 +144,14 @@ public class StageManager : MonoBehaviour
 
     private void StageClear()
     {
+        AudioManager.instance.PlayClearBGM();
         isClear = true;
         exitCollider.enabled = true;
         nextStage.enabled = true;
         Debug.Log("Stage Clear! Exit is now active!");
         //GoToNextStage();
         stageNum++;
-
-        if (stageNum <= 10)
-            SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
+        SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
     }
 
     private StageType GetStageType(int stage)
@@ -222,11 +223,6 @@ public class StageManager : MonoBehaviour
             SpawnRandomEnemyFromData();
 
         clearRequireNum = count;
-    }
-
-    public int GetCurrentStage()
-    {
-        return stageNum;
     }
 
     // 기즈모 코드

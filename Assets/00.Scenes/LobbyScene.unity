@@ -154,12 +154,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startBGM: {fileID: 8300000, guid: 63ce33ad8e7e2b04cbd63a939f9c918e, type: 3}
   normalBGM: {fileID: 8300000, guid: 50c7b8a7e33cd3f4690921f79cff014c, type: 3}
-  clearBGM: {fileID: 0}
+  clearBGM: {fileID: 8300000, guid: bb78ae75f10077042bbc0ee958bd845a, type: 3}
   failBGM: {fileID: 0}
-  bossBGM: {fileID: 0}
-  arrowShot: {fileID: 0}
-  hitSFX: {fileID: 0}
-  clickSFX: {fileID: 0}
+  bossBGM: {fileID: 8300000, guid: 354b126939cd53d4c96d17e38245f4c8, type: 3}
+  restBGM: {fileID: 8300000, guid: a48a87fe9ee016549b73bb3154bb9aed, type: 3}
+  arrowShot: {fileID: 8300000, guid: d0429954aabcc5549a6fb8de41ffc389, type: 3}
+  arrowHit: {fileID: 8300000, guid: d5f8c61def2097847a05fb06f910041d, type: 3}
+  getHitSFX: {fileID: 8300000, guid: f0e278f44312e4844b7d43dca6268912, type: 3}
+  clickSFX: {fileID: 8300000, guid: 0600a302affcb2e4c8c668e51db18a65, type: 3}
 --- !u!4 &102118431
 Transform:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
@@ -12,10 +12,12 @@ public class AudioManager : MonoBehaviour
     public AudioClip clearBGM;   // 스테이지 클리어
     public AudioClip failBGM;    // 패배 연출
     public AudioClip bossBGM;    // 보스 스테이지
+    public AudioClip restBGM;    // 휴식방브금
 
     [Header("SFX Clips")]
     public AudioClip arrowShot;
-    public AudioClip hitSFX;
+    public AudioClip arrowHit;
+    public AudioClip getHitSFX;
     public AudioClip clickSFX;
 
     private void Awake()
@@ -46,26 +48,37 @@ public class AudioManager : MonoBehaviour
     }
 
     //BGM 컨트롤
-    public void PlayBGM(AudioClip clip)
+    public void PlayBGM(AudioClip clip, float volume = 1.0f)
     {
         if (clip == null) return;
         if (audioSource.clip == clip) return;
 
         audioSource.clip = clip;
+        audioSource.volume = volume;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+    public void PlayNormalBGM()
+    {
+        audioSource.clip = normalBGM;
         audioSource.loop = true;
         audioSource.Play();
     }
 
+    public void PlayRestBGM()
+    {
+        audioSource.clip = restBGM;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
     public void PlayBossBGM()
     {
-        PlayBGM(bossBGM);
+        PlayBGM(bossBGM, 0.5f);
     }
 
     public void PlayClearBGM()
     {
-        audioSource.clip = clearBGM;
-        audioSource.loop = false;
-        audioSource.Play();
+        audioSource.PlayOneShot(clearBGM);
     }
 
     public void PlayFailBGM()
@@ -76,14 +89,19 @@ public class AudioManager : MonoBehaviour
     }
 
     // SFX 매서드
-    public void PlayShot()
+    public void ArrowShot()
     {
         audioSource.PlayOneShot(arrowShot);
     }
 
+    public void ArrowHit()
+    { 
+        audioSource.PlayOneShot(arrowHit);
+    }
+
     public void PlayHit()
     {
-        audioSource.PlayOneShot(hitSFX);
+        audioSource.PlayOneShot(getHitSFX);
     }
 
     public void PlayClick()
