@@ -217,18 +217,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HitEffect
       objectReference: {fileID: 0}
-    - target: {fileID: 3215451507726639886, guid: e237946648f2df145a65ed5df49912c5, type: 3}
-      propertyPath: SizeModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215451507726639886, guid: e237946648f2df145a65ed5df49912c5, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215451507726639886, guid: e237946648f2df145a65ed5df49912c5, type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6265398565535834207, guid: e237946648f2df145a65ed5df49912c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
