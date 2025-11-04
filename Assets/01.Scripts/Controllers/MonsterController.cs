@@ -81,9 +81,10 @@ public class MonsterController : BaseController
 
             Vector2 direction = DirectionToTarget();
 
-            GameObject Shot = Instantiate(ShooterPrefab, transform.position, Quaternion.identity);
+            GameObject shot = Instantiate(ShooterPrefab, transform.position, Quaternion.identity);
+            shot.transform.parent = transform.parent;
 
-            Rigidbody2D _rigidbody = Shot.GetComponent<Rigidbody2D>();
+            Rigidbody2D _rigidbody = shot.GetComponent<Rigidbody2D>();
             _rigidbody.AddRelativeForce(direction * shootSpeed * 10f, ForceMode2D.Impulse);
             Debug.Log("Attack : " + _rigidbody.velocity);
         }    

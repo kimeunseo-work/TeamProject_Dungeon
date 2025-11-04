@@ -80,6 +80,7 @@ MonoBehaviour:
   startPoint: {fileID: 8713343086984449136}
   exitCollider: {fileID: 0}
   nextStage: {fileID: 0}
+  onLoadedMonsters: {fileID: 963799692061708844, guid: e3ad4521852ca7c42801d752e5f6ea5a, type: 3}
   testMode: 0
   spawnAreas:
   - serializedVersion: 2
