@@ -64,6 +64,7 @@ public class PlayerStatus : BaseStatus
         var prevHp = DungeonHp;
         base.TakeDamage(amount);
         Debug.Log($" [{nameof(MonsterStatus)}] player takeDamage = {amount}. prevHp = {prevHp}, currentHp = {DungeonHp}");
+        OnDungeonHpChanged?.Invoke();
     }
 
     /*Status*/
