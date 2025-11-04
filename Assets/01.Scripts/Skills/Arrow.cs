@@ -26,7 +26,7 @@ public class Arrow : MonoBehaviour
 
     private void Update()
     {
-        if(timer < lifetime)
+        if (timer < lifetime)
             timer += Time.deltaTime;
         else
             ObjectManager.Instance.ArrowPool.Release(gameObject);
@@ -42,8 +42,8 @@ public class Arrow : MonoBehaviour
             if (collision.CompareTag("Enemy"))
             {
                 collision.GetComponent<Monster>().TakeDamage(damage); // 하드 코딩
-                
-                AudioManager.instance.ArrowHit();
+
+                AudioManager.Instance.ArrowHit();
                 // 관통 옵션
                 if (canPierce && pierceCount > 0)
                 {

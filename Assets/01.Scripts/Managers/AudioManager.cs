@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    public static AudioManager Instance;
     private AudioSource audioSource;
 
     [Header("BGM Clips")]
@@ -23,13 +23,13 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
 
         audioSource = GetComponent<AudioSource>();
@@ -96,7 +96,7 @@ public class AudioManager : MonoBehaviour
     }
 
     public void ArrowHit()
-    { 
+    {
         audioSource.PlayOneShot(arrowHit);
         audioSource.volume = 0.5f;
     }

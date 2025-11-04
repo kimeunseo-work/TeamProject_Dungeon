@@ -1,8 +1,8 @@
 ﻿#if UNITY_EDITOR
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public static class FontReplacer
 {

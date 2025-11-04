@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,44 +6,44 @@ public class BossMonster : Character
 {
     private MonsterStatus status;
     private Player target;
-    private Rigidbody2D rb;
+    //private Rigidbody2D rb;
 
-    [Header("°ø°İ ÄğÅ¸ÀÓ")]
-    public float patternCooldown = 2f;
+    [Header("ê³µê²© ì¿¨íƒ€ì„")]
+    public float PatternCooldown = 2f;
     private float patternTimer = 0f;
 
-    [Header("Á¡ÇÁ ÆĞÅÏ")]
-    public float jumpHeight = 5f;
-    public float jumpDuration = 1f;
-    public int jumpDamage = 50;
+    [Header("ì í”„ íŒ¨í„´")]
+    public float JumpHeight = 5f;
+    public float JumpDuration = 1f;
+    public int JumpDamage = 50;
     private bool isJumping = false;
 
-    [Header("ÆøÅº ÆĞÅÏ")]
-    public GameObject bombPrefab;
-    public Vector2 bombSpawnRange = new Vector2(2f, 2f);
-    public float bombCooldown = 3f;
+    [Header("í­íƒ„ íŒ¨í„´")]
+    public GameObject BombPrefab;
+    public Vector2 BombSpawnRange = new(2f, 2f);
+    public float BombCooldown = 3f;
     private float bombTimer = 0f;
-    public float bombExplosionRadius = 2f;
+    public float BombExplosionRadius = 2f;
 
-    [Header("Åº¸· ÆĞÅÏ")]
-    public GameObject bulletPrefab;
-    public int bulletCount = 12;
-    public float bulletSpeed = 6f;
+    [Header("íƒ„ë§‰ íŒ¨í„´")]
+    public GameObject BulletPrefab;
+    public int BulletCount = 12;
+    public float BulletSpeed = 6f;
     public float spreadAngle = 120f;
 
-    [Header("Á¢ÃË µ¥¹ÌÁö")]
-    public int contactDamage = 10;
-    public float contactDamageCooldown = 1f;
+    [Header("ì ‘ì´‰ ë°ë¯¸ì§€")]
+    public int ContactDamage = 10;
+    public float ContactDamageCooldown = 1f;
 
-    private Dictionary<Player, float> contactCooldowns = new Dictionary<Player, float>();
+    private readonly Dictionary<Player, float> contactCooldowns = new();
 
     private void Awake()
     {
         target = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
-        rb = GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();
         status = GetComponent<MonsterStatus>();
 
-        var baseStatus = new Status { Hp = 10000, Atk = 30 }; // º¸½º ±âº» ½ºÅÈ ¼³Á¤
+        var baseStatus = new Status { Hp = 10000, Atk = 30 }; // ë³´ìŠ¤ ê¸°ë³¸ ìŠ¤íƒ¯ ì„¤ì •
         status.InitDungeon(baseStatus, 1);
     }
 
@@ -53,7 +53,7 @@ public class BossMonster : Character
         if (target == null) return;
 
         bombTimer += Time.deltaTime;
-        if (bombTimer >= bombCooldown)
+        if (bombTimer >= BombCooldown)
         {
             SpawnBomb();
             bombTimer = 0f;
@@ -62,7 +62,7 @@ public class BossMonster : Character
         if (!isJumping)
         {
             patternTimer += Time.deltaTime;
-            if (patternTimer >= patternCooldown)
+            if (patternTimer >= PatternCooldown)
             {
                 patternTimer = 0f;
                 ChoosePattern();
@@ -74,7 +74,7 @@ public class BossMonster : Character
 
     private void ChoosePattern()
     {
-        int pattern = Random.Range(0, 2); // 0: Á¡ÇÁ, 1: Åº¸·
+        int pattern = Random.Range(0, 2); // 0: ì í”„, 1: íƒ„ë§‰
         switch (pattern)
         {
             case 0:
@@ -90,23 +90,23 @@ public class BossMonster : Character
     {
         isJumping = true;
         Vector3 startPos = transform.position;
-        Vector3 apex = startPos + Vector3.up * jumpHeight;
+        Vector3 apex = startPos + Vector3.up * JumpHeight;
 
         float elapsed = 0f;
 
-        while (elapsed < jumpDuration / 2f)
+        while (elapsed < JumpDuration / 2f)
         {
             elapsed += Time.deltaTime;
-            transform.position = Vector3.Lerp(startPos, apex, elapsed / (jumpDuration / 2f));
+            transform.position = Vector3.Lerp(startPos, apex, elapsed / (JumpDuration / 2f));
             yield return null;
         }
 
         elapsed = 0f;
         Vector3 targetPos = new Vector3(target.transform.position.x, startPos.y, startPos.z);
-        while (elapsed < jumpDuration / 2f)
+        while (elapsed < JumpDuration / 2f)
         {
             elapsed += Time.deltaTime;
-            transform.position = Vector3.Lerp(apex, targetPos, elapsed / (jumpDuration / 2f));
+            transform.position = Vector3.Lerp(apex, targetPos, elapsed / (JumpDuration / 2f));
             yield return null;
         }
 
@@ -119,39 +119,37 @@ public class BossMonster : Character
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1.2f, LayerMask.GetMask("Player"));
         foreach (var hit in hits)
         {
-            Player p = hit.GetComponent<Player>();
-            if (p != null)
+            if (hit.TryGetComponent<Player>(out var p))
             {
-                p.TakeDamage(jumpDamage);
-                Debug.Log($"Á¡ÇÁ ÂøÁö °ø°İ! {jumpDamage} µ¥¹ÌÁö");
+                p.TakeDamage(JumpDamage);
+                Debug.Log($"ì í”„ ì°©ì§€ ê³µê²©! {JumpDamage} ë°ë¯¸ì§€");
             }
         }
     }
 
     private IEnumerator BarrageAttack()
     {
-        Debug.Log("º¸½º ÆĞÅÏ: Åº¸· ¹ß»ç");
+        Debug.Log("ë³´ìŠ¤ íŒ¨í„´: íƒ„ë§‰ ë°œì‚¬");
 
-        if (bulletPrefab == null || target == null)
+        if (BulletPrefab == null || target == null)
         {
-            Debug.LogWarning("bulletPrefab ¶Ç´Â targetÀÌ ¼³Á¤µÇÁö ¾ÊÀ½!");
+            Debug.LogWarning("bulletPrefab ë˜ëŠ” targetì´ ì„¤ì •ë˜ì§€ ì•ŠìŒ!");
             yield break;
         }
 
         Vector2 directionToPlayer = (target.transform.position - transform.position).normalized;
         float baseAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-        for (int i = 0; i < bulletCount; i++)
+        for (int i = 0; i < BulletCount; i++)
         {
-            float angleOffset = -spreadAngle / 2 + (spreadAngle / (bulletCount - 1)) * i;
+            float angleOffset = -spreadAngle / 2 + (spreadAngle / (BulletCount - 1)) * i;
             float fireAngle = baseAngle + angleOffset;
 
             Quaternion rot = Quaternion.Euler(0, 0, fireAngle);
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, rot);
-            Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+            GameObject bullet = Instantiate(BulletPrefab, transform.position, rot);
 
-            if (rbBullet != null)
-                rbBullet.AddForce(rot * Vector2.right * bulletSpeed, ForceMode2D.Impulse);
+            if (bullet.TryGetComponent<Rigidbody2D>(out var rbBullet))
+                rbBullet.AddForce(rot * Vector2.right * BulletSpeed, ForceMode2D.Impulse);
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -159,18 +157,17 @@ public class BossMonster : Character
 
     private void SpawnBomb()
     {
-        if (bombPrefab == null || target == null) return;
+        if (BombPrefab == null || target == null) return;
 
         Vector3 spawnPos = target.transform.position + new Vector3(
-            Random.Range(-bombSpawnRange.x, bombSpawnRange.x),
-            Random.Range(-bombSpawnRange.y, bombSpawnRange.y),
+            Random.Range(-BombSpawnRange.x, BombSpawnRange.x),
+            Random.Range(-BombSpawnRange.y, BombSpawnRange.y),
             0f
         );
 
-        GameObject bomb = Instantiate(bombPrefab, spawnPos, Quaternion.identity);
-        Bomb bombScript = bomb.GetComponent<Bomb>();
-        if (bombScript != null)
-            bombScript.explosionRadius = bombExplosionRadius;
+        GameObject bomb = Instantiate(BombPrefab, spawnPos, Quaternion.identity);
+        if (bomb.TryGetComponent<Bomb>(out var bombScript))
+            bombScript.ExplosionRadius = BombExplosionRadius;
     }
 
     public override void TakeDamage(int amount)
@@ -200,7 +197,7 @@ public class BossMonster : Character
 
     protected override void Status_OnDead()
     {
-        Debug.Log("º¸½º »ç¸Á!");
+        Debug.Log("ë³´ìŠ¤ ì‚¬ë§!");
         Destroy(gameObject);
     }
 
@@ -223,10 +220,10 @@ public class BossMonster : Character
         if (contactCooldowns.ContainsKey(player) && contactCooldowns[player] > 0f)
             return;
 
-        player.TakeDamage(contactDamage);
-        Debug.Log($"º¸½º Á¢ÃË ÇÇÇØ: {contactDamage}");
+        player.TakeDamage(ContactDamage);
+        Debug.Log($"ë³´ìŠ¤ ì ‘ì´‰ í”¼í•´: {ContactDamage}");
 
-        contactCooldowns[player] = contactDamageCooldown;
+        contactCooldowns[player] = ContactDamageCooldown;
     }
 
     private void UpdateContactCooldowns()

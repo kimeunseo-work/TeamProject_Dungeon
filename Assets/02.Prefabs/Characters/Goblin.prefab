@@ -175,7 +175,7 @@ MonoBehaviour:
   detectionRadius: 10
   Type: 1
   ShooterPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
-  attackRange: 5
+  AttackRange: 5
   speed: 1.5
 --- !u!114 &1601624326190399142
 MonoBehaviour:

@@ -1,44 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
+ï»¿using System.Collections;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class Bomb : MonoBehaviour
 {
-    [Header("Æø¹ß ¼³Á¤")]
-    public float delay = 2f;               // Æø¹ß±îÁö ½Ã°£
-    public float explosionRadius = 2f;     // Æø¹ß ¹üÀ§
-    public int damage = 30;                // Æø¹ß µ¥¹ÌÁö
-    public LayerMask targetLayer;          // Player ·¹ÀÌ¾î ÁöÁ¤ (ÀÚµ¿ ¼¼ÆÃµÊ)
+    [Header("í­ë°œ ì„¤ì •")]
+    public float Delay = 2f;               // í­ë°œê¹Œì§€ ì‹œê°„
+    public float ExplosionRadius = 2f;     // í­ë°œ ë²”ìœ„
+    public int Damage = 30;                // í­ë°œ ë°ë¯¸ì§€
+    public LayerMask TargetLayer;          // Player ë ˆì´ì–´ ì§€ì • (ìë™ ì„¸íŒ…ë¨)
 
-    [Header("ÀÌÆåÆ® & Ç¥½Ã")]
-    public GameObject rangeIndicator;      // Æø¹ß ¹üÀ§ ½Ã°¢È­¿ë (»¡°£ ¿ø)
-    public GameObject explosionEffect;     // Æø¹ß ÀÌÆåÆ® (¼±ÅÃ»çÇ×)
+    [Header("ì´í™íŠ¸ & í‘œì‹œ")]
+    public GameObject RangeIndicator;      // í­ë°œ ë²”ìœ„ ì‹œê°í™”ìš© (ë¹¨ê°„ ì›)
+    public GameObject ExplosionEffect;     // í­ë°œ ì´í™íŠ¸ (ì„ íƒì‚¬í•­)
 
     private GameObject rangeInstance;
     private bool hasExploded = false;
 
     private void Start()
     {
-        // ÇÃ·¹ÀÌ¾î ·¹ÀÌ¾î ÀÚµ¿ ¼³Á¤ (ºñ¿öµÖµµ µ¿ÀÛ)
-        if (targetLayer == 0)
-            targetLayer = LayerMask.GetMask("Player");
+        // í”Œë ˆì´ì–´ ë ˆì´ì–´ ìë™ ì„¤ì • (ë¹„ì›Œë‘¬ë„ ë™ì‘)
+        if (TargetLayer == 0)
+            TargetLayer = LayerMask.GetMask("Player");
 
-        // Æø¹ß ¹üÀ§ Ç¥½Ã (½Ã°¢ °æ°í)
-        if (rangeIndicator != null)
+        // í­ë°œ ë²”ìœ„ í‘œì‹œ (ì‹œê° ê²½ê³ )
+        if (RangeIndicator != null)
         {
-            rangeInstance = Instantiate(rangeIndicator, transform.position, Quaternion.identity, transform);
-            rangeInstance.transform.localScale = Vector3.one * explosionRadius * 2f;
+            rangeInstance = Instantiate(RangeIndicator, transform.position, Quaternion.identity, transform);
+            rangeInstance.transform.localScale = 2f * ExplosionRadius * Vector3.one;
         }
 
-        // Æø¹ß ´ë±â ÄÚ·çÆ¾ ½ÇÇà
+        // í­ë°œ ëŒ€ê¸° ì½”ë£¨í‹´ ì‹¤í–‰
         StartCoroutine(ExplodeAfterDelay());
     }
 
     private IEnumerator ExplodeAfterDelay()
     {
-        // Æø¹ß Á÷Àü ¾à°£ÀÇ ±ôºıÀÓ È¿°ú (°æ°í ´À³¦)
-        float blinkTime = delay * 0.8f;
+        // í­ë°œ ì§ì „ ì•½ê°„ì˜ ê¹œë¹¡ì„ íš¨ê³¼ (ê²½ê³  ëŠë‚Œ)
+        float blinkTime = Delay * 0.8f;
         float blinkSpeed = 0.2f;
         float elapsed = 0f;
 
@@ -54,17 +52,17 @@ public class Bomb : MonoBehaviour
             indicatorRenderer.enabled = true;
         }
 
-        // Æø¹ß ½ÇÇà
-        yield return new WaitForSeconds(delay - blinkTime);
+        // í­ë°œ ì‹¤í–‰
+        yield return new WaitForSeconds(Delay - blinkTime);
         Explode();
     }
     
     private void ExplodeEffect()
     {
         GameObject ps = Instantiate(
-                explosionEffect,
-                transform.position,   // ÇöÀç ÃÑ¾Ë À§Ä¡
-                Quaternion.identity   // È¸Àü ¾øÀ½
+                ExplosionEffect,
+                transform.position,   // í˜„ì¬ ì´ì•Œ ìœ„ì¹˜
+                Quaternion.identity   // íšŒì „ ì—†ìŒ
             );
 
         Destroy(ps, 2f);
@@ -75,26 +73,25 @@ public class Bomb : MonoBehaviour
         if (hasExploded) return;
         hasExploded = true;
 
-        // Æø¹ß ÀÌÆåÆ® »ı¼º
-        if (explosionEffect != null)
+        // í­ë°œ ì´í™íŠ¸ ìƒì„±
+        if (ExplosionEffect != null)
             ExplodeEffect();
 
-        // Æø¹ß ¹üÀ§ °¨Áö
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius, targetLayer);
+        // í­ë°œ ë²”ìœ„ ê°ì§€
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius, TargetLayer);
         foreach (var hit in hits)
         {
-            Player player = hit.GetComponent<Player>();
-            if (player != null)
+            if (hit.TryGetComponent<Player>(out var player))
             {
-                player.TakeDamage(damage);
-                Debug.Log($"ÆøÅº µ¥¹ÌÁö {damage} Àû¿ëµÊ -> {player.name}");
+                player.TakeDamage(Damage);
+                Debug.Log($"í­íƒ„ ë°ë¯¸ì§€ {Damage} ì ìš©ë¨ -> {player.name}");
             }
         }
 
-        // ¹üÀ§ Ç¥½Ã Á¦°Å
+        // ë²”ìœ„ í‘œì‹œ ì œê±°
         if (rangeInstance != null)
             Destroy(rangeInstance);
-        // ÆøÅº ÀÚÃ¼ Á¦°Å
+        // í­íƒ„ ìì²´ ì œê±°
         Destroy(gameObject);
     }
 }

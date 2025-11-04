@@ -29,7 +29,7 @@ public class SettingsInDungeonUI : MonoBehaviour
     #region button click events
     private void OnClickPlay()
     {
-        AudioManager.instance.PlayButtonClick();
+        AudioManager.Instance.PlayButtonClick();
         Time.timeScale = 1f;
         UIManager.Instance.PopUI();
     }
@@ -42,12 +42,12 @@ public class SettingsInDungeonUI : MonoBehaviour
         else
             muteImage.sprite = unMuteSprite;
 
-        AudioManager.instance.Mute(isMute);
+        AudioManager.Instance.Mute(isMute);
     }
 
     private void OnClickLoadLobby()
     {
-        AudioManager.instance.PlayButtonClick();
+        AudioManager.Instance.PlayButtonClick();
         GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
     }
     #endregion

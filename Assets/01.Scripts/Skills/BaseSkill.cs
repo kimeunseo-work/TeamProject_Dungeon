@@ -3,12 +3,12 @@
 public class BaseSkill : MonoBehaviour
 {
     [SerializeField] SkillData skill;
-    public string SkillName {  get; private set; }
-    public float CoolDown { get;  set; }
+    public string SkillName { get; private set; }
+    public float CoolDown { get; set; }
     public float Timer { get; private set; } = 0f;
     public float ArrowSpeed { get; private set; }
-    public int ArrowCount { get;  set; }
-    public int ExtraPierce { get;  set; }
+    public int ArrowCount { get; set; }
+    public int ExtraPierce { get; set; }
     public float SpreadAngle { get; private set; }
     //public float ShotInterval { get; private set; }
     public bool CanPierce { get; private set; }
@@ -16,7 +16,7 @@ public class BaseSkill : MonoBehaviour
 
     private void Awake()
     {
-        if(skill == null)
+        if (skill == null)
         {
             skill = Resources.Load<SkillData>("defaultSkill");
         }
@@ -55,7 +55,7 @@ public class BaseSkill : MonoBehaviour
         if (!IsReady) return;
         IsReady = false;
         Timer = 0f;
-        AudioManager.instance.ArrowShot();
+        AudioManager.Instance.ArrowShot();
         // 기본 발사 방향
         Vector2 dir = ((Vector2)targetTransform.position - (Vector2)launchPos.position).normalized;
 
@@ -92,7 +92,7 @@ public class BaseSkill : MonoBehaviour
             rb.isKinematic = true;
             rb.gravityScale = 0;
             rb.freezeRotation = true;
-            
+
             // 실제 발사
             rb.velocity = rotatedDir * (ArrowSpeed + speed);
 

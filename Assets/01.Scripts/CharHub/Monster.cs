@@ -96,7 +96,7 @@ public class Monster : Character
 
     /*내부 로직*/
     //=======================================//
-    
+
     protected override void Attack()
     {
         target.TakeDamage(status.DungeonAtk);
@@ -119,7 +119,7 @@ public class Monster : Character
 
     /*이벤트 구독*/
     //=======================================//
-    
+
     protected override void Status_OnDead()
     {
         // 사망 액션

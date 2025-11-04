@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using UnityEngine;
 
-public class PlayerLobbyStatus : MonoBehaviour 
+public class PlayerLobbyStatus : MonoBehaviour
 {
     /*필드 & 프로퍼티*/
     //=======================================//
@@ -11,7 +11,7 @@ public class PlayerLobbyStatus : MonoBehaviour
     private PlayerData playerData;
     private ExpData baseExpData;
     private Status baseStatus;
-    
+
     /*Base*/
     public string Name { get; private set; }
     public int BaseLevel { get; private set; }
@@ -70,7 +70,7 @@ public class PlayerLobbyStatus : MonoBehaviour
     public void InitAccount()
     {
         Name = playerData.name;
-        this.baseStatus = new Status {Hp = playerData.Hp, Atk = playerData.Atk };
+        this.baseStatus = new Status { Hp = playerData.Hp, Atk = playerData.Atk };
         BaseHP = this.baseStatus.Hp;
         BaseATK = this.baseStatus.Atk;
 

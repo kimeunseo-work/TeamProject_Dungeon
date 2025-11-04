@@ -14,10 +14,10 @@ public class MonsterController : BaseController
     private Transform target;
     public GameObject ShooterPrefab;
 
-    private float followRange = 15f;
-    public float attackRange = 0.8f;
-    public float speed = 1f;
-    private float cooldown = 3.0f;
+    private readonly float followRange = 15f;
+    public float AttackRange = 0.8f;
+    public float speed = 1f; // 대문자 바꾸면 오버라이드 때문에 그냥 내버려 둠
+    private readonly float cooldown = 3.0f;
     private float timer;
 
 
@@ -43,10 +43,10 @@ public class MonsterController : BaseController
             CheckIsMoveChanged(movementDirection);
             return;
         }
-        
+
         float distance = DistanceToTarget();
         Vector2 direction = DirectionToTarget();
-        if (distance > attackRange)
+        if (distance > AttackRange)
         {
             if (distance <= followRange)
             {
@@ -64,7 +64,7 @@ public class MonsterController : BaseController
                 MonsterAttack();
                 timer = 0f;
                 movementDirection = Vector2.zero;
-            } 
+            }
         }
 
         CheckIsMoveChanged(movementDirection);
@@ -84,12 +84,12 @@ public class MonsterController : BaseController
             Rigidbody2D _rigidbody = shot.GetComponent<Rigidbody2D>();
             _rigidbody.AddRelativeForce(direction * shootSpeed * 10f, ForceMode2D.Impulse);
             Debug.Log("Attack : " + _rigidbody.velocity);
-        }    
+        }
     }
     protected override void Movement(Vector2 direction)
     {
-         direction = direction * speed;
-         _rigidbody.velocity = direction;
+        direction = direction * speed;
+        _rigidbody.velocity = direction;
     }
 
 
@@ -99,7 +99,7 @@ public class MonsterController : BaseController
     protected float DistanceToTarget() // Target(Player)
     {
         return Vector3.Distance(transform.position, target.position);
-        
+
     }
 
     protected Vector2 DirectionToTarget()
