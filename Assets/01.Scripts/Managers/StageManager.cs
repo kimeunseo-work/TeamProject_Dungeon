@@ -32,6 +32,7 @@ public class StageManager : MonoBehaviour
 
     /*Events*/
     public Action OnAllStageCleared;
+    public Action<int> OnStageChanged;
 
     /*생명 주기*/
     //=======================================//
@@ -65,6 +66,7 @@ public class StageManager : MonoBehaviour
     // 스테이지 시작 매서드
     public void StartStage()
     {
+        OnStageChanged?.Invoke(stageNum);
         isClear = false;
         exitCollider.enabled = false;
         nextStage.enabled = false;
@@ -151,7 +153,9 @@ public class StageManager : MonoBehaviour
         Debug.Log("Stage Clear! Exit is now active!");
         //GoToNextStage();
         stageNum++;
-        SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
+
+        if (stageNum <= 10)
+            SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
     }
 
     private StageType GetStageType(int stage)

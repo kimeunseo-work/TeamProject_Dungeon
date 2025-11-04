@@ -98,10 +98,9 @@ public class StageUI : MonoBehaviour
         UpdateExp();
     }
 
-    private void UpdateCurrentStage()
+    private void UpdateCurrentStage(int currentStage)
     {
-        //currentStageText.text = currentStage.ToString();
-        currentStageText.text = StageManager.Instance.GetCurrentStage().ToString();
+        currentStageText.text = currentStage.ToString();
     }
     #endregion
 
