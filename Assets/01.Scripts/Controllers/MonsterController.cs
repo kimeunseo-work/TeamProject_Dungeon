@@ -83,7 +83,7 @@ public class MonsterController : BaseController
 
             Rigidbody2D _rigidbody = shot.GetComponent<Rigidbody2D>();
             _rigidbody.AddRelativeForce(direction * shootSpeed * 10f, ForceMode2D.Impulse);
-            Debug.Log("Attack : " + _rigidbody.velocity);
+            //Debug.Log("Attack : " + _rigidbody.velocity);
         }
     }
     protected override void Movement(Vector2 direction)

@@ -18,7 +18,7 @@ MonoBehaviour:
   Type: 2
   SkillPrefab: {fileID: 0}
   statusType: 2
-  skillValue: 30
+  skillValue: 10
   CanStack: 1
   ActiveSkillType: 0
   CoolDown: 0

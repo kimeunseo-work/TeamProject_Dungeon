@@ -14,9 +14,9 @@ public class MonsterStatus : BaseStatus
     {
         DungeonLevel = dungeonLevel;
         dungeonStatus = baseStatus;
-        DungeonMaxHp = dungeonStatus.Hp;
+        DungeonMaxHp = dungeonStatus.Hp * DungeonLevel;
 
-        DungeonHp = dungeonStatus.Hp * DungeonLevel;
+        DungeonHp = DungeonMaxHp;
         DungeonAtk = dungeonStatus.Atk * DungeonLevel;
 
         IsDead = false;

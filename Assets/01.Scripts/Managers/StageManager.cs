@@ -231,6 +231,7 @@ public class StageManager : MonoBehaviour
 
         var mon = Instantiate(prefab, pos, Quaternion.identity);
         mon.transform.parent = onLoadedMonsters.transform;
+        mon.GetComponent<Monster>().Init(stageNum);
         //monsterStatuses.Add(monster.GetComponent<MonsterStatus>());
     }
 

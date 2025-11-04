@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class Monster : Character
 {
@@ -10,7 +11,7 @@ public class Monster : Character
     private Player target;
 
     // 나중에 데이터화
-    [SerializeField] private int level;
+    //[SerializeField] private int level;
     [SerializeField] private Status baseStatus;
 
     private MonsterStatus status;
@@ -23,28 +24,6 @@ public class Monster : Character
     /*생명 주기*/
     //=======================================//
 
-    private void Awake()
-    {
-        // 플레이어 데이터
-        var go = GameObject.FindWithTag("Player");
-        TargetTransform = go.GetComponent<Transform>();
-        target = go.GetComponent<Player>();
-
-        // 몬스터 기능 스크립트 참조
-        status = GetComponent<MonsterStatus>();
-        controller = GetComponent<MonsterController>();
-
-        // 스탯 초기화 - 나중에 데이터로
-        status.InitDungeon(baseStatus, level);
-        controller.Init(TargetTransform);
-        CanAttack = false;
-    }
-
-    private void OnEnable()
-    {
-        UpdateHpbar();
-        status.OnDead += Status_OnDead;
-    }
     private void OnDisable()
     {
         status.OnDead -= Status_OnDead;
@@ -62,6 +41,27 @@ public class Monster : Character
 
     /*외부 호출*/
     //=======================================//
+
+    public void Init(int level)
+    {
+        // 플레이어 데이터
+        var go = GameObject.FindWithTag("Player");
+        TargetTransform = go.GetComponent<Transform>();
+        target = go.GetComponent<Player>();
+
+        // 몬스터 기능 스크립트 참조
+        status = GetComponent<MonsterStatus>();
+        controller = GetComponent<MonsterController>();
+
+        // 스탯 초기화 - 나중에 데이터로
+        status.InitDungeon(baseStatus, level);
+        controller.Init(TargetTransform);
+        CanAttack = false;
+
+        status.OnDead += Status_OnDead;
+
+        UpdateHpbar();
+    }
 
     public override void TakeDamage(int amount)
     {

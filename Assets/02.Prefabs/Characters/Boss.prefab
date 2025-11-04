@@ -52,7 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06e99a2e0b58b04aab463ef4acbfa4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
   baseStatus:
     Hp: 999
     Atk: 9

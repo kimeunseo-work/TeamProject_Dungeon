@@ -107,7 +107,7 @@ public class Player : Character
     public void GetDungeonExp(int amount)
     {
         status.IncreaseDungeonExp(amount);
-        Debug.Log($"획득 경험치 {amount}, 현재 경험치 {status.DungeonExp}");
+        //Debug.Log($"획득 경험치 {amount}, 현재 경험치 {status.DungeonExp}");
     }
 
     /// <summary>

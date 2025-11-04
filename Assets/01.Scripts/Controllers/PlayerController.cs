@@ -18,7 +18,7 @@ public class PlayerController : BaseController
     {
         if (collision.CompareTag("Finish"))
         {
-            Debug.Log("Exit Triggered!");
+            //Debug.Log("Exit Triggered!");
             StageManager stageManager = FindObjectOfType<StageManager>();
 
             if (stageManager != null)
