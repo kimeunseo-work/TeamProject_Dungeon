@@ -6,7 +6,18 @@ public class BaseSkill : MonoBehaviour
     public string SkillName { get; private set; }
     public float CoolDown { get; set; }
     public float Timer { get; private set; } = 0f;
-    public float ArrowSpeed { get; private set; }
+    private float arrowSpeed = 1f;
+    public float ArrowSpeed
+    {
+        get => arrowSpeed;
+        set
+        {
+            if(value <= 0.1f)
+                arrowSpeed = 0.1f;
+            else
+                arrowSpeed = value;
+        }
+    }
     public int ArrowCount { get; set; }
     public int ExtraPierce { get; set; }
     public float SpreadAngle { get; private set; }

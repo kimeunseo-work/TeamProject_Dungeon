@@ -74,7 +74,7 @@ public class PlayerSkills : MonoBehaviour
                 playerStatus.IncreaseDungeonMaxHp(skill.skillValue);
                 break;
             case StatusType.Speed:
-                playerStatus.IncreaseDungeonAttackSpeed(skill.skillValue);
+                defaultSkill.CoolDown -= skill.CoolDown;
                 break;
             default:
                 break;
