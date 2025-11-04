@@ -9,6 +9,8 @@ public class Player : Character
 {
     /*필드 & 프로퍼티*/
     //=======================================// 
+    public bool IsInvincible {  get; private set; }
+    private float invincibleDuration = 2f;
 
     // 플레이어
     [SerializeField] private PlayerStatus status;
@@ -72,6 +74,16 @@ public class Player : Character
 
         // 플레이어 입력
         controller.HandleAction();
+
+        if (invincibleDuration > 0f)
+        {
+            invincibleDuration -= Time.deltaTime;
+        }
+        else
+        {
+            SetInvincible(false);
+            invincibleDuration = 2.0f;
+        }
     }
 
     /*외부 호출*/
@@ -82,11 +94,17 @@ public class Player : Character
     /// </summary>
     public override void TakeDamage(int amount)
     {
+        if (IsInvincible) return;
         // 데이터
         status.TakeDamage(amount);
         // 피격 액션
         controller.TakeDamage();
+        SetInvincible(true);
         Debug.Log($"damage:{amount}, nowhp:{status.DungeonHp}");
+    }
+    public void SetInvincible(bool value)
+    {
+        IsInvincible = value;
     }
 
     /// <summary>
