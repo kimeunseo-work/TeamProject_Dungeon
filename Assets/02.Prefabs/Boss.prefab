@@ -186,7 +186,7 @@ MonoBehaviour:
   bulletCount: 12
   bulletSpeed: 6
   spreadAngle: 120
-  contactDamage: 30
+  contactDamage: 100
   contactDamageCooldown: 1
 --- !u!1 &3671363806394153361
 GameObject:
