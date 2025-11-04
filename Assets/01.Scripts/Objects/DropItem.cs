@@ -70,10 +70,10 @@ public class DropItem : MonoBehaviour
     /*초기화 전용*/
     //=======================================//
 
-    public void Get(Vector2 monPos)
-    {
-        ObjectManager.Instance.ExpPool.Get();
-    }
+    //public void Get(Vector2 monPos)
+    //{
+    //    ObjectManager.Instance.ExpPool.Get();
+    //}
 
     /*충돌 & 트리거*/
     //=======================================//
@@ -114,6 +114,7 @@ public class DropItem : MonoBehaviour
     private void Release()
     {
         // 초기 값으로
+        speed = 0f;
         canMove = false;
 
         targetData.GetDungeonExp(1);
