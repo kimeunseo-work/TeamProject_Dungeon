@@ -99,11 +99,7 @@ public class Monster : Character
     
     protected override void Attack()
     {
-        // 내부 타이머 돌려서 공격 못하는 상태면 그냥 리턴
-        // 데이터
         target.TakeDamage(status.DungeonAtk);
-        // 공격 액션
-        // controller.TakeDamage(amount);
     }
 
     private void SpreadExp(int amount)

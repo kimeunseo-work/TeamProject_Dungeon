@@ -8,7 +8,7 @@ public class Player : Character
 {
     /*필드 & 프로퍼티*/
     //=======================================// 
-    public bool IsInvincible {  get; private set; }
+    public bool IsInvincible { get; private set; } = false;
     private float invincibleDuration = 2f;
 
     // 플레이어
@@ -20,14 +20,9 @@ public class Player : Character
     private List<Transform> currentEnemyTrans = new(10);
     private List<MonsterStatus> currentEnemyStatus = new(10);
 
-    //public float detectionRadius = 10f;
-
     [Header("Hp Bar")]
     [SerializeField] Slider hpSlider;
     [SerializeField] TextMeshProUGUI hpText;
-
-    /*Events*/
-    //public event Action<bool, SkillData, Transform, Transform> OnCanAttackChanged;
 
     /*생명 주기*/
     //=======================================//
@@ -74,14 +69,13 @@ public class Player : Character
         // 플레이어 입력
         controller.HandleAction();
 
-        if (invincibleDuration > 0f)
+        if (IsInvincible)
         {
             invincibleDuration -= Time.deltaTime;
-        }
-        else
-        {
-            SetInvincible(false);
-            invincibleDuration = 2.0f;
+            if (invincibleDuration <= 0f)
+            {
+                SetInvincible(false);
+            }
         }
     }
 
@@ -98,8 +92,9 @@ public class Player : Character
         status.TakeDamage(amount);
         // 피격 액션
         controller.TakeDamage();
+
         SetInvincible(true);
-        Debug.Log($"damage:{amount}, nowhp:{status.DungeonHp}");
+        invincibleDuration = 2f;
     }
     public void SetInvincible(bool value)
     {

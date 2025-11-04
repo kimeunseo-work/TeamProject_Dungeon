@@ -87,7 +87,7 @@ public class StageManager : MonoBehaviour
         StageType stageType = GetStageType(stageNum);
         currentStageData = GetStageDataByType(stageType);
 
-        Debug.Log($"현재 {stageNum} 스테이지 - [{stageType}]");
+        //Debug.Log($"현재 {stageNum} 스테이지 - [{stageType}]");
 
         switch (stageType)
         {
@@ -98,7 +98,7 @@ public class StageManager : MonoBehaviour
             case StageType.Rest:
                 AudioManager.instance.PlayRestBGM();
                 Instantiate(angelPrefab);
-                Debug.Log("휴식의시간");
+                //Debug.Log("휴식의시간");
                 stageNum++;
                 isClear = true;
                 exitCollider.enabled = true;
@@ -107,7 +107,7 @@ public class StageManager : MonoBehaviour
             case StageType.Boss:
                 AudioManager.instance.PlayBossBGM();
                 SpawnFromStageData();
-                Debug.Log("보스 전투 시작!");
+                //Debug.Log("보스 전투 시작!");
                 break;
         }
 
@@ -163,7 +163,7 @@ public class StageManager : MonoBehaviour
         isClear = true;
         exitCollider.enabled = true;
         nextStage.enabled = true;
-        Debug.Log("Stage Clear! Exit is now active!");
+        //Debug.Log("Stage Clear! Exit is now active!");
         //GoToNextStage();
         stageNum++;
 
@@ -197,7 +197,7 @@ public class StageManager : MonoBehaviour
 
         // 위치 리셋
         player.position = startPoint.position;
-        Debug.Log("플레이어를 시작 위치에 배치했습니다!");
+        //Debug.Log("플레이어를 시작 위치에 배치했습니다!");
     }
 
     private void SpawnFromStageData()
@@ -257,15 +257,3 @@ public class StageManager : MonoBehaviour
         }
     }
 }
-
-
-// 아직까진 미구현 된 매서드들
-//public void GameOver()
-//{
-
-//}
-
-//public void GameClearMenu()
-//{
-//    //이건테스트 서버 주석
-//}

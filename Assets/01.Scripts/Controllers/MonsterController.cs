@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MonsterController : BaseController
 {
@@ -71,11 +72,7 @@ public class MonsterController : BaseController
     private void MonsterAttack()
     {
         float shootSpeed = 0.2f;
-        if (Type == MonsterType.Melee)
-        { 
-            // 근거리 몬스터 공격
-        }
-        else if(Type == MonsterType.Ranged)
+        if(Type == MonsterType.Ranged)
         {
             if (ShooterPrefab == null) return;
 
