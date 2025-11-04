@@ -53,6 +53,16 @@ public class DropItem : MonoBehaviour
         targetPos = go.GetComponent<Transform>();
     }
 
+    private void OnEnable()
+    {
+        GameManager.Instance.OnDungeonSceneUnloaded += Instance_OnDungeonSceneUnloaded;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnDungeonSceneUnloaded -= Instance_OnDungeonSceneUnloaded;
+    }
+
     private void Update()
     {
         if (timer < cool)
@@ -67,13 +77,10 @@ public class DropItem : MonoBehaviour
         if (canMove) Movement();
     }
 
-    /*초기화 전용*/
+    /*events*/
     //=======================================//
 
-    //public void Get(Vector2 monPos)
-    //{
-    //    ObjectManager.Instance.ExpPool.Get();
-    //}
+    private void Instance_OnDungeonSceneUnloaded() => Release();
 
     /*충돌 & 트리거*/
     //=======================================//

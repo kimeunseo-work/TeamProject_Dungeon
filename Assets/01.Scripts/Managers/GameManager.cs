@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public enum GameState { LobbyScene, DungeonScene }
     public GameState CurrentState { get; private set; }
 
+    public event Action OnDungeonSceneUnloaded;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -24,7 +26,11 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        SceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
     }
+
+    
 
     /*외부 호출용*/
     //=======================================//
@@ -39,6 +45,12 @@ public class GameManager : MonoBehaviour
 
         CurrentState = state;
         StartCoroutine(LoadScene());
+    }
+
+    private void SceneManager_sceneUnloaded(Scene scene)
+    {
+        if (scene.name == nameof(GameState.DungeonScene))
+            OnDungeonSceneUnloaded?.Invoke();
     }
 
     /*내부 로직*/
