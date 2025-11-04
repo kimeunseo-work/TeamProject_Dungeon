@@ -87,7 +87,6 @@ public class SkillManager : MonoBehaviour
     #region Selecting Skill
     public void RequestOpenSkillPanel(string howGetSkillStr, Action onComplete = null)
     {
-        Time.timeScale = 0f;
 
         if (isSelectingSkill)
         {
@@ -144,6 +143,8 @@ public class SkillManager : MonoBehaviour
 
     private IEnumerator SlotMachineEffect(string howGetSkillStr, Action onComplete)
     {
+        Time.timeScale = 0f;
+
         if (selectSkillPanel == null || selectSkillPanel.Equals(null) ||
     selectSkillPanel.parent == null || selectSkillPanel.parent.Equals(null))
         {
