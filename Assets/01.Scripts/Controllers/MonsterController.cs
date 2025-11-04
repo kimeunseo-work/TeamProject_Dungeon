@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MonsterController : BaseController
 {
@@ -10,14 +9,14 @@ public class MonsterController : BaseController
         Melee = 0,
         Ranged = 1,
     }
-    public MonsterType type;
+    public MonsterType Type;
     private Transform target;
-    public GameObject shooterPrefab;
+    public GameObject ShooterPrefab;
 
     private float followRange = 15f;
     public float attackRange = 0.8f;
     public float speed = 1f;
-    private float Cooldown = 3.0f;
+    private float cooldown = 3.0f;
     private float timer;
 
 
@@ -32,7 +31,7 @@ public class MonsterController : BaseController
     /*외부 호출용*/
     //=======================================//
 
-    public override void HandleAction() // Monster �̵�
+    public override void HandleAction() // Monster
     {
         base.HandleAction();
 
@@ -43,11 +42,12 @@ public class MonsterController : BaseController
             CheckIsMoveChanged(movementDirection);
             return;
         }
+        
         float distance = DistanceToTarget();
         Vector2 direction = DirectionToTarget();
         if (distance > attackRange)
         {
-            if (distance <= followRange) // Ÿ���� ���� �ȿ� �ִ��� Ȯ��
+            if (distance <= followRange)
             {
                 lookDirection = direction;
 
@@ -57,7 +57,7 @@ public class MonsterController : BaseController
         else
         {
             timer += Time.deltaTime;
-            if (timer <= Cooldown) return;
+            if (timer <= cooldown) return;
             else
             {
                 MonsterAttack();
@@ -71,17 +71,17 @@ public class MonsterController : BaseController
     private void MonsterAttack()
     {
         float shootSpeed = 0.2f;
-        if (type == MonsterType.Melee)
+        if (Type == MonsterType.Melee)
         { 
             // 근거리 몬스터 공격
         }
-        else if(type == MonsterType.Ranged)
+        else if(Type == MonsterType.Ranged)
         {
-            if (shooterPrefab == null) return;
+            if (ShooterPrefab == null) return;
 
             Vector2 direction = DirectionToTarget();
 
-            GameObject Shot = Instantiate(shooterPrefab, transform.position, Quaternion.identity);
+            GameObject Shot = Instantiate(ShooterPrefab, transform.position, Quaternion.identity);
 
             Rigidbody2D _rigidbody = Shot.GetComponent<Rigidbody2D>();
             _rigidbody.AddRelativeForce(direction * shootSpeed * 10f, ForceMode2D.Impulse);

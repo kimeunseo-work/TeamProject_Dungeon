@@ -7,6 +7,7 @@ public class PlayerSkills : MonoBehaviour
     public static PlayerSkills Instance;
 
     [SerializeField] public List<SkillData> AcquiredSkills = new List<SkillData>(10);
+    
     [SerializeField] private PlayerStatus playerStatus;
     private BaseSkill defaultSkill;
 

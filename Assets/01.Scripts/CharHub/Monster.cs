@@ -99,6 +99,7 @@ public class Monster : Character
     
     protected override void Attack()
     {
+        // 내부 타이머 돌려서 공격 못하는 상태면 그냥 리턴
         // 데이터
         target.TakeDamage(status.DungeonAtk);
         // 공격 액션
@@ -112,7 +113,7 @@ public class Monster : Character
             float angle = i * 360f / amount;
             Vector2 pos = transform.position + (Vector3)(Quaternion.Euler(0, 0, angle) * Vector2.up * 2f);
 
-            var exp = ObjectManager.Instance.ExpPool.Get();
+            var exp = ObjectManager.Instance.ExpPool.Get();// 오브젝트 Get
             exp.transform.position = pos;
             exp.transform.localRotation = Quaternion.identity;
 

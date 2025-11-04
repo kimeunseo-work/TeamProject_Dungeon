@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatusManager : MonoBehaviour 
+public class Angel : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

@@ -10,7 +10,7 @@ public class BaseSkill : MonoBehaviour
     public int ArrowCount { get;  set; }
     public int ExtraPierce { get;  set; }
     public float SpreadAngle { get; private set; }
-    public float ShotInterval { get; private set; }
+    //public float ShotInterval { get; private set; }
     public bool CanPierce { get; private set; }
     public bool IsReady { get; private set; } = true;
 
@@ -31,7 +31,7 @@ public class BaseSkill : MonoBehaviour
         ArrowCount = skill.ArrowCount;
         ExtraPierce = skill.ExtraPierce;
         SpreadAngle = skill.SpreadAngle;
-        ShotInterval = skill.ShotInterval;
+        //ShotInterval = skill.ShotInterval;
         CanPierce = skill.CanPierce;
     }
 
@@ -92,6 +92,8 @@ public class BaseSkill : MonoBehaviour
             rb.isKinematic = true;
             rb.gravityScale = 0;
             rb.freezeRotation = true;
+            
+            // 실제 발사
             rb.velocity = rotatedDir * (ArrowSpeed + speed);
 
             // Arrow 초기화

@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 public class Shot : MonoBehaviour
 {
@@ -16,7 +14,7 @@ public class Shot : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // µ•πÃ¡ˆ √≥∏Æ
+            // Îç∞ÎØ∏ÏßÄ Ï≤òÎ¶¨
             collision.GetComponent<Player>().TakeDamage(damage);
             Destroy(gameObject);
         }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,7 +20,7 @@ public class Player : Character
     private List<Transform> currentEnemyTrans = new(10);
     private List<MonsterStatus> currentEnemyStatus = new(10);
 
-    public float detectionRadius = 10f;
+    //public float detectionRadius = 10f;
 
     [Header("Hp Bar")]
     [SerializeField] Slider hpSlider;

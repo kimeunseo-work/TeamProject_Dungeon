@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,13 +52,13 @@ public class StageManager : MonoBehaviour
         StartStage();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpawnRandomEnemyFromData();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        SpawnRandomEnemyFromData();
+    //    }
+    //}
 
     /*외부 호출*/
     //=======================================//
@@ -67,6 +67,7 @@ public class StageManager : MonoBehaviour
     public void StartStage()
     {
         OnStageChanged?.Invoke(stageNum);
+
         isClear = false;
         exitCollider.enabled = false;
         nextStage.enabled = false;
@@ -90,6 +91,7 @@ public class StageManager : MonoBehaviour
                 stageNum++;
                 isClear = true;
                 exitCollider.enabled = true;
+                //천사 생성
                 break;
             case StageType.Boss:
                 AudioManager.instance.PlayBossBGM();
@@ -131,6 +133,9 @@ public class StageManager : MonoBehaviour
         //StartStage();
     }
 
+    /*내부 로직*/
+    //=======================================//
+
     private IEnumerator LoadNextStage()
     {
         yield return UIManager.Instance.FadeOut();
@@ -140,9 +145,6 @@ public class StageManager : MonoBehaviour
         Time.timeScale = 1f;
         yield return UIManager.Instance.FadeIn();
     }
-
-    /*내부 로직*/
-    //=======================================//
 
     private void StageClear()
     {
@@ -187,23 +189,6 @@ public class StageManager : MonoBehaviour
         Debug.Log("플레이어를 시작 위치에 배치했습니다!");
     }
 
-    // 스폰 관련 매서드
-    private void SpawnRandomEnemyFromData()
-    {
-        GameObject prefab = currentStageData.monsterPrefabs[
-            Random.Range(0, currentStageData.monsterPrefabs.Count)
-        ];
-
-        Rect area = spawnAreas[Random.Range(0, spawnAreas.Count)];
-        Vector2 pos = new Vector2(
-            Random.Range(area.xMin, area.xMax),
-            Random.Range(area.yMin, area.yMax)
-        );
-
-        Instantiate(prefab, pos, Quaternion.identity);
-        //monsterStatuses.Add(monster.GetComponent<MonsterStatus>());
-    }
-
     private void SpawnFromStageData()
     {
         if (currentStageData == null)
@@ -227,6 +212,23 @@ public class StageManager : MonoBehaviour
             SpawnRandomEnemyFromData();
 
         clearRequireNum = count;
+    }
+
+    // 스폰 관련 매서드
+    private void SpawnRandomEnemyFromData()
+    {
+        GameObject prefab = currentStageData.monsterPrefabs[
+            Random.Range(0, currentStageData.monsterPrefabs.Count)
+        ];
+
+        Rect area = spawnAreas[Random.Range(0, spawnAreas.Count)];
+        Vector2 pos = new Vector2(
+            Random.Range(area.xMin, area.xMax),
+            Random.Range(area.yMin, area.yMax)
+        );
+
+        Instantiate(prefab, pos, Quaternion.identity);
+        //monsterStatuses.Add(monster.GetComponent<MonsterStatus>());
     }
 
     // 기즈모 코드
