@@ -89,6 +89,7 @@ MonoBehaviour:
     height: 6
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
   stageDatas:
-  - {fileID: 11400000, guid: 986ea8e3d0a27334bbb9b8d2a76c9201, type: 2}
+  - {fileID: 11400000, guid: 61b95393d02cbcc4dbf47b34abfeb9ad, type: 2}
   - {fileID: 11400000, guid: 7ffdf29684ebaf84ea2c6191a28a2865, type: 2}
   - {fileID: 11400000, guid: 9a4d81b53a37a024295340dc8e79fe04, type: 2}
+  angelPrefab: {fileID: 0}
