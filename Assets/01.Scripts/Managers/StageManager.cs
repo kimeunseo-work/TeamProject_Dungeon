@@ -119,7 +119,20 @@ public class StageManager : MonoBehaviour
             stageNum = 1;
             return;
         }
+
+        Time.timeScale = 0f;
+        StartCoroutine(LoadNextStage());
+        //StartStage();
+    }
+
+    private IEnumerator LoadNextStage()
+    {
+        yield return UIManager.Instance.FadeOut();
+
         StartStage();
+
+        Time.timeScale = 1f;
+        yield return UIManager.Instance.FadeIn();
     }
 
     /*내부 로직*/

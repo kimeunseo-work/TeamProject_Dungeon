@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 public class Player : Character
@@ -19,6 +21,10 @@ public class Player : Character
 
     public float detectionRadius = 10f;
 
+    [Header("Hp Bar")]
+    [SerializeField] Slider hpSlider;
+    [SerializeField] TextMeshProUGUI hpText;
+
     /*Events*/
     //public event Action<bool, SkillData, Transform, Transform> OnCanAttackChanged;
 
@@ -36,6 +42,7 @@ public class Player : Character
     }
     private void OnEnable()
     {
+        UpdateHpbar();
         status.OnDead += Status_OnDead;
         controller.OnMoveChanged += Controller_OnMoveChanged;
     }
@@ -75,6 +82,7 @@ public class Player : Character
         status.TakeDamage(amount);
         // 피격 액션
         controller.TakeDamage();
+        UpdateHpbar();
     }
 
     /// <summary>
@@ -150,4 +158,11 @@ public class Player : Character
     }
 
     private void Controller_OnMoveChanged(bool isMove) => CanAttack = !isMove;
+
+    private void UpdateHpbar()
+    {
+        float targetValue = (float)status.DungeonHp / status.DungeonMaxHp;
+        hpText.text = status.DungeonHp.ToString();
+        UIManager.Instance.AnimateSlider(hpSlider, targetValue);
+    }
 }

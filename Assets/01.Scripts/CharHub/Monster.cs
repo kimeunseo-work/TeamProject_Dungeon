@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Monster : Character
 {
@@ -13,6 +15,9 @@ public class Monster : Character
 
     private MonsterStatus status;
     private MonsterController controller;
+
+    [SerializeField] Slider hpSlider;
+    [SerializeField] TextMeshProUGUI hpText;
 
     /*생명 주기*/
     //=======================================//
@@ -36,6 +41,7 @@ public class Monster : Character
 
     private void OnEnable()
     {
+        UpdateHpbar();
         status.OnDead += Status_OnDead;
     }
     private void OnDisable()
@@ -62,6 +68,8 @@ public class Monster : Character
         status.TakeDamage(amount);
         // 피격 액션
         // controller.TakeDamage(amount);
+
+        UpdateHpbar();
     }
 
     /*충돌&트리거*/
@@ -122,5 +130,12 @@ public class Monster : Character
 
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
         Destroy(gameObject);
+    }
+
+    private void UpdateHpbar()
+    {
+        float targetValue = (float)status.DungeonHp / status.DungeonMaxHp;
+        hpText.text = status.DungeonHp.ToString();
+        UIManager.Instance.AnimateSlider(hpSlider, targetValue);
     }
 }
