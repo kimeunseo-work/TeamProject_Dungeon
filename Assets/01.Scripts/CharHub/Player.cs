@@ -173,7 +173,7 @@ public class Player : Character
     {
         // 사망 액션
         controller.Dead();
-        
+        AudioManager.instance.PlayHit();
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
         // Destroy(gameObject);
     }

@@ -20,6 +20,7 @@ public class Arrow : MonoBehaviour
     private void OnEnable()
     {
         transform.rotation = default;
+        AudioManager.instance.ArrowShot();
     }
 
     private void Update()
@@ -40,7 +41,7 @@ public class Arrow : MonoBehaviour
             if (collision.CompareTag("Enemy"))
             {
                 collision.GetComponent<Monster>().TakeDamage(damage); // 하드 코딩
-
+                AudioManager.instance.ArrowHit();
                 // 관통 옵션
                 if (canPierce && pierceCount > 0)
                 {

@@ -107,6 +107,7 @@ public class StageUI : MonoBehaviour
     #region Settings
     private void OpenSettingsPanel()
     {
+        AudioManager.instance.PlayButtonClick();
         Time.timeScale = 0f;
         UIManager.Instance.PushUI(settingsPanel);
     }

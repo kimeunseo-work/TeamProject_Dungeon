@@ -19,6 +19,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip arrowHit;
     public AudioClip getHitSFX;
     public AudioClip clickSFX;
+    public AudioClip buttonClickSFX;
 
     private void Awake()
     {
@@ -97,6 +98,7 @@ public class AudioManager : MonoBehaviour
     public void ArrowHit()
     { 
         audioSource.PlayOneShot(arrowHit);
+        audioSource.volume = 0.5f;
     }
 
     public void PlayHit()
@@ -107,6 +109,11 @@ public class AudioManager : MonoBehaviour
     public void PlayClick()
     {
         audioSource.PlayOneShot(clickSFX);
+    }
+
+    public void PlayButtonClick()
+    {
+        audioSource.PlayOneShot(buttonClickSFX);
     }
 
     public void Mute(bool isMute)

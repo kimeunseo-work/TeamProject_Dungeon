@@ -162,6 +162,7 @@ MonoBehaviour:
   arrowHit: {fileID: 8300000, guid: d5f8c61def2097847a05fb06f910041d, type: 3}
   getHitSFX: {fileID: 8300000, guid: f0e278f44312e4844b7d43dca6268912, type: 3}
   clickSFX: {fileID: 8300000, guid: 0600a302affcb2e4c8c668e51db18a65, type: 3}
+  buttonClickSFX: {fileID: 8300000, guid: 66a6e51d929a4ef47baf8b452d26d547, type: 3}
 --- !u!4 &102118431
 Transform:
   m_ObjectHideFlags: 0

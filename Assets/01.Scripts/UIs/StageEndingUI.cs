@@ -37,6 +37,7 @@ public class StageEndingUI : MonoBehaviour
 
     private void OnClickLoadLobby()
     {
+        AudioManager.instance.PlayButtonClick();
         GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
     }
 }

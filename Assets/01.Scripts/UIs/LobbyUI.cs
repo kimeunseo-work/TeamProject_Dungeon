@@ -86,6 +86,7 @@ public class LobbyUI : MonoBehaviour
 
     private void OnClickPlay()
     {
+        AudioManager.instance.PlayButtonClick();
         doorImage.sprite = doorOpenSprite;
         GameManager.Instance.ChangeGameState(GameManager.GameState.DungeonScene);
     }

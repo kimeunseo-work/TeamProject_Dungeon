@@ -29,6 +29,7 @@ public class SettingsInDungeonUI : MonoBehaviour
     #region button click events
     private void OnClickPlay()
     {
+        AudioManager.instance.PlayButtonClick();
         Time.timeScale = 1f;
         UIManager.Instance.PopUI();
     }
@@ -46,6 +47,7 @@ public class SettingsInDungeonUI : MonoBehaviour
 
     private void OnClickLoadLobby()
     {
+        AudioManager.instance.PlayButtonClick();
         GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
     }
     #endregion
