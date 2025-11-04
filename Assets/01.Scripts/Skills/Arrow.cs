@@ -20,7 +20,6 @@ public class Arrow : MonoBehaviour
     private void OnEnable()
     {
         transform.rotation = default;
-        AudioManager.instance.ArrowShot();
     }
 
     private void Update()

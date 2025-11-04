@@ -55,7 +55,7 @@ public class BaseSkill : MonoBehaviour
         if (!IsReady) return;
         IsReady = false;
         Timer = 0f;
-
+        AudioManager.instance.ArrowShot();
         // 기본 발사 방향
         Vector2 dir = ((Vector2)targetTransform.position - (Vector2)launchPos.position).normalized;
 

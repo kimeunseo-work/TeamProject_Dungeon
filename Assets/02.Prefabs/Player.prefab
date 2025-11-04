@@ -269,7 +269,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 500
+  m_SortingOrder: 400
   m_TargetDisplay: 0
 --- !u!114 &6792908172043419642
 MonoBehaviour:
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 1032397194292879992}
   - component: {fileID: 7283798145976030005}
   - component: {fileID: 193966309723264344}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -368,7 +368,6 @@ MonoBehaviour:
   status: {fileID: 6443748491515893307}
   controller: {fileID: 2941148632118414148}
   skills: {fileID: 8271672967832327883}
-  detectionRadius: 10
   hpSlider: {fileID: 3924664714308129216}
   hpText: {fileID: 4970591841151197309}
 --- !u!114 &2941148632118414148

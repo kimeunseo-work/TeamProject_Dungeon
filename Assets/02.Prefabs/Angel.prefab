@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5954589581264664188}
   - component: {fileID: 4239334533994689358}
   - component: {fileID: 8301851173402142692}
-  - component: {fileID: 3147967717947626253}
+  - component: {fileID: 8750505403111665841}
+  - component: {fileID: 1592671621091637371}
   m_Layer: 0
   m_Name: Angel
   m_TagString: Untagged
@@ -107,8 +108,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!70 &3147967717947626253
-CapsuleCollider2D:
+--- !u!114 &8750505403111665841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295850966009998813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cecebc7499a5b74ebd43dc8410d8876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &1592671621091637371
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -139,6 +152,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1.5}
-  m_Size: {x: 3.8178334, y: 2.2614715}
-  m_Direction: 1
+  m_Offset: {x: 0.06, y: -0.09}
+  serializedVersion: 2
+  m_Radius: 0.6

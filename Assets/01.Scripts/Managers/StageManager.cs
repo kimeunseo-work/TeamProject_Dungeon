@@ -22,6 +22,8 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Color gizmoColor = new Color(1, 0, 0, .3f);
     [SerializeField] private List<StageData> stageDatas;
 
+    [SerializeField] private GameObject angelPrefab;
+
     private StageData currentStageData;
 
     private int clearRequireNum; //스테이지 클리어가 되려면 몬스터가 0이어야함
@@ -86,7 +88,7 @@ public class StageManager : MonoBehaviour
                 break;
             case StageType.Rest:
                 AudioManager.instance.PlayRestBGM();
-                SkillManager.Instance.RequestOpenSkillPanel("Stage Clear");
+                Instantiate(angelPrefab);
                 Debug.Log("휴식의시간");
                 stageNum++;
                 isClear = true;
