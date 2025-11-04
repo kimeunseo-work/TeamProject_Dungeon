@@ -53,10 +53,14 @@ public class UIManager : MonoBehaviour
         while (uiStack.Count > 0 && (uiStack.Peek() == null || uiStack.Peek().Equals(null)))
             uiStack.Pop();
 
+
+        // 진짜 원하는 작동 (스택에 집어넣기 전에 원래 UI를 안보이게 하고)
         if (uiStack.Count > 0 && uiStack.Peek() != null)
             uiStack.Peek().SetActive(false);
 
+        // 스택에 넣을 오브젝트를 활성화
         ui.SetActive(true);
+        // 스택에 넣는다
         uiStack.Push(ui);
     }
 

@@ -54,7 +54,6 @@ public class SkillManager : MonoBehaviour
 
         waitForSecondsRealtimeToSpinSpeed = new WaitForSecondsRealtime(spinSpeed);
         waitForSecondsRealtimeToDelayBetweenStop = new WaitForSecondsRealtime(delayBetweenStop);
-
     }
 
     private void OnEnable()
@@ -87,59 +86,14 @@ public class SkillManager : MonoBehaviour
     #region Selecting Skill
     public void RequestOpenSkillPanel(string howGetSkillStr, Action onComplete = null)
     {
-
         if (isSelectingSkill)
         {
-            //skillSelectQueue.Enqueue(() => OpenSelectSkillPanel(howGetSkillStr, onComplete));
             skillSelectQueue.Enqueue(() => StartCoroutine(SlotMachineEffect(howGetSkillStr, onComplete)));
             return;
         }
 
-        //OpenSelectSkillPanel(howGetSkillStr, onComplete);
         StartCoroutine(SlotMachineEffect(howGetSkillStr, onComplete));
     }
-
-    // no animation
-    //public void OpenSelectSkillPanel(string howGetSkillStr, Action onComplete)
-    //{
-    //    isSelectingSkill = true;
-    //    UIManager.Instance.PushUI(selectSkillPanel.parent.gameObject);
-
-    //    List<SkillData> options = allSkills
-    //        .Where(
-    //        s => s.canStack
-    //        || !playerSkills.acquiredSkills.Contains(s)
-    //        )
-    //        .OrderBy(x => UnityEngine.Random.value)
-    //        .Take(3)
-    //        .ToList();
-
-    //    foreach (Transform child in selectSkillPanel)
-    //        Destroy(child.gameObject);
-
-    //    this.howGetSkillText.text = howGetSkillStr;
-
-    //    // slot machine effect
-
-    //    foreach (var skill in options)
-    //    {
-    //        Debug.Log(skill.name);
-    //        GameObject btnObj = Instantiate(skillButtonPrefab, selectSkillPanel);
-    //        btnObj.GetComponent<SkillButton>().Setup(skill, OnSkillSelected);
-    //    }
-
-    //    void OnSkillSelected(SkillData seleted)
-    //    {
-    //        // ������ ���
-    //        playerSkills.AddSkill(seleted);
-
-    //        GameObject imgObj = Instantiate(acquiredSkillPrefab, acquiredSkillPanel);
-    //        imgObj.GetComponent<SkillIcon>().SetUp(seleted.icon);
-
-    //        CloseSkillPanel();
-    //        onComplete?.Invoke();
-    //    }
-    //}
 
     private IEnumerator SlotMachineEffect(string howGetSkillStr, Action onComplete)
     {

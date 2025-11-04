@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class Bomb : MonoBehaviour
 {
@@ -57,6 +58,17 @@ public class Bomb : MonoBehaviour
         yield return new WaitForSeconds(delay - blinkTime);
         Explode();
     }
+    
+    private void ExplodeEffect()
+    {
+        GameObject ps = Instantiate(
+                explosionEffect,
+                transform.position,   // 현재 총알 위치
+                Quaternion.identity   // 회전 없음
+            );
+
+        Destroy(ps, 2f);
+    }
 
     private void Explode()
     {
@@ -65,7 +77,7 @@ public class Bomb : MonoBehaviour
 
         // 폭발 이펙트 생성
         if (explosionEffect != null)
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            ExplodeEffect();
 
         // 폭발 범위 감지
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius, targetLayer);
@@ -82,7 +94,6 @@ public class Bomb : MonoBehaviour
         // 범위 표시 제거
         if (rangeInstance != null)
             Destroy(rangeInstance);
-
         // 폭탄 자체 제거
         Destroy(gameObject);
     }
