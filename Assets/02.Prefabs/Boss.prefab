@@ -177,15 +177,17 @@ MonoBehaviour:
   patternCooldown: 2
   jumpHeight: 5
   jumpDuration: 1
-  jumpDamage: 50
+  jumpDamage: 200
   bombPrefab: {fileID: 6892321934412946387, guid: 6dcf6fefdea99174ba8f7015891bb0a4, type: 3}
-  bombSpawnRange: {x: 5, y: 5}
-  bombCooldown: 5
+  bombSpawnRange: {x: 2, y: 2}
+  bombCooldown: 3
   bombExplosionRadius: 5
   bulletPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
   bulletCount: 12
   bulletSpeed: 6
   spreadAngle: 120
+  contactDamage: 30
+  contactDamageCooldown: 1
 --- !u!1 &3671363806394153361
 GameObject:
   m_ObjectHideFlags: 0
