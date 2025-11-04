@@ -15,6 +15,11 @@ public class LobbyUI : MonoBehaviour
     [Header("Play")]
     [SerializeField] private Button playButton;
 
+    [Header("Door")]
+    [SerializeField] private Image doorImage;
+    [SerializeField] private Sprite doorCloseSprite;
+    [SerializeField] private Sprite doorOpenSprite;
+
     private void Awake()
     {
         playButton.onClick.AddListener(OnClickPlay);
@@ -23,6 +28,8 @@ public class LobbyUI : MonoBehaviour
     private void Start()
     {
         UpdateAllUIs();
+
+        doorImage.sprite = doorCloseSprite;
 
         PlayerLobbyStatus.Instance.OnPointChanged += UpdateGoldUI;
         PlayerLobbyStatus.Instance.OnBaseExpChanged += UpdateExpUI;
@@ -79,6 +86,7 @@ public class LobbyUI : MonoBehaviour
 
     private void OnClickPlay()
     {
+        doorImage.sprite = doorOpenSprite;
         GameManager.Instance.ChangeGameState(GameManager.GameState.DungeonScene);
     }
 }
