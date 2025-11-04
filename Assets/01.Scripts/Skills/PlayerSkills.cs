@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+
 public class PlayerSkills : MonoBehaviour
 {
     public static PlayerSkills Instance;
@@ -41,7 +42,7 @@ public class PlayerSkills : MonoBehaviour
 
         AcquiredSkills.Add(skillData);
 
-        if (skillData.Type == SkillType.Passive)
+        if (skillData.Type == SkillType.Status)
             ApplyPassiveSkill(skillData);
         else
             ApplyActiveSkill(skillData);
@@ -66,13 +67,13 @@ public class PlayerSkills : MonoBehaviour
         {
                 // increase dungeon attack
             case StatusType.Attack:
-                playerStatus.IncreaseDungeonAtk(1);
+                playerStatus.IncreaseDungeonAtk(skill.skillValue);
                 break;
             case StatusType.MaxHp:
-                playerStatus.IncreaseDungeonMaxHp(1);
+                playerStatus.IncreaseDungeonMaxHp(skill.skillValue);
                 break;
             case StatusType.Speed:
-                playerStatus.IncreaseDungeonAttackSpeed(5);
+                playerStatus.IncreaseDungeonAttackSpeed(skill.skillValue);
                 break;
             default:
                 break;

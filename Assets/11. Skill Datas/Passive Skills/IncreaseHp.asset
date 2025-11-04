@@ -17,7 +17,7 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: fcf9331350749474fa4fb330c83c5c39, type: 3}
   Type: 2
   SkillPrefab: {fileID: 0}
-  statusType: 0
+  statusType: 1
   skillValue: 30
   CanStack: 1
   ActiveSkillType: 0

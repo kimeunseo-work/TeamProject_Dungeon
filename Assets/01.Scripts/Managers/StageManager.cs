@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using static StageData;
 using Random = UnityEngine.Random;
@@ -170,7 +169,7 @@ public class StageManager : MonoBehaviour
         if (player == null || startPoint == null)
         {
             Debug.LogError("Player 또는 StartPoint가 지정되지 않았습니다!");
-            return;
+            player = GameObject.FindWithTag("Player").transform;
         }
 
         // 위치 리셋
