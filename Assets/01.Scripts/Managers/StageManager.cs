@@ -116,7 +116,8 @@ public class StageManager : MonoBehaviour
 
         //Debug.Log($"남은 몬스터 수: {clearRequireNum}");
 
-        if (clearRequireNum <= 0)
+        if (clearRequireNum <= 0
+            && GameManager.Instance.CurrentState == GameManager.GameState.DungeonScene)
         {
 
             StageClear();
