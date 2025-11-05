@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class Monster : Character
 {
@@ -9,12 +10,9 @@ public class Monster : Character
 
     private Player target;
 
-    [Header("몬스터 스탯")]
-    [SerializeField] private int level;
-    [SerializeField] private int attackSpeed;
+    // 나중에 데이터화
+    //[SerializeField] private int level;
     [SerializeField] private Status baseStatus;
-
-    private float timer;
 
     private MonsterStatus status;
     private MonsterController controller;
@@ -26,7 +24,25 @@ public class Monster : Character
     /*생명 주기*/
     //=======================================//
 
-    private void Awake()
+    private void OnDisable()
+    {
+        status.OnDead -= Status_OnDead;
+        StageManager.Instance.OnMonsterKilled();
+
+        SpreadExp(5);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        controller.HandleAction();
+    }
+
+    /*외부 호출*/
+    //=======================================//
+
+    public void Init(int level)
     {
         // 플레이어 데이터
         var go = GameObject.FindWithTag("Player");
@@ -41,48 +57,18 @@ public class Monster : Character
         status.InitDungeon(baseStatus, level);
         controller.Init(TargetTransform);
         CanAttack = false;
-    }
 
-    private void OnEnable()
-    {
-        UpdateHpbar();
         status.OnDead += Status_OnDead;
+
+        UpdateHpbar();
     }
-    private void OnDisable()
-    {
-        status.OnDead -= Status_OnDead;
-        StageManager.Instance.OnMonsterKilled();
-
-        SpreadExp(5);
-    }
-
-    private void Update()
-    {
-        if (!CanAttack)
-        {
-            timer = Time.deltaTime;
-
-            if(timer >= attackSpeed)
-            {
-                CanAttack = true;
-            }
-        }
-
-        if (CanAttack && TargetTransform != null 
-            && controller.Type == MonsterController.MonsterType.Melee)
-        {
-            Attack();
-        }
-
-        controller.HandleAction();
-    }
-
-    /*외부 호출*/
-    //=======================================//
 
     public override void TakeDamage(int amount)
     {
+        // 데이터
         status.TakeDamage(amount);
+        // 피격 액션
+        // controller.TakeDamage(amount);
 
         UpdateHpbar();
     }
@@ -110,13 +96,10 @@ public class Monster : Character
 
     /*내부 로직*/
     //=======================================//
-    
+
     protected override void Attack()
     {
-        if (!CanAttack) return;
-
         target.TakeDamage(status.DungeonAtk);
-        CanAttack = false;
     }
 
     private void SpreadExp(int amount)
@@ -136,7 +119,7 @@ public class Monster : Character
 
     /*이벤트 구독*/
     //=======================================//
-    
+
     protected override void Status_OnDead()
     {
         // 사망 액션

@@ -1,7 +1,6 @@
 ﻿using System;
-using UnityEngine;
 
-public class MonsterStatus : BaseStatus 
+public class MonsterStatus : BaseStatus
 {
     /*필드 & 프로퍼티*/
     //=======================================//
@@ -15,9 +14,9 @@ public class MonsterStatus : BaseStatus
     {
         DungeonLevel = dungeonLevel;
         dungeonStatus = baseStatus;
-        DungeonMaxHp = dungeonStatus.Hp;
+        DungeonMaxHp = dungeonStatus.Hp * DungeonLevel;
 
-        DungeonHp = dungeonStatus.Hp * DungeonLevel;
+        DungeonHp = DungeonMaxHp;
         DungeonAtk = dungeonStatus.Atk * DungeonLevel;
 
         IsDead = false;
@@ -27,8 +26,6 @@ public class MonsterStatus : BaseStatus
 
     public override void TakeDamage(int amount)
     {
-        var prevHp = DungeonHp;
         base.TakeDamage(amount);
-        //Debug.Log($" [{nameof(MonsterStatus)}] monster takeDamage = {amount}. prevHp = {prevHp}, currentHp = {DungeonHp}");
     }
 }

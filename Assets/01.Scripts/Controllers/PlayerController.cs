@@ -13,16 +13,12 @@ public class PlayerController : BaseController
 
         CheckIsMoveChanged(movementDirection);
     }
-    //public override void Attack()
-    //{
-    //    base.Attack();
-    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Finish"))
         {
-            Debug.Log("Exit Triggered!");
+            //Debug.Log("Exit Triggered!");
             StageManager stageManager = FindObjectOfType<StageManager>();
 
             if (stageManager != null)

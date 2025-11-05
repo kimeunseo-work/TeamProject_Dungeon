@@ -6,53 +6,54 @@ public class BossMonster : Character
 {
     private MonsterStatus status;
     private Player target;
-    private Rigidbody2D rb;
+    //private Rigidbody2D rb;
 
     [Header("공격 쿨타임")]
-    public float patternCooldown = 2f;
+    public float PatternCooldown = 2f;
     private float patternTimer = 0f;
 
     [Header("점프 패턴")]
-    public float jumpHeight = 5f;
-    public float jumpDuration = 1f;
-    public int jumpDamage = 50;
+    public float JumpHeight = 5f;
+    public float JumpDuration = 1f;
+    public int JumpDamage = 50;
     private bool isJumping = false;
 
     [Header("폭탄 패턴")]
-    public GameObject bombPrefab;
-    public Vector2 bombSpawnRange = new Vector2(2f, 2f);
-    public float bombCooldown = 3f;
+    public GameObject BombPrefab;
+    public Vector2 BombSpawnRange = new(2f, 2f);
+    public float BombCooldown = 3f;
     private float bombTimer = 0f;
-    public float bombExplosionRadius = 2f;
+    public float BombExplosionRadius = 2f;
 
     [Header("탄막 패턴")]
-    public GameObject bulletPrefab;
-    public int bulletCount = 12;
-    public float bulletSpeed = 6f;
+    public GameObject BulletPrefab;
+    public int BulletCount = 12;
+    public float BulletSpeed = 6f;
     public float spreadAngle = 120f;
 
     [Header("접촉 데미지")]
-    public int contactDamage = 10;
-    public float contactDamageCooldown = 1f;
+    public int ContactDamage = 10;
+    public float ContactDamageCooldown = 1f;
 
-    private Dictionary<Player, float> contactCooldowns = new Dictionary<Player, float>();
+    private readonly Dictionary<Player, float> contactCooldowns = new();
 
     private void Awake()
     {
         target = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
-        rb = GetComponent<Rigidbody2D>();
+        //rb = GetComponent<Rigidbody2D>();
         status = GetComponent<MonsterStatus>();
 
         var baseStatus = new Status { Hp = 10000, Atk = 30 }; // 보스 기본 스탯 설정
         status.InitDungeon(baseStatus, 1);
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (target == null) return;
 
         bombTimer += Time.deltaTime;
-        if (bombTimer >= bombCooldown)
+        if (bombTimer >= BombCooldown)
         {
             SpawnBomb();
             bombTimer = 0f;
@@ -61,7 +62,7 @@ public class BossMonster : Character
         if (!isJumping)
         {
             patternTimer += Time.deltaTime;
-            if (patternTimer >= patternCooldown)
+            if (patternTimer >= PatternCooldown)
             {
                 patternTimer = 0f;
                 ChoosePattern();
@@ -89,23 +90,23 @@ public class BossMonster : Character
     {
         isJumping = true;
         Vector3 startPos = transform.position;
-        Vector3 apex = startPos + Vector3.up * jumpHeight;
+        Vector3 apex = startPos + Vector3.up * JumpHeight;
 
         float elapsed = 0f;
 
-        while (elapsed < jumpDuration / 2f)
+        while (elapsed < JumpDuration / 2f)
         {
             elapsed += Time.deltaTime;
-            transform.position = Vector3.Lerp(startPos, apex, elapsed / (jumpDuration / 2f));
+            transform.position = Vector3.Lerp(startPos, apex, elapsed / (JumpDuration / 2f));
             yield return null;
         }
 
         elapsed = 0f;
         Vector3 targetPos = new Vector3(target.transform.position.x, startPos.y, startPos.z);
-        while (elapsed < jumpDuration / 2f)
+        while (elapsed < JumpDuration / 2f)
         {
             elapsed += Time.deltaTime;
-            transform.position = Vector3.Lerp(apex, targetPos, elapsed / (jumpDuration / 2f));
+            transform.position = Vector3.Lerp(apex, targetPos, elapsed / (JumpDuration / 2f));
             yield return null;
         }
 
@@ -118,11 +119,10 @@ public class BossMonster : Character
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1.2f, LayerMask.GetMask("Player"));
         foreach (var hit in hits)
         {
-            Player p = hit.GetComponent<Player>();
-            if (p != null)
+            if (hit.TryGetComponent<Player>(out var p))
             {
-                p.TakeDamage(jumpDamage);
-                Debug.Log($"점프 착지 공격! {jumpDamage} 데미지");
+                p.TakeDamage(JumpDamage);
+                Debug.Log($"점프 착지 공격! {JumpDamage} 데미지");
             }
         }
     }
@@ -131,7 +131,7 @@ public class BossMonster : Character
     {
         Debug.Log("보스 패턴: 탄막 발사");
 
-        if (bulletPrefab == null || target == null)
+        if (BulletPrefab == null || target == null)
         {
             Debug.LogWarning("bulletPrefab 또는 target이 설정되지 않음!");
             yield break;
@@ -140,17 +140,16 @@ public class BossMonster : Character
         Vector2 directionToPlayer = (target.transform.position - transform.position).normalized;
         float baseAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-        for (int i = 0; i < bulletCount; i++)
+        for (int i = 0; i < BulletCount; i++)
         {
-            float angleOffset = -spreadAngle / 2 + (spreadAngle / (bulletCount - 1)) * i;
+            float angleOffset = -spreadAngle / 2 + (spreadAngle / (BulletCount - 1)) * i;
             float fireAngle = baseAngle + angleOffset;
 
             Quaternion rot = Quaternion.Euler(0, 0, fireAngle);
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, rot);
-            Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+            GameObject bullet = Instantiate(BulletPrefab, transform.position, rot);
 
-            if (rbBullet != null)
-                rbBullet.AddForce(rot * Vector2.right * bulletSpeed, ForceMode2D.Impulse);
+            if (bullet.TryGetComponent<Rigidbody2D>(out var rbBullet))
+                rbBullet.AddForce(rot * Vector2.right * BulletSpeed, ForceMode2D.Impulse);
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -158,18 +157,17 @@ public class BossMonster : Character
 
     private void SpawnBomb()
     {
-        if (bombPrefab == null || target == null) return;
+        if (BombPrefab == null || target == null) return;
 
         Vector3 spawnPos = target.transform.position + new Vector3(
-            Random.Range(-bombSpawnRange.x, bombSpawnRange.x),
-            Random.Range(-bombSpawnRange.y, bombSpawnRange.y),
+            Random.Range(-BombSpawnRange.x, BombSpawnRange.x),
+            Random.Range(-BombSpawnRange.y, BombSpawnRange.y),
             0f
         );
 
-        GameObject bomb = Instantiate(bombPrefab, spawnPos, Quaternion.identity);
-        Bomb bombScript = bomb.GetComponent<Bomb>();
-        if (bombScript != null)
-            bombScript.explosionRadius = bombExplosionRadius;
+        GameObject bomb = Instantiate(BombPrefab, spawnPos, Quaternion.identity);
+        if (bomb.TryGetComponent<Bomb>(out var bombScript))
+            bombScript.ExplosionRadius = BombExplosionRadius;
     }
 
     public override void TakeDamage(int amount)
@@ -222,10 +220,10 @@ public class BossMonster : Character
         if (contactCooldowns.ContainsKey(player) && contactCooldowns[player] > 0f)
             return;
 
-        player.TakeDamage(contactDamage);
-        Debug.Log($"보스 접촉 피해: {contactDamage}");
+        player.TakeDamage(ContactDamage);
+        Debug.Log($"보스 접촉 피해: {ContactDamage}");
 
-        contactCooldowns[player] = contactDamageCooldown;
+        contactCooldowns[player] = ContactDamageCooldown;
     }
 
     private void UpdateContactCooldowns()

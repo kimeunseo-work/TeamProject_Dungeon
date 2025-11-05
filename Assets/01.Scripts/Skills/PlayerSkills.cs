@@ -7,7 +7,7 @@ public class PlayerSkills : MonoBehaviour
     public static PlayerSkills Instance;
 
     [SerializeField] public List<SkillData> AcquiredSkills = new List<SkillData>(10);
-    
+
     [SerializeField] private PlayerStatus playerStatus;
     private BaseSkill defaultSkill;
 
@@ -66,7 +66,7 @@ public class PlayerSkills : MonoBehaviour
     {
         switch (skill.statusType)
         {
-                // increase dungeon attack
+            // increase dungeon attack
             case StatusType.Attack:
                 playerStatus.IncreaseDungeonAtk(skill.skillValue);
                 break;
@@ -74,7 +74,7 @@ public class PlayerSkills : MonoBehaviour
                 playerStatus.IncreaseDungeonMaxHp(skill.skillValue);
                 break;
             case StatusType.Speed:
-                playerStatus.IncreaseDungeonAttackSpeed(skill.skillValue);
+                defaultSkill.CoolDown -= skill.CoolDown;
                 break;
             default:
                 break;

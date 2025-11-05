@@ -1,16 +1,10 @@
 ﻿using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class Shot : MonoBehaviour
 {
-    public float lifeTime = 10f;
-    [SerializeField] int damage;
-    [SerializeField] ParticleSystem particle;
-
-    //private void Start()
-    //{
-    //    Destroy(gameObject, lifeTime);
-    //}
+    public float LifeTime = 10f;
+    [SerializeField] private int damage;
+    [SerializeField] private ParticleSystem particle;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

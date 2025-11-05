@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Angel : MonoBehaviour
 {
@@ -10,7 +8,7 @@ public class Angel : MonoBehaviour
         {
             SkillManager.Instance.RequestOpenSkillPanel("Angel's Blessing");
             var status = collision.gameObject.GetComponent<PlayerStatus>();
-            status.IncreaseDungeonHp(100);
+            status.IncreaseDungeonHp(9999);
 
             Destroy(gameObject);
         }

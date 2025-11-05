@@ -52,9 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06e99a2e0b58b04aab463ef4acbfa4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
   baseStatus:
-    Hp: 99999
+    Hp: 999
     Atk: 9
   hpSlider: {fileID: 5771313717417268174}
   hpText: {fileID: 3298318509852019440}
@@ -84,9 +83,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponTransform: {fileID: 0}
   detectionRadius: 10
-  type: 0
-  shooterPrefab: {fileID: 0}
-  attackRange: 0.8
+  Type: 0
+  ShooterPrefab: {fileID: 0}
+  AttackRange: 0.8
   speed: 0.8
 --- !u!114 &5523627639774053211
 MonoBehaviour:
@@ -174,20 +173,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29e6ed3854b49e47862ed181ff21311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patternCooldown: 2
-  jumpHeight: 5
-  jumpDuration: 1
-  jumpDamage: 200
-  bombPrefab: {fileID: 6892321934412946387, guid: 6dcf6fefdea99174ba8f7015891bb0a4, type: 3}
-  bombSpawnRange: {x: 2, y: 2}
-  bombCooldown: 3
-  bombExplosionRadius: 5
-  bulletPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
-  bulletCount: 12
-  bulletSpeed: 6
+  PatternCooldown: 2
+  JumpHeight: 5
+  JumpDuration: 1
+  JumpDamage: 200
+  BombPrefab: {fileID: 6892321934412946387, guid: 6dcf6fefdea99174ba8f7015891bb0a4, type: 3}
+  BombSpawnRange: {x: 2, y: 2}
+  BombCooldown: 3
+  BombExplosionRadius: 5
+  BulletPrefab: {fileID: 8345285174416431964, guid: dccfc0a7e1422cc45b30406906c43eee, type: 3}
+  BulletCount: 12
+  BulletSpeed: 6
   spreadAngle: 120
-  contactDamage: 100
-  contactDamageCooldown: 1
+  ContactDamage: 100
+  ContactDamageCooldown: 1
 --- !u!1 &3671363806394153361
 GameObject:
   m_ObjectHideFlags: 0

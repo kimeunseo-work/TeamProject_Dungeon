@@ -41,7 +41,7 @@ public class DropItem : MonoBehaviour
 
     private bool canMove = false;
     private float timer = 0f;
-    private float cool = 0.5f;
+    private const float cool = 0.2f;
 
     /*생명 주기*/
     //=======================================//

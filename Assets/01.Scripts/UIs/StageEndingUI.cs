@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +35,7 @@ public class StageEndingUI : MonoBehaviour
 
     private void OnClickLoadLobby()
     {
-        AudioManager.instance.PlayButtonClick();
+        AudioManager.Instance.PlayButtonClick();
         GameManager.Instance.ChangeGameState(GameManager.GameState.LobbyScene);
     }
 }

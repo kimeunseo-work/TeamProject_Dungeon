@@ -130,14 +130,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b15e309ebaee7b748a44063bf75a7dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 2
-  explosionRadius: 2
-  damage: 30
-  targetLayer:
+  Delay: 2
+  ExplosionRadius: 2
+  Damage: 30
+  TargetLayer:
     serializedVersion: 2
     m_Bits: 8
-  rangeIndicator: {fileID: 7276914163762020844, guid: 061553cd35e00df40a97b4a3ca75b67e, type: 3}
-  explosionEffect: {fileID: 6932017860936909200, guid: c42c49211844e6346a303c15b4f336dc, type: 3}
+  RangeIndicator: {fileID: 7276914163762020844, guid: 061553cd35e00df40a97b4a3ca75b67e, type: 3}
+  ExplosionEffect: {fileID: 6932017860936909200, guid: c42c49211844e6346a303c15b4f336dc, type: 3}
 --- !u!70 &6970593150869247543
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

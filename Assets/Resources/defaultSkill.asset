@@ -21,7 +21,7 @@ MonoBehaviour:
   skillValue: 0
   CanStack: 0
   ActiveSkillType: 0
-  CoolDown: 0.5
+  CoolDown: 1
   Timer: 0
   ArrowSpeed: 10
   ArrowCount: 1

@@ -31,8 +31,8 @@ public class StageManager : MonoBehaviour
     private int clearRequireNum; //스테이지 클리어가 되려면 몬스터가 0이어야함
     private int stageNum;               //스테이지의 숫자
 
-    private bool isClear;       //클리어 확인여부의 불리언
-    private bool isStageProcessing;     //로딩중일때 입력키방지용
+    //private bool isClear;       //클리어 확인여부의 불리언
+    //private bool isStageProcessing;     //로딩중일때 입력키방지용
 
     /*Events*/
     public Action OnAllStageCleared;
@@ -49,20 +49,11 @@ public class StageManager : MonoBehaviour
         else
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
         }
 
         stageNum = 1;
         StartStage();
     }
-
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        SpawnRandomEnemyFromData();
-    //    }
-    //}
 
     /*외부 호출*/
     //=======================================//
@@ -72,14 +63,14 @@ public class StageManager : MonoBehaviour
     {
         var objs = onLoadedMonsters.GetComponentsInChildren<Transform>().ToList();
         objs.RemoveAt(0);
-        foreach(var obj in objs)
+        foreach (var obj in objs)
         {
             Destroy(obj.gameObject);
         }
 
         OnStageChanged?.Invoke(stageNum);
 
-        isClear = false;
+        //isClear = false;
         exitCollider.enabled = false;
         nextStage.enabled = false;
         PlacePlayerToStageStart();
@@ -87,27 +78,27 @@ public class StageManager : MonoBehaviour
         StageType stageType = GetStageType(stageNum);
         currentStageData = GetStageDataByType(stageType);
 
-        Debug.Log($"현재 {stageNum} 스테이지 - [{stageType}]");
+        //Debug.Log($"현재 {stageNum} 스테이지 - [{stageType}]");
 
         switch (stageType)
         {
             case StageType.Combat:
-                AudioManager.instance.PlayNormalBGM();
+                AudioManager.Instance.PlayNormalBGM();
                 SpawnFromStageData();
                 break;
             case StageType.Rest:
-                AudioManager.instance.PlayRestBGM();
+                AudioManager.Instance.PlayRestBGM();
                 Instantiate(angelPrefab);
-                Debug.Log("휴식의시간");
+                //Debug.Log("휴식의시간");
                 stageNum++;
-                isClear = true;
+                //isClear = true;
                 exitCollider.enabled = true;
                 //천사 생성
                 break;
             case StageType.Boss:
-                AudioManager.instance.PlayBossBGM();
+                AudioManager.Instance.PlayBossBGM();
                 SpawnFromStageData();
-                Debug.Log("보스 전투 시작!");
+                //Debug.Log("보스 전투 시작!");
                 break;
         }
 
@@ -119,11 +110,11 @@ public class StageManager : MonoBehaviour
     {
         clearRequireNum--;
 
-        Debug.Log($"남은 몬스터 수: {clearRequireNum}");
+        //Debug.Log($"남은 몬스터 수: {clearRequireNum}");
 
         if (clearRequireNum <= 0)
         {
-            
+
             StageClear();
         }
     }
@@ -159,11 +150,11 @@ public class StageManager : MonoBehaviour
 
     private void StageClear()
     {
-        AudioManager.instance.PlayClearBGM();
-        isClear = true;
+        AudioManager.Instance.PlayClearBGM();
+        //isClear = true;
         exitCollider.enabled = true;
         nextStage.enabled = true;
-        Debug.Log("Stage Clear! Exit is now active!");
+        //Debug.Log("Stage Clear! Exit is now active!");
         //GoToNextStage();
         stageNum++;
 
@@ -197,7 +188,7 @@ public class StageManager : MonoBehaviour
 
         // 위치 리셋
         player.position = startPoint.position;
-        Debug.Log("플레이어를 시작 위치에 배치했습니다!");
+        //Debug.Log("플레이어를 시작 위치에 배치했습니다!");
     }
 
     private void SpawnFromStageData()
@@ -240,6 +231,7 @@ public class StageManager : MonoBehaviour
 
         var mon = Instantiate(prefab, pos, Quaternion.identity);
         mon.transform.parent = onLoadedMonsters.transform;
+        mon.GetComponent<Monster>().Init(stageNum);
         //monsterStatuses.Add(monster.GetComponent<MonsterStatus>());
     }
 
@@ -257,15 +249,3 @@ public class StageManager : MonoBehaviour
         }
     }
 }
-
-
-// 아직까진 미구현 된 매서드들
-//public void GameOver()
-//{
-
-//}
-
-//public void GameClearMenu()
-//{
-//    //이건테스트 서버 주석
-//}

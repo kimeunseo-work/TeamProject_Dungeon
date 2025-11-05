@@ -170,7 +170,7 @@ public class SkillManager : MonoBehaviour
 
         void OnSkillSelected(SkillData seleted)
         {
-            AudioManager.instance.PlayClick();
+            AudioManager.Instance.PlayClick();
             playerSkills.AddSkill(seleted);
 
             GameObject imgObj = Instantiate(acquiredSkillPrefab, acquiredSkillPanel);

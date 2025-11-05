@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
     }
 
-    
+
 
     /*외부 호출용*/
     //=======================================//
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(nameof(GameState.LobbyScene));
         }
-        else if(CurrentState == GameState.DungeonScene)
+        else if (CurrentState == GameState.DungeonScene)
         {
             SceneManager.LoadScene(nameof(GameState.DungeonScene));
         }

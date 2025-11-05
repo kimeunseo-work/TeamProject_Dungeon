@@ -8,7 +8,7 @@ public class Player : Character
 {
     /*필드 & 프로퍼티*/
     //=======================================// 
-    public bool IsInvincible { get; private set; }
+    public bool IsInvincible { get; private set; } = false;
     private float invincibleDuration = 2f;
 
     // 플레이어
@@ -17,17 +17,12 @@ public class Player : Character
     [SerializeField] private PlayerSkills skills;
 
     /*Monsters*/
-    private List<Transform> currentEnemyTrans = new(10);
-    private List<MonsterStatus> currentEnemyStatus = new(10);
-
-    //public float detectionRadius = 10f;
+    private readonly List<Transform> currentEnemyTrans = new(10);
+    private readonly List<MonsterStatus> currentEnemyStatus = new(10);
 
     [Header("Hp Bar")]
     [SerializeField] Slider hpSlider;
     [SerializeField] TextMeshProUGUI hpText;
-
-    /*Events*/
-    //public event Action<bool, SkillData, Transform, Transform> OnCanAttackChanged;
 
     /*생명 주기*/
     //=======================================//
@@ -65,26 +60,22 @@ public class Player : Character
         status.OnDungeonMaxHpChanged -= UpdateHpbar;
     }
 
-    private void Update()
+    protected override void Update()
     {
         FindNearEnemy();
 
-        if (CanAttack && TargetTransform != null)
-        {
-            Attack();
-        }
+        base.Update();
 
         // 플레이어 입력
         controller.HandleAction();
 
-        if (invincibleDuration > 0f)
+        if (IsInvincible)
         {
             invincibleDuration -= Time.deltaTime;
-        }
-        else
-        {
-            SetInvincible(false);
-            invincibleDuration = 2.0f;
+            if (invincibleDuration <= 0f)
+            {
+                SetInvincible(false);
+            }
         }
     }
 
@@ -101,8 +92,9 @@ public class Player : Character
         status.TakeDamage(amount);
         // 피격 액션
         controller.TakeDamage();
+
         SetInvincible(true);
-        Debug.Log($"damage:{amount}, nowhp:{status.DungeonHp}");
+        invincibleDuration = 2f;
     }
     public void SetInvincible(bool value)
     {
@@ -115,7 +107,7 @@ public class Player : Character
     public void GetDungeonExp(int amount)
     {
         status.IncreaseDungeonExp(amount);
-        Debug.Log($"획득 경험치 {amount}, 현재 경험치 {status.DungeonExp}");
+        //Debug.Log($"획득 경험치 {amount}, 현재 경험치 {status.DungeonExp}");
     }
 
     /// <summary>
@@ -176,7 +168,7 @@ public class Player : Character
     {
         // 사망 액션
         controller.Dead();
-        AudioManager.instance.PlayHit();
+        AudioManager.Instance.PlayHit();
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
         // Destroy(gameObject);
     }

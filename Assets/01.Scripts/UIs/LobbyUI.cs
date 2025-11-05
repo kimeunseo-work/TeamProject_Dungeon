@@ -72,7 +72,7 @@ public class LobbyUI : MonoBehaviour
         if (PlayerLobbyStatus.Instance.RequiredBaseExp == 0)
             targetValue = (float)PlayerLobbyStatus.Instance.BaseExp / 1;
         else
-            targetValue = (float)PlayerLobbyStatus.Instance.BaseExp/ PlayerLobbyStatus.Instance.RequiredBaseExp;
+            targetValue = (float)PlayerLobbyStatus.Instance.BaseExp / PlayerLobbyStatus.Instance.RequiredBaseExp;
         UIManager.Instance.AnimateSlider(expSlider, targetValue);
 
         expPercentageText.text = $"{(int)(targetValue * 100)}%";
@@ -86,7 +86,7 @@ public class LobbyUI : MonoBehaviour
 
     private void OnClickPlay()
     {
-        AudioManager.instance.PlayButtonClick();
+        AudioManager.Instance.PlayButtonClick();
         doorImage.sprite = doorOpenSprite;
         GameManager.Instance.ChangeGameState(GameManager.GameState.DungeonScene);
     }
