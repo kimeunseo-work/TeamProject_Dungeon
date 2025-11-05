@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Arrow : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class Arrow : MonoBehaviour
     private int damage = 0;
 
     [SerializeField] ParticleSystem particle;
+
+    private void Awake()
+    {
+        SceneManager.activeSceneChanged += SceneManager_sceneUnloaded;
+    }
 
     public void Init(bool canPierce, int pierceCount, int damage)
     {
@@ -30,6 +36,17 @@ public class Arrow : MonoBehaviour
             timer += Time.deltaTime;
         else
             ObjectManager.Instance.ArrowPool.Release(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= SceneManager_sceneUnloaded;
+    }
+
+    private void SceneManager_sceneUnloaded(Scene arg0, Scene arg1)
+    {
+        if (gameObject.activeSelf == false) return;
+        ObjectManager.Instance.ArrowPool.Release(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
