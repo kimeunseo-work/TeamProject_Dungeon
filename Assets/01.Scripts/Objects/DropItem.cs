@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct DropItemInfo
@@ -51,16 +52,8 @@ public class DropItem : MonoBehaviour
         var go = GameObject.FindWithTag("Player");
         targetData = go.GetComponent<Player>();
         targetPos = go.GetComponent<Transform>();
-    }
 
-    private void OnEnable()
-    {
-        GameManager.Instance.OnDungeonSceneUnloaded += Instance_OnDungeonSceneUnloaded;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.Instance.OnDungeonSceneUnloaded -= Instance_OnDungeonSceneUnloaded;
+        SceneManager.activeSceneChanged += Instance_OnDungeonSceneUnloaded;
     }
 
     private void Update()
@@ -77,10 +70,24 @@ public class DropItem : MonoBehaviour
         if (canMove) Movement();
     }
 
+    private void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= Instance_OnDungeonSceneUnloaded;
+    }
+
     /*events*/
     //=======================================//
 
-    private void Instance_OnDungeonSceneUnloaded() => Release();
+    private void Instance_OnDungeonSceneUnloaded(Scene arg0, Scene arg1)
+    {
+        if (gameObject.activeSelf == false) return;
+
+        // 초기 값으로
+        speed = 0f;
+        canMove = false;
+
+        ObjectManager.Instance.ExpPool.Release(gameObject);
+    }
 
     /*충돌 & 트리거*/
     //=======================================//
@@ -120,6 +127,8 @@ public class DropItem : MonoBehaviour
 
     private void Release()
     {
+        if (gameObject.activeSelf == false) return;
+
         // 초기 값으로
         speed = 0f;
         canMove = false;
