@@ -4,20 +4,22 @@ public class BaseSkill : MonoBehaviour
 {
     [SerializeField] SkillData skill;
     public string SkillName { get; private set; }
-    public float CoolDown { get; set; }
-    public float Timer { get; private set; } = 0f;
-    private float arrowSpeed = 1f;
-    public float ArrowSpeed
+    public float coolDown = 1f;
+    public float CoolDown
     {
-        get => arrowSpeed;
+        get => coolDown;
         set
         {
-            if(value <= 0.1f)
-                arrowSpeed = 0.1f;
+            if (value <= 0.1f)
+                coolDown = 0.1f;
             else
-                arrowSpeed = value;
+                coolDown = value;
+
+            Debug.Log($"coolDown = {coolDown}");
         }
     }
+    public float Timer { get; private set; } = 0f;
+    public float ArrowSpeed {  get; private set; }
     public int ArrowCount { get; set; }
     public int ExtraPierce { get; set; }
     public float SpreadAngle { get; private set; }
