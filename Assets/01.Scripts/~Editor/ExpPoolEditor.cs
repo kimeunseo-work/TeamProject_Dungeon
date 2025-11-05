@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ExpPool))]
@@ -27,3 +28,4 @@ public class ExpPoolEditor : Editor
         }
     }
 }
+#endif
