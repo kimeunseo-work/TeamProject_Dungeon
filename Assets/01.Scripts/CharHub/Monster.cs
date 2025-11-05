@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Cinemachine.DocumentationSortingAttribute;
@@ -21,6 +22,7 @@ public class Monster : Character
     [SerializeField] Slider hpSlider;
     [SerializeField] TextMeshProUGUI hpText;
 
+    private Coroutine sliderCoroutine;
     /*생명 주기*/
     //=======================================//
 
@@ -134,6 +136,33 @@ public class Monster : Character
     {
         float targetValue = (float)status.DungeonHp / status.DungeonMaxHp;
         hpText.text = status.DungeonHp.ToString();
-        UIManager.Instance.AnimateSlider(hpSlider, targetValue);
+        AnimateSlider(hpSlider, targetValue);
+    }
+
+    public void AnimateSlider(Slider slider, float targetValue, float duration = 0.4f)
+    {
+        if (slider == null) return;
+
+        if (sliderCoroutine != null)
+            StopCoroutine(sliderCoroutine);
+
+        sliderCoroutine = StartCoroutine(SliderCoroutine(slider, targetValue, duration));
+    }
+
+    private IEnumerator SliderCoroutine(Slider slider, float targetValue, float duration)
+    {
+        float startValue = slider.value;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            slider.value = Mathf.Lerp(startValue, targetValue, t);
+            yield return null;
+        }
+
+        slider.value = targetValue;
+        sliderCoroutine = null;
     }
 }
