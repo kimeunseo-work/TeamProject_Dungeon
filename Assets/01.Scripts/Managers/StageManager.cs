@@ -25,6 +25,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] private List<StageData> stageDatas;
 
     [SerializeField] private GameObject angelPrefab;
+    private GameObject angel;
 
     private StageData currentStageData;
 
@@ -80,6 +81,9 @@ public class StageManager : MonoBehaviour
 
         //Debug.Log($"현재 {stageNum} 스테이지 - [{stageType}]");
 
+        if (angel != null)
+            Destroy(angel);
+
         switch (stageType)
         {
             case StageType.Combat:
@@ -88,7 +92,7 @@ public class StageManager : MonoBehaviour
                 break;
             case StageType.Rest:
                 AudioManager.Instance.PlayRestBGM();
-                Instantiate(angelPrefab);
+                angel = Instantiate(angelPrefab);
                 //Debug.Log("휴식의시간");
                 stageNum++;
                 //isClear = true;
