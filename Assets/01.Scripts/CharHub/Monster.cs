@@ -2,7 +2,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class Monster : Character
 {
@@ -30,8 +29,6 @@ public class Monster : Character
     {
         status.OnDead -= Status_OnDead;
         StageManager.Instance.OnMonsterKilled();
-
-        SpreadExp(5);
     }
 
     protected override void Update()
@@ -127,7 +124,7 @@ public class Monster : Character
         // 사망 액션
         controller.Dead();
         // 경험치 오브젝트 뿌리기
-
+        SpreadExp(5);
         // 삭제(나중에 시간되면 오브젝트 풀링 사용?)
         Destroy(gameObject);
     }
